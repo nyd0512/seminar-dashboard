@@ -126,8 +126,10 @@ seminar-dashboard/
 ├── data/
 │   └── sessions.json          # 교육 데이터 정본 (여기만 편집)
 ├── assets/
-│   ├── hero.jpg
-│   └── hero-sm.jpg
+│   ├── hero.jpg            # 대문 일러스트
+│   ├── hero-sm.jpg         # 모바일 대문
+│   ├── hanji-bg.jpg        # 한지 배경 타일 (body)
+│   └── dancheong-band.webp # 단청 띠 (대문 상단)
 ├── css/
 │   ├── tokens.css
 │   ├── base.css
