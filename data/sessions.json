@@ -13,11 +13,7 @@
     "enrolled": 18,
     "capacity": 20,
     "status": "completed",
-    "description": "SW개발팀 대상 AI 전파교육 시작. ChatGPT/Claude 간단 비교와 업무 적용 케이스.",
-    "reviews": [
-      { "rating": 4.6, "comment": "개념부터 짚어줘서 좋았습니다. 다음 회차도 기대." },
-      { "rating": 4.8, "comment": "데모가 직관적이었어요." }
-    ]
+    "description": "SW개발팀 대상 AI 전파교육 시작. ChatGPT/Claude 간단 비교와 업무 적용 케이스."
   },
   {
     "id": "s002",
@@ -33,11 +29,7 @@
     "enrolled": 22,
     "capacity": 25,
     "status": "completed",
-    "description": "프롬프트 기본 패턴, 역할 부여, 예시 제시로 결과 품질 높이는 법.",
-    "reviews": [
-      { "rating": 4.5, "comment": "실습 위주라 손에 잡히는 느낌이었어요." },
-      { "rating": 4.7, "comment": "사내 업무에 바로 써먹을 수 있는 예시가 많았습니다." }
-    ]
+    "description": "프롬프트 기본 패턴, 역할 부여, 예시 제시로 결과 품질 높이는 법."
   },
   {
     "id": "s003",
@@ -53,11 +45,7 @@
     "enrolled": 28,
     "capacity": 30,
     "status": "completed",
-    "description": "Chain-of-Thought, Few-shot, 역할 기반 프롬프트. 복잡한 작업 분해 기법.",
-    "reviews": [
-      { "rating": 4.4, "comment": "심화 내용이라 조금 어렵지만 도움 됐어요." },
-      { "rating": 4.6, "comment": "CoT 예시가 특히 좋았습니다." }
-    ]
+    "description": "Chain-of-Thought, Few-shot, 역할 기반 프롬프트. 복잡한 작업 분해 기법."
   },
   {
     "id": "s004",
@@ -73,11 +61,7 @@
     "enrolled": 24,
     "capacity": 25,
     "status": "completed",
-    "description": "Copilot 설정, 프롬프트 컨벤션, 리팩토링·리뷰 자동화 팁.",
-    "reviews": [
-      { "rating": 4.7, "comment": "처음 써보는데 막혔던 부분들이 해결됐어요." },
-      { "rating": 4.8, "comment": "단축키 조합 공유해주신 게 특히 유용했습니다." }
-    ]
+    "description": "Copilot 설정, 프롬프트 컨벤션, 리팩토링·리뷰 자동화 팁."
   },
   {
     "id": "s005",
@@ -93,10 +77,7 @@
     "enrolled": 16,
     "capacity": 20,
     "status": "completed",
-    "description": "Anthropic SDK 기본, 툴 사용, 프롬프트 캐싱까지.",
-    "reviews": [
-      { "rating": 4.9, "comment": "실제 코드 예시가 체계적이었습니다." }
-    ]
+    "description": "Anthropic SDK 기본, 툴 사용, 프롬프트 캐싱까지."
   },
   {
     "id": "s006",
@@ -112,11 +93,7 @@
     "enrolled": 30,
     "capacity": 30,
     "status": "completed",
-    "description": "이미지 생성 프롬프트 구성 원리, 스타일/구도 제어, 비즈니스 활용 아이디어.",
-    "reviews": [
-      { "rating": 4.5, "comment": "자유 실습 시간이 좋았습니다." },
-      { "rating": 4.3, "comment": "결과물 비교 과정이 재미있었어요." }
-    ]
+    "description": "이미지 생성 프롬프트 구성 원리, 스타일/구도 제어, 비즈니스 활용 아이디어."
   },
   {
     "id": "s007",
@@ -132,10 +109,7 @@
     "enrolled": 42,
     "capacity": 50,
     "status": "completed",
-    "description": "사내 AI 정책, 사용 가능 도구, 민감정보 취급 가이드.",
-    "reviews": [
-      { "rating": 4.2, "comment": "정책 관련해서 헷갈렸던 부분 정리됐습니다." }
-    ]
+    "description": "사내 AI 정책, 사용 가능 도구, 민감정보 취급 가이드."
   },
   {
     "id": "s008",
@@ -151,11 +125,7 @@
     "enrolled": 18,
     "capacity": 20,
     "status": "completed",
-    "description": "검색 증강 생성의 원리, 임베딩·벡터DB·리트리버 구조.",
-    "reviews": [
-      { "rating": 4.7, "comment": "개념이 정리되는 느낌이었습니다." },
-      { "rating": 4.6, "comment": "벡터DB 비교 차트 유용했어요." }
-    ]
+    "description": "검색 증강 생성의 원리, 임베딩·벡터DB·리트리버 구조."
   },
   {
     "id": "s009",
@@ -171,10 +141,7 @@
     "enrolled": 26,
     "capacity": 30,
     "status": "completed",
-    "description": "Agent 루프의 작동 방식, Tool use, MCP 소개.",
-    "reviews": [
-      { "rating": 4.8, "comment": "MCP가 처음인데 이해됐습니다." }
-    ]
+    "description": "Agent 루프의 작동 방식, Tool use, MCP 소개."
   },
   {
     "id": "s010",
@@ -190,11 +157,7 @@
     "enrolled": 34,
     "capacity": 40,
     "status": "completed",
-    "description": "Custom GPT / Projects로 반복업무 자동화 시나리오 5종.",
-    "reviews": [
-      { "rating": 4.6, "comment": "바로 써먹을 수 있는 예시 감사합니다." },
-      { "rating": 4.5, "comment": "이메일 초안 자동화 팁이 최고였어요." }
-    ]
+    "description": "Custom GPT / Projects로 반복업무 자동화 시나리오 5종."
   },
   {
     "id": "s011",
@@ -210,10 +173,7 @@
     "enrolled": 20,
     "capacity": 20,
     "status": "completed",
-    "description": "복잡 추론 태스크 분해, Self-critique, Constrained generation.",
-    "reviews": [
-      { "rating": 4.9, "comment": "엔지니어 대상으로 깊이가 맞았습니다." }
-    ]
+    "description": "복잡 추론 태스크 분해, Self-critique, Constrained generation."
   },
   {
     "id": "s012",
@@ -229,11 +189,7 @@
     "enrolled": 24,
     "capacity": 25,
     "status": "completed",
-    "description": "Claude Code 설치, MCP 연동, 서브에이전트 활용법.",
-    "reviews": [
-      { "rating": 4.8, "comment": "서브에이전트 개념 처음 제대로 이해했어요." },
-      { "rating": 4.7, "comment": "MCP 연동 데모가 인상적이었습니다." }
-    ]
+    "description": "Claude Code 설치, MCP 연동, 서브에이전트 활용법."
   },
   {
     "id": "s013",
@@ -249,8 +205,7 @@
     "enrolled": 12,
     "capacity": 16,
     "status": "ongoing",
-    "description": "SFT·DPO 기본 개념과 소규모 데이터셋으로 실습.",
-    "reviews": []
+    "description": "SFT·DPO 기본 개념과 소규모 데이터셋으로 실습."
   },
   {
     "id": "s014",
@@ -266,8 +221,7 @@
     "enrolled": 48,
     "capacity": 80,
     "status": "scheduled",
-    "description": "AI 사용 시 지켜야 할 윤리·보안 원칙. 외부 데이터 취급, 저작권.",
-    "reviews": []
+    "description": "AI 사용 시 지켜야 할 윤리·보안 원칙. 외부 데이터 취급, 저작권."
   },
   {
     "id": "s015",
@@ -283,8 +237,7 @@
     "enrolled": 8,
     "capacity": 20,
     "status": "scheduled",
-    "description": "Agent + Tool use로 복합 워크플로 설계 실습.",
-    "reviews": []
+    "description": "Agent + Tool use로 복합 워크플로 설계 실습."
   },
   {
     "id": "s016",
@@ -300,8 +253,7 @@
     "enrolled": 4,
     "capacity": 16,
     "status": "scheduled",
-    "description": "사내 데이터를 노출할 MCP 서버 개발 실습.",
-    "reviews": []
+    "description": "사내 데이터를 노출할 MCP 서버 개발 실습."
   },
   {
     "id": "s017",
@@ -317,8 +269,7 @@
     "enrolled": 0,
     "capacity": 25,
     "status": "scheduled",
-    "description": "PR 자동리뷰 파이프라인 구성 가이드.",
-    "reviews": []
+    "description": "PR 자동리뷰 파이프라인 구성 가이드."
   },
   {
     "id": "s018",
@@ -334,8 +285,7 @@
     "enrolled": 0,
     "capacity": 20,
     "status": "scheduled",
-    "description": "Dense+Sparse 하이브리드 검색, Re-ranking, Query expansion.",
-    "reviews": []
+    "description": "Dense+Sparse 하이브리드 검색, Re-ranking, Query expansion."
   },
   {
     "id": "s019",
@@ -351,8 +301,7 @@
     "enrolled": 0,
     "capacity": 16,
     "status": "scheduled",
-    "description": "전일 워크샵. 실제 에이전트 프로토타입 개발까지.",
-    "reviews": []
+    "description": "전일 워크샵. 실제 에이전트 프로토타입 개발까지."
   },
   {
     "id": "s020",
@@ -368,7 +317,6 @@
     "enrolled": 0,
     "capacity": 60,
     "status": "scheduled",
-    "description": "사내 AI 포털·도구 활용 가이드 (분기별 정기).",
-    "reviews": []
+    "description": "사내 AI 포털·도구 활용 가이드 (분기별 정기)."
   }
 ]

@@ -48,12 +48,6 @@
           </span>
           <span>타임라인</span>
         </button>
-        <button class="nav-item" data-view="stats">
-          <span class="nav-icon" aria-hidden="true">
-            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17h14"/><rect x="5" y="10" width="2.5" height="6"/><rect x="9" y="6" width="2.5" height="10"/><rect x="13" y="12" width="2.5" height="4"/></svg>
-          </span>
-          <span>통계</span>
-        </button>
       </nav>
 
       <div class="sidebar-footer">
@@ -67,6 +61,7 @@
         <div class="topbar-left">
           <h1 class="page-title" id="pageTitle">대문</h1>
           <span class="page-sub" id="pageSub">AI 전파교육 소개</span>
+          <span class="page-tally" id="pageTally"></span>
         </div>
         <div class="topbar-right">
           <div class="search">
@@ -75,29 +70,6 @@
           </div>
         </div>
       </header>
-
-      <section class="kpi-strip" aria-label="주요 지표">
-        <div class="kpi-card">
-          <div class="kpi-label">누적 교육</div>
-          <div class="kpi-value" id="kpiTotal">—</div>
-          <div class="kpi-meta" id="kpiTotalMeta">—</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">이번 달</div>
-          <div class="kpi-value" id="kpiMonth">—</div>
-          <div class="kpi-meta" id="kpiMonthMeta">—</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">누적 수강생</div>
-          <div class="kpi-value" id="kpiAttendees">—</div>
-          <div class="kpi-meta" id="kpiAttendeesMeta">—</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">평균 만족도</div>
-          <div class="kpi-value" id="kpiRating">—</div>
-          <div class="kpi-meta" id="kpiRatingMeta">5점 만점</div>
-        </div>
-      </section>
 
       <div class="content">
         <!-- COVER VIEW -->
@@ -108,12 +80,18 @@
                 <source media="(max-width: 720px)" srcset="./assets/hero-sm.jpg" />
                 <img src="./assets/hero.jpg" alt="AI 전파교육 한국 전통화 일러스트" decoding="async" />
               </picture>
+              <img class="cover-seal" src="./assets/seal-ji.webp" alt="낙관 · 智" aria-hidden="true" decoding="async" />
             </div>
             <div class="cover-band" aria-hidden="true"></div>
             <div class="cover-caption">
-              <span class="cover-caption-eyebrow">AI 전파교육 · SW개발팀</span>
-              <span class="cover-caption-title">함께 배우고, 함께 나누다</span>
-              <span class="cover-caption-sub">지난 교육 기록부터 예정된 세션까지, 팀 구성원 모두에게 열려 있는 학습의 장입니다.</span>
+              <span class="cover-caption-eyebrow">AI 傳播敎育 · SW개발팀</span>
+              <span class="cover-caption-title">
+                <span class="hanja">學而傳之</span>
+                <span class="hanja-sep">·</span>
+                <span class="hanja">共而用之</span>
+              </span>
+              <span class="cover-caption-gloss">배워서 전하고, 함께 쓰다</span>
+              <span class="cover-caption-sub">익힌 사람은 서당 훈장이 되고, 듣는 사람은 내일의 훈장이 된다. 돌아가며 가르치고, 돌아가며 배우는 SW개발팀의 AI 전파 기록부.</span>
             </div>
           </div>
         </section>
@@ -157,40 +135,6 @@
             <div class="timeline-count" id="timelineCount"></div>
           </div>
           <div class="timeline" id="timelineList"></div>
-        </section>
-
-        <!-- STATS VIEW -->
-        <section class="view" data-view-content="stats">
-          <div class="stats-grid">
-            <div class="panel panel--span-2">
-              <div class="panel-head">
-                <h3 class="panel-title-sm">월별 교육 진행 추이</h3>
-                <span class="panel-sub">최근 12개월 · 건수</span>
-              </div>
-              <div class="panel-body" id="monthlyChart"></div>
-            </div>
-            <div class="panel">
-              <div class="panel-head">
-                <h3 class="panel-title-sm">상태 분포</h3>
-                <span class="panel-sub">전체 교육 기준</span>
-              </div>
-              <div class="panel-body" id="statusChart"></div>
-            </div>
-            <div class="panel">
-              <div class="panel-head">
-                <h3 class="panel-title-sm">조직별 수강</h3>
-                <span class="panel-sub">참여 인원 합계 기준</span>
-              </div>
-              <div class="panel-body" id="orgChart"></div>
-            </div>
-            <div class="panel panel--span-2">
-              <div class="panel-head">
-                <h3 class="panel-title-sm">강사별 진행 현황</h3>
-                <span class="panel-sub">진행한 교육 건수</span>
-              </div>
-              <div class="panel-body" id="instructorChart"></div>
-            </div>
-          </div>
         </section>
       </div>
     </main>

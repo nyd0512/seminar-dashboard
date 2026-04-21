@@ -15,12 +15,11 @@ SW개발팀 내부 **AI 전파교육 진행 현황 게시판**. 지난 교육과
 
 링크만 열면 끝.
 
-- **대문** — 소개 이미지 + 단청 띠 + 카피
+- **대문** — 전통화 이미지 + 낙관 + 단청 띠 + 사자성어 카피
 - **캘린더** — 월간 뷰, 예정/진행중/완료 색상 구분
 - **타임라인** — 월별 그룹 리스트, "오늘" 구분선
-- **통계** — 월별 추이 · 상태 분포 · 조직별 · 강사별
 
-상단 검색으로 교육명·강사·조직 즉시 필터. 카드를 클릭하면 상세 모달이 뜬다.
+상단 검색으로 교육명·강사·조직 즉시 필터. 항목을 클릭하면 상세 모달이 뜬다. 상단 좌측에 누적 교육·수강 인원 배지가 표시된다.
 
 ---
 
@@ -66,8 +65,7 @@ git push
   "enrolled": 0,
   "capacity": 20,
   "status": "scheduled",
-  "description": "Model Context Protocol 기초와 커스텀 서버 붙이기.",
-  "reviews": []
+  "description": "Model Context Protocol 기초와 커스텀 서버 붙이기."
 }
 ```
 
@@ -96,7 +94,6 @@ git push
 | `capacity` | number |  | **대상 정원 (수기)** |
 | `status` | string | ✅ | `scheduled` · `ongoing` · `completed` |
 | `description` | string |  | 교육 내용 요약 |
-| `reviews` | array |  | `[{ "rating": 4.8, "comment": "..." }]` |
 
 ---
 
@@ -147,7 +144,8 @@ seminar-dashboard/
 │   ├── hero.jpg             # 대문 일러스트 (16:7)
 │   ├── hero-sm.jpg          # 모바일용 대문
 │   ├── hanji-bg.jpg         # 한지 타일 배경
-│   └── dancheong-band.webp  # 단청 띠 (대문 중단)
+│   ├── dancheong-band.webp  # 단청 띠 (대문 중단)
+│   └── seal-ji.webp         # 낙관 · 智 (대문 우하단)
 ├── css/
 │   ├── tokens.css           # 팔레트·타이포·간격 토큰
 │   ├── base.css             # reset + body 배경
@@ -169,7 +167,7 @@ seminar-dashboard/
 - **편집했는데 사이트에 반영이 안 됨** → 브라우저 강력 새로고침 (`Ctrl+Shift+R`). Pages 캐시 갱신엔 1~2분 걸린다.
 - **JSON 파싱 에러로 데이터가 안 뜸** → 콘솔에 "데이터를 불러오지 못했습니다" 토스트. `jsonlint.com` 으로 문법 검증.
 - **상태 색이 이상함** → `status` 는 `scheduled` / `ongoing` / `completed` 3개만 허용. 오타 확인.
-- **만족도가 표시 안 됨** → `reviews` 가 `[]` (빈 배열) 이거나 없으면 해당 KPI가 "—" 로 표시됨.
+- **누적 수강이 적게 나옴** → `enrolled` 필드 수기 집계 값. 실제 참석 인원으로 업데이트.
 
 ## 8. 브라우저 요구사항
 

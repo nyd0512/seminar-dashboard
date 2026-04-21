@@ -13,11 +13,8 @@ export const STATUS_LABEL = {
   completed: '완료',
 };
 
-export const STATUS_ORDER = ['scheduled', 'ongoing', 'completed'];
-
 /**
  * @typedef {'scheduled'|'ongoing'|'completed'} SessionStatus
- * @typedef {{ rating: number, comment: string }} Review
  * @typedef {{
  *   id: string,
  *   title: string,
@@ -32,7 +29,6 @@ export const STATUS_ORDER = ['scheduled', 'ongoing', 'completed'];
  *   enrolled: number,
  *   capacity: number,
  *   status: SessionStatus,
- *   description?: string,
- *   reviews: Review[]
+ *   description?: string
  * }} Session
  */

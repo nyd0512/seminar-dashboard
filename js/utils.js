@@ -102,22 +102,3 @@ export const debounce = (fn, delay = 200) => {
     t = setTimeout(() => fn(...args), delay);
   };
 };
-
-/* ================= FORMAT ================= */
-
-export const formatRating = (n) => {
-  if (n == null || isNaN(n)) return '—';
-  return Number(n).toFixed(1);
-};
-
-export const averageRating = (reviews) => {
-  if (!reviews || !reviews.length) return null;
-  const sum = reviews.reduce((a, r) => a + Number(r.rating || 0), 0);
-  return sum / reviews.length;
-};
-
-export const overallAverage = (sessions) => {
-  const all = sessions.flatMap((s) => s.reviews || []);
-  if (!all.length) return null;
-  return all.reduce((a, r) => a + Number(r.rating || 0), 0) / all.length;
-};

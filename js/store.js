@@ -60,13 +60,5 @@ function normalize(s) {
       ? s.status
       : 'scheduled',
     description: s.description ? String(s.description) : '',
-    reviews: Array.isArray(s.reviews)
-      ? s.reviews
-          .map((r) => ({
-            rating: Number(r.rating) || 0,
-            comment: String(r.comment || '').trim(),
-          }))
-          .filter((r) => r.comment || r.rating)
-      : [],
   };
 }

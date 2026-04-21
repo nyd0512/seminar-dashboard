@@ -139,59 +139,12 @@
   border-color: var(--status-completed-border);
 }
 
-/* ===== Panels (generic card) ===== */
-.panel {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-lg);
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-.panel-head {
-  padding: var(--space-4) var(--space-5);
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-3);
-  border-bottom: 1px solid var(--border-subtle);
-}
-.panel-head-left {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.panel-eyebrow {
-  font-size: var(--fs-xs);
-  color: var(--text-muted);
-  font-weight: var(--fw-medium);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  font-family: var(--font-mono);
-}
-.panel-title {
-  font-size: var(--fs-xl);
-  font-weight: var(--fw-semibold);
-  color: var(--text-primary);
-}
-.panel-title-sm {
-  font-size: var(--fs-md);
-  font-weight: var(--fw-semibold);
-  color: var(--text-primary);
-}
+/* Panel inline label (used in detail modal meta line) */
 .panel-sub {
   font-size: var(--fs-xs);
   color: var(--text-muted);
   font-family: var(--font-mono);
 }
-.panel-body {
-  padding: var(--space-4) var(--space-5);
-  flex: 1;
-}
-.panel-body--flush { padding: 0; }
-
-.panel--hero .panel-head { border-bottom: 0; padding-bottom: var(--space-2); }
 
 /* ===== Modal ===== */
 .modal {
@@ -387,6 +340,12 @@
   align-items: center;
   gap: var(--space-2);
 }
+.relative-tag {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  letter-spacing: var(--tracking-normal);
+}
 
 /* ===== Definition-like info grid ===== */
 .info-grid {
@@ -426,43 +385,6 @@
   padding-bottom: var(--space-4);
   border-bottom: 1px solid var(--border-subtle);
   margin-bottom: var(--space-4);
-}
-
-.reviews-block {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-.reviews-block-title {
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-.review-item {
-  padding: var(--space-3);
-  background: var(--bg-subtle);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.review-rating {
-  font-family: var(--font-mono);
-  font-weight: var(--fw-semibold);
-  font-size: var(--fs-sm);
-  color: var(--status-ongoing);
-  display: flex;
-  gap: 4px;
-  align-items: center;
-}
-.review-comment {
-  font-size: var(--fs-md);
-  color: var(--text-primary);
-  line-height: var(--lh-normal);
 }
 
 /* Capacity bar (enrolled/capacity visualization) */

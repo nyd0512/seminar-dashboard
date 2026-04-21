@@ -6,7 +6,7 @@
  */
 
 import { store } from './store.js';
-import { STATUS_LABEL, STATUS_ORDER } from './data.js';
+import { STATUS_LABEL } from './data.js';
 import {
   el,
   $,
@@ -21,14 +21,11 @@ import {
   formatDateKo,
   formatTimeRange,
   relativeKo,
-  averageRating,
-  overallAverage,
-  formatRating,
 } from './utils.js';
 
 /* =============== Global UI state =============== */
 const ui = {
-  view: 'cover', // cover | calendar | timeline | stats
+  view: 'cover', // cover | calendar | timeline
   calCursor: new Date(),
   calFilter: 'all',
   tlFilter: 'all',
@@ -60,10 +57,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 /* =============== Top-level render =============== */
 function renderAll() {
   const st = store.getState();
-  renderKPI(st);
+  renderTally(st);
   if (ui.view === 'calendar') renderCalendar(st);
   if (ui.view === 'timeline') renderTimeline(st);
-  if (ui.view === 'stats') renderStats(st);
   if (ui.openSessionId) {
     const s = store.getById(ui.openSessionId);
     if (s) renderDetail(s);
@@ -71,36 +67,15 @@ function renderAll() {
   }
 }
 
-/* =============== KPI =============== */
-function renderKPI({ sessions }) {
-  const now = new Date();
-  const totalCount = sessions.length;
-  const completedCount = sessions.filter((s) => s.status === 'completed').length;
-  const thisMonth = sessions.filter((s) => {
-    const d = parseDate(s.date);
-    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
-  });
-  const thisMonthDone = thisMonth.filter((s) => s.status === 'completed').length;
-  const thisMonthPlanned = thisMonth.length;
-  const totalAttendees = sessions.reduce((a, s) => a + (s.enrolled || 0), 0);
-  const avg = overallAverage(sessions);
-  const reviewCount = sessions.reduce((a, s) => a + (s.reviews?.length || 0), 0);
-
-  $('#kpiTotal').innerHTML = `<span class="mono">${totalCount}</span><small>건</small>`;
-  $('#kpiTotalMeta').textContent = `완료 ${completedCount} · 예정 ${
-    totalCount - completedCount
-  }`;
-
-  $('#kpiMonth').innerHTML = `<span class="mono">${thisMonthDone}</span><small>/ ${thisMonthPlanned}</small>`;
-  $('#kpiMonthMeta').textContent = `${now.getMonth() + 1}월 · 완료 / 전체`;
-
-  $('#kpiAttendees').innerHTML = `<span class="mono">${totalAttendees.toLocaleString('ko-KR')}</span><small>명</small>`;
-  $('#kpiAttendeesMeta').textContent = `누적 수강 인원 (수기 집계)`;
-
-  $('#kpiRating').innerHTML = avg
-    ? `<span class="mono">${avg.toFixed(1)}</span><small>/ 5.0</small>`
-    : '<span class="mono">—</span>';
-  $('#kpiRatingMeta').textContent = reviewCount ? `후기 ${reviewCount}건 기준` : '후기 없음';
+/* =============== Topbar tally (누적) =============== */
+function renderTally({ sessions }) {
+  const tally = $('#pageTally');
+  if (!tally) return;
+  const total = sessions.length;
+  const attendees = sessions.reduce((a, s) => a + (s.enrolled || 0), 0);
+  tally.textContent = total
+    ? `교육 ${total}회 · 누적 수강 ${attendees.toLocaleString('ko-KR')}명`
+    : '';
 }
 
 /* =============== Navigation =============== */
@@ -123,7 +98,6 @@ function switchView(view) {
     cover: ['대문', 'AI 전파교육 소개'],
     calendar: ['캘린더', '월간 교육 일정'],
     timeline: ['타임라인', '과거 · 예정 교육 목록'],
-    stats: ['통계', '교육 운영 지표'],
   };
   const [t, sub] = titles[view];
   $('#pageTitle').textContent = t;
@@ -354,7 +328,7 @@ function renderTimelineItem(s) {
       ]),
       el('div', { class: 'data-list-right' }, [
         s.capacity > 0 ? renderCapacity(s) : null,
-        rel ? el('span', { class: 'kpi-meta' }, [rel]) : null,
+        rel ? el('span', { class: 'relative-tag' }, [rel]) : null,
         el('span', { class: 'status-pill', dataset: { status: s.status } }, [
           STATUS_LABEL[s.status],
         ]),
@@ -375,134 +349,6 @@ function renderCapacity(s) {
       }),
     ]),
   ]);
-}
-
-/* =============== Stats view =============== */
-function renderStats({ sessions }) {
-  renderMonthlyChart(sessions);
-  renderStatusChart(sessions);
-  renderOrgChart(sessions);
-  renderInstructorChart(sessions);
-}
-
-function renderMonthlyChart(sessions) {
-  const now = new Date();
-  const months = [];
-  for (let i = 11; i >= 0; i--) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    months.push({
-      key: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`,
-      date: d,
-    });
-  }
-  const counts = months.map((m) => ({
-    ...m,
-    count: sessions.filter((s) => s.date.slice(0, 7) === m.key).length,
-  }));
-  const max = Math.max(1, ...counts.map((c) => c.count));
-  const root = $('#monthlyChart');
-  clear(root);
-  const list = el('div', { class: 'bar-list' });
-  for (const c of counts) {
-    list.append(
-      el('div', { class: 'bar-row' }, [
-        el('span', { class: 'bar-label' }, [
-          `${c.date.getFullYear()}.${String(c.date.getMonth() + 1).padStart(2, '0')}`,
-        ]),
-        el('div', { class: 'bar-track' }, [
-          el('div', { class: 'bar-fill', style: `width:${(c.count / max) * 100}%` }),
-        ]),
-        el('span', { class: 'bar-value' }, [String(c.count)]),
-      ])
-    );
-  }
-  root.append(list);
-}
-
-function renderStatusChart(sessions) {
-  const counts = { scheduled: 0, ongoing: 0, completed: 0 };
-  sessions.forEach((s) => counts[s.status]++);
-  const total = sessions.length || 1;
-  const root = $('#statusChart');
-  clear(root);
-  const list = el('div', { class: 'bar-list' });
-  for (const key of STATUS_ORDER) {
-    const n = counts[key];
-    list.append(
-      el('div', { class: 'bar-row' }, [
-        el('span', { class: 'bar-label' }, [STATUS_LABEL[key]]),
-        el('div', { class: 'bar-track' }, [
-          el('div', {
-            class: `bar-fill bar-fill--${key}`,
-            style: `width:${(n / total) * 100}%`,
-          }),
-        ]),
-        el('span', { class: 'bar-value' }, [String(n)]),
-      ])
-    );
-  }
-  root.append(list);
-}
-
-function renderOrgChart(sessions) {
-  const map = new Map();
-  for (const s of sessions) {
-    if (!s.audience) continue;
-    const orgs = s.audience.split(/[·,]/).map((x) => x.trim()).filter(Boolean);
-    for (const o of orgs) {
-      map.set(o, (map.get(o) || 0) + (s.enrolled || 0));
-    }
-  }
-  const rows = [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
-  const max = Math.max(1, ...rows.map((r) => r[1]));
-  const root = $('#orgChart');
-  clear(root);
-  if (!rows.length) {
-    root.append(el('div', { class: 'empty' }, ['데이터 없음']));
-    return;
-  }
-  const list = el('div', { class: 'bar-list' });
-  for (const [name, val] of rows) {
-    list.append(
-      el('div', { class: 'bar-row' }, [
-        el('span', { class: 'bar-label', title: name }, [name]),
-        el('div', { class: 'bar-track' }, [
-          el('div', { class: 'bar-fill', style: `width:${(val / max) * 100}%` }),
-        ]),
-        el('span', { class: 'bar-value' }, [`${val}명`]),
-      ])
-    );
-  }
-  root.append(list);
-}
-
-function renderInstructorChart(sessions) {
-  const map = new Map();
-  for (const s of sessions) {
-    if (!s.instructor) continue;
-    map.set(s.instructor, (map.get(s.instructor) || 0) + 1);
-  }
-  const rows = [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
-  const max = Math.max(1, ...rows.map((r) => r[1]));
-  const root = $('#instructorChart');
-  clear(root);
-  if (!rows.length) {
-    root.append(el('div', { class: 'empty' }, ['데이터 없음']));
-    return;
-  }
-  const list = el('div', { class: 'bar-list' });
-  for (const [name, count] of rows) {
-    list.append(
-      el('div', { class: 'bar-row' }, [
-        el('span', { class: 'bar-label' }, [name]),
-        el('div', { class: 'bar-track' }, [
-          el('div', { class: 'bar-fill', style: `width:${(count / max) * 100}%` }),
-        ]),
-        el('span', { class: 'bar-value' }, [`${count}회`]),
-      ])
-    );
-  }
-  root.append(list);
 }
 
 /* =============== Modals =============== */
@@ -592,28 +438,6 @@ function renderDetail(s) {
   if (s.description) {
     body.append(el('div', { class: 'description-block' }, [s.description]));
   }
-
-  const avg = averageRating(s.reviews);
-  const reviewsBlock = el('div', { class: 'reviews-block' }, [
-    el('div', { class: 'reviews-block-title' }, [
-      '후기',
-      el('span', { class: 'panel-sub' }, [
-        avg != null ? `평균 ${avg.toFixed(1)} · ${s.reviews.length}건` : '등록된 후기 없음',
-      ]),
-    ]),
-    ...(s.reviews.length
-      ? s.reviews.map((r) =>
-          el('div', { class: 'review-item' }, [
-            el('div', { class: 'review-rating' }, [
-              el('span', { class: 'mono' }, [formatRating(r.rating)]),
-              el('span', {}, ['/ 5']),
-            ]),
-            el('div', { class: 'review-comment' }, [r.comment || '(코멘트 없음)']),
-          ])
-        )
-      : []),
-  ]);
-  body.append(reviewsBlock);
 }
 
 function infoItem(label, value) {
