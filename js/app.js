@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   bindCalendarControls();
   bindTimelineControls();
   bindModals();
-  bindCover();
   document.body.dataset.view = ui.view;
   store.subscribe(renderAll);
 
@@ -504,13 +503,6 @@ function renderInstructorChart(sessions) {
     );
   }
   root.append(list);
-}
-
-/* =============== Cover view =============== */
-function bindCover() {
-  $$('.cover-quick-card').forEach((btn) =>
-    btn.addEventListener('click', () => switchView(btn.dataset.viewGoto))
-  );
 }
 
 /* =============== Modals =============== */

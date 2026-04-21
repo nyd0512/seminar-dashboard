@@ -1,49 +1,54 @@
 /* =========================================================
    Design Tokens
-   Enterprise dashboard palette — Vercel / Linear 계열
+   한지 + 먹 + 청람 — 한국 전통미 기반 엔터프라이즈 팔레트
    ========================================================= */
 :root {
   /* ---- Surfaces ---- */
-  --bg-base: #fafafa;
-  --bg-elevated: #ffffff;
-  --bg-sidebar: #f4f4f5;
-  --bg-hover: #f4f4f5;
-  --bg-subtle: #f9fafb;
-  --bg-accent-subtle: #eff6ff;
+  --bg-base: #f6efe0;                         /* 한지 타일과 어울리는 살짝 따뜻한 베이스 */
+  --bg-elevated: rgba(255, 252, 246, 0.82);   /* 카드 — 한지가 비치는 반투명 */
+  --bg-elevated-solid: #fffcf6;               /* 모달 등 불투명 필요 시 */
+  --bg-sidebar: rgba(248, 241, 226, 0.62);    /* 사이드바 — 한지 톤 반투명 */
+  --bg-hover: rgba(138, 94, 60, 0.08);        /* hover — 단청 갈색 옅게 */
+  --bg-subtle: rgba(248, 241, 226, 0.45);
+  --bg-accent-subtle: rgba(42, 66, 100, 0.08);
 
   /* ---- Text ---- */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-tertiary: #64748b;
-  --text-muted: #94a3b8;
-  --text-on-accent: #ffffff;
-  --text-accent: #0070f3;
+  --text-primary: #2b2117;                    /* 먹 검정 — 순검정보다 따뜻 */
+  --text-secondary: #5a4a37;
+  --text-tertiary: #7a6a56;
+  --text-muted: #a59682;
+  --text-on-accent: #fffcf6;
+  --text-accent: #2a4264;
 
   /* ---- Borders ---- */
-  --border-default: #e5e7eb;
-  --border-strong: #d4d4d8;
-  --border-subtle: #f1f5f9;
+  --border-default: rgba(107, 84, 58, 0.18);  /* 한지 위 미세한 먹선 */
+  --border-strong: rgba(107, 84, 58, 0.32);
+  --border-subtle: rgba(107, 84, 58, 0.10);
 
-  /* ---- Accent (Vercel blue) ---- */
-  --accent-500: #0070f3;
-  --accent-600: #0060d1;
-  --accent-700: #004eb0;
-  --accent-50: #eff6ff;
-  --accent-100: #dbeafe;
-  --accent-300: #93c5fd;
+  /* ---- Accent (청람 — 전통 남색) ---- */
+  --accent-500: #2a4264;   /* primary */
+  --accent-600: #1f3350;
+  --accent-700: #15253c;
+  --accent-50:  rgba(42, 66, 100, 0.07);
+  --accent-100: rgba(42, 66, 100, 0.15);
+  --accent-300: rgba(42, 66, 100, 0.40);
+
+  /* 단청 주홍 — 강조 보조색 */
+  --cinnabar: #b8413a;
+  --cinnabar-50: rgba(184, 65, 58, 0.08);
 
   /* ---- Status ---- */
-  --status-scheduled: #2563eb;
-  --status-scheduled-bg: #eff6ff;
-  --status-scheduled-border: #bfdbfe;
+  --status-scheduled: #2a4264;
+  --status-scheduled-bg: rgba(42, 66, 100, 0.08);
+  --status-scheduled-border: rgba(42, 66, 100, 0.28);
 
-  --status-ongoing: #b45309;
-  --status-ongoing-bg: #fffbeb;
-  --status-ongoing-border: #fde68a;
+  --status-ongoing: #b8413a;
+  --status-ongoing-bg: rgba(184, 65, 58, 0.08);
+  --status-ongoing-border: rgba(184, 65, 58, 0.28);
 
-  --status-completed: #047857;
-  --status-completed-bg: #ecfdf5;
-  --status-completed-border: #a7f3d0;
+  --status-completed: #3d6b4f;
+  --status-completed-bg: rgba(61, 107, 79, 0.08);
+  --status-completed-border: rgba(61, 107, 79, 0.28);
 
   /* ---- Semantic states ---- */
   --danger: #dc2626;

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="SW개발팀 AI 전파교육 진행 현황 게시판" />
   <title>AI 전파교육 · 진행 현황</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230070f3'/%3E%3Cpath d='M10 8h12v3H10zm0 6h12v3H10zm0 6h8v3h-8z' fill='white'/%3E%3C/svg%3E" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232a4264'/%3E%3Cpath d='M10 8h12v3H10zm0 6h12v3H10zm0 6h8v3h-8z' fill='%23fffcf6'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -103,37 +103,17 @@
         <!-- COVER VIEW -->
         <section class="view is-active" data-view-content="cover">
           <div class="cover-wrap">
+            <div class="cover-image" id="coverImage">
+              <picture>
+                <source media="(max-width: 720px)" srcset="./assets/hero-sm.jpg" />
+                <img src="./assets/hero.jpg" alt="AI 전파교육 한국 전통화 일러스트" decoding="async" />
+              </picture>
+            </div>
             <div class="cover-band" aria-hidden="true"></div>
-            <figure class="cover-stage">
-              <div class="cover-image" id="coverImage">
-                <picture>
-                  <source media="(max-width: 720px)" srcset="./assets/hero-sm.jpg" />
-                  <img src="./assets/hero.jpg" alt="AI 전파교육 한국 전통화 일러스트" decoding="async" />
-                </picture>
-              </div>
-              <figcaption class="cover-caption">
-                <span class="cover-caption-eyebrow">AI 전파교육 · SW개발팀</span>
-                <span class="cover-caption-title">함께 배우고, 함께 나누다</span>
-                <span class="cover-caption-sub">지난 교육 기록부터 예정된 세션까지, 팀 구성원 모두에게 열려 있는 학습의 장입니다.</span>
-              </figcaption>
-            </figure>
-
-            <div class="cover-quick">
-              <button class="cover-quick-card" data-view-goto="calendar" type="button">
-                <span class="cover-quick-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="14" height="13" rx="1.5"/><path d="M3 8h14M7 2v4M13 2v4"/></svg></span>
-                <span class="cover-quick-title">캘린더</span>
-                <span class="cover-quick-sub">월별 교육 일정</span>
-              </button>
-              <button class="cover-quick-card" data-view-goto="timeline" type="button">
-                <span class="cover-quick-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="5" cy="5" r="1.4"/><circle cx="5" cy="10" r="1.4"/><circle cx="5" cy="15" r="1.4"/><path d="M9 5h8M9 10h8M9 15h8"/></svg></span>
-                <span class="cover-quick-title">타임라인</span>
-                <span class="cover-quick-sub">지난 · 예정 교육 전체</span>
-              </button>
-              <button class="cover-quick-card" data-view-goto="stats" type="button">
-                <span class="cover-quick-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17h14"/><rect x="5" y="10" width="2.5" height="6"/><rect x="9" y="6" width="2.5" height="10"/><rect x="13" y="12" width="2.5" height="4"/></svg></span>
-                <span class="cover-quick-title">통계</span>
-                <span class="cover-quick-sub">운영 지표 요약</span>
-              </button>
+            <div class="cover-caption">
+              <span class="cover-caption-eyebrow">AI 전파교육 · SW개발팀</span>
+              <span class="cover-caption-title">함께 배우고, 함께 나누다</span>
+              <span class="cover-caption-sub">지난 교육 기록부터 예정된 세션까지, 팀 구성원 모두에게 열려 있는 학습의 장입니다.</span>
             </div>
           </div>
         </section>

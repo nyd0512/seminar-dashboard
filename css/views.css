@@ -19,47 +19,25 @@ body[data-view="cover"] .kpi-strip { display: none; }
   letter-spacing: var(--tracking-normal);
 }
 
-/* ===== Cover view (대문) ===== */
+/* ===== Cover view (대문) — hero first, caption underneath ===== */
 .cover-wrap {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
-  padding: var(--space-5) var(--space-6) var(--space-6);
-  max-width: 1180px;
+  padding: var(--space-6);
+  max-width: 1280px;
   margin: 0 auto;
-}
-/* Dancheong ceremonial band — 대문 상단 */
-.cover-band {
-  display: block;
-  height: 72px;
-  background-image: url('../assets/dancheong-band.webp');
-  background-repeat: repeat-x;
-  background-size: auto 100%;
-  background-position: center;
-  margin: calc(var(--space-5) * -1) calc(var(--space-6) * -1) 0;
-}
-@media (max-width: 1080px) {
-  .cover-band {
-    height: 56px;
-    margin: calc(var(--space-4) * -1) calc(var(--space-4) * -1) 0;
-  }
-}
-.cover-stage {
-  display: grid;
-  grid-template-columns: 1.35fr 1fr;
-  gap: var(--space-5);
-  align-items: stretch;
-  margin: 0;
+  gap: 0;
 }
 .cover-image {
   position: relative;
   display: block;
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   overflow: hidden;
   background: var(--bg-subtle);
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 7;
   width: 100%;
+  box-shadow: var(--shadow-sm);
 }
 .cover-image picture,
 .cover-image img {
@@ -67,18 +45,33 @@ body[data-view="cover"] .kpi-strip { display: none; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 40%;
+  object-position: center 38%;
+}
+
+/* 단청 띠 — 대문 주인공 자리 (hero 바로 아래) */
+.cover-band {
+  display: block;
+  height: 44px;
+  background-image: url('../assets/dancheong-band.webp');
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: center;
+  border-left: 1px solid var(--border-default);
+  border-right: 1px solid var(--border-default);
 }
 
 .cover-caption {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: var(--space-3);
-  padding: var(--space-5);
+  padding: var(--space-6) var(--space-6) var(--space-8);
   background: var(--bg-elevated);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-xl);
+  border-top: 0;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  text-align: center;
+  backdrop-filter: saturate(140%) blur(6px);
+  -webkit-backdrop-filter: saturate(140%) blur(6px);
 }
 .cover-caption-eyebrow {
   font-family: var(--font-mono);
@@ -89,9 +82,9 @@ body[data-view="cover"] .kpi-strip { display: none; }
   font-weight: var(--fw-medium);
 }
 .cover-caption-title {
-  font-size: var(--fs-2xl);
+  font-size: var(--fs-3xl);
   font-weight: var(--fw-semibold);
-  line-height: 1.25;
+  line-height: 1.2;
   color: var(--text-primary);
   letter-spacing: var(--tracking-display);
 }
@@ -99,67 +92,18 @@ body[data-view="cover"] .kpi-strip { display: none; }
   font-size: var(--fs-md);
   color: var(--text-secondary);
   line-height: var(--lh-relaxed);
-}
-
-.cover-quick {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3);
-}
-.cover-quick-card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-  padding: var(--space-4);
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-lg);
-  cursor: pointer;
-  text-align: left;
-  color: var(--text-primary);
-  font: inherit;
-  transition: border-color var(--dur-fast) var(--ease-out),
-    background var(--dur-fast) var(--ease-out);
-}
-.cover-quick-card:hover {
-  border-color: var(--border-strong);
-  background: var(--bg-subtle);
-}
-.cover-quick-card:focus-visible {
-  outline: none;
-  border-color: var(--accent-500);
-  box-shadow: 0 0 0 3px var(--accent-300);
-}
-.cover-quick-icon {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-subtle);
-  border-radius: var(--radius-md);
-  color: var(--accent-500);
-  margin-bottom: 2px;
-}
-.cover-quick-icon svg { width: 18px; height: 18px; }
-.cover-quick-title {
-  font-size: var(--fs-md);
-  font-weight: var(--fw-semibold);
-}
-.cover-quick-sub {
-  font-size: var(--fs-sm);
-  color: var(--text-tertiary);
+  max-width: 48em;
+  margin: 0 auto;
 }
 
 @media (max-width: 1080px) {
   .cover-wrap { padding: var(--space-4); }
-  .cover-stage { grid-template-columns: 1fr; }
   .cover-image { aspect-ratio: 16 / 9; }
-  .cover-caption-title { font-size: var(--fs-xl); }
+  .cover-band { height: 32px; }
+  .cover-caption-title { font-size: var(--fs-2xl); }
+  .cover-caption { padding: var(--space-5) var(--space-4) var(--space-6); }
 }
 @media (max-width: 720px) {
-  .cover-quick { grid-template-columns: 1fr; }
   .cover-image { aspect-ratio: 4 / 3; }
 }
 
@@ -231,8 +175,8 @@ body[data-view="cover"] .kpi-strip { display: none; }
 .cal-cell:nth-child(7n+1) { border-left: 0; }
 .cal-cell.is-other-month { background: var(--bg-subtle); }
 .cal-cell.is-other-month .cal-day-num { color: var(--text-muted); }
-.cal-cell.is-weekend:not(.is-today) { background: #fbfbfc; }
-.cal-cell.is-today { background: #f2f7ff; }
+.cal-cell.is-weekend:not(.is-today) { background: rgba(248, 241, 226, 0.55); }
+.cal-cell.is-today { background: var(--accent-50); }
 
 .cal-day-head {
   display: flex;
