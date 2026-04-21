@@ -85,6 +85,7 @@ function bindNav() {
       switchView(btn.dataset.view);
     })
   );
+  $('.sidebar-brand')?.addEventListener('click', () => switchView('cover'));
 }
 
 function switchView(view) {

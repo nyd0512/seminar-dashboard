@@ -25,8 +25,17 @@
   align-items: center;
   gap: var(--space-3);
   padding: 0 var(--space-5) var(--space-5);
+  border: 0;
   border-bottom: 1px solid var(--border-default);
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
 }
+.sidebar-brand:hover { background: var(--bg-hover); }
 
 .brand-mark {
   width: 32px;
