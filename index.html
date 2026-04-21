@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SW개발팀 AI 전파교육 진행 현황 게시판" />
+  <title>AI 전파교육 · 진행 현황</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230070f3'/%3E%3Cpath d='M10 8h12v3H10zm0 6h12v3H10zm0 6h8v3h-8z' fill='white'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/tokens.css" />
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/layout.css" />
+  <link rel="stylesheet" href="./css/components.css" />
+  <link rel="stylesheet" href="./css/views.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" aria-label="주 메뉴">
+      <div class="sidebar-brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-text">
+          <div class="brand-title">AI 전파교육</div>
+          <div class="brand-sub">SW개발팀</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item is-active" data-view="cover">
+          <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 10l7-6 7 6"/><path d="M5 10v7h10v-7"/></svg>
+          </span>
+          <span>대문</span>
+        </button>
+        <button class="nav-item" data-view="calendar">
+          <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="14" height="13" rx="1.5"/><path d="M3 8h14M7 2v4M13 2v4"/></svg>
+          </span>
+          <span>캘린더</span>
+        </button>
+        <button class="nav-item" data-view="timeline">
+          <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5" cy="5" r="1.4"/><circle cx="5" cy="10" r="1.4"/><circle cx="5" cy="15" r="1.4"/><path d="M9 5h8M9 10h8M9 15h8"/></svg>
+          </span>
+          <span>타임라인</span>
+        </button>
+        <button class="nav-item" data-view="stats">
+          <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17h14"/><rect x="5" y="10" width="2.5" height="6"/><rect x="9" y="6" width="2.5" height="10"/><rect x="13" y="12" width="2.5" height="4"/></svg>
+          </span>
+          <span>통계</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-meta">v1.0 · 2026.04</div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 class="page-title" id="pageTitle">대문</h1>
+          <span class="page-sub" id="pageSub">AI 전파교육 소개</span>
+        </div>
+        <div class="topbar-right">
+          <div class="search">
+            <svg class="search-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="9" cy="9" r="5.5"/><path d="m13 13 4 4"/></svg>
+            <input id="searchInput" type="text" placeholder="교육 · 강사 · 조직 검색" aria-label="교육 검색" />
+          </div>
+        </div>
+      </header>
+
+      <section class="kpi-strip" aria-label="주요 지표">
+        <div class="kpi-card">
+          <div class="kpi-label">누적 교육</div>
+          <div class="kpi-value" id="kpiTotal">—</div>
+          <div class="kpi-meta" id="kpiTotalMeta">—</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">이번 달</div>
+          <div class="kpi-value" id="kpiMonth">—</div>
+          <div class="kpi-meta" id="kpiMonthMeta">—</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">누적 수강생</div>
+          <div class="kpi-value" id="kpiAttendees">—</div>
+          <div class="kpi-meta" id="kpiAttendeesMeta">—</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">평균 만족도</div>
+          <div class="kpi-value" id="kpiRating">—</div>
+          <div class="kpi-meta" id="kpiRatingMeta">5점 만점</div>
+        </div>
+      </section>
+
+      <div class="content">
+        <!-- COVER VIEW -->
+        <section class="view is-active" data-view-content="cover">
+          <div class="cover-wrap">
+            <div class="cover-band" aria-hidden="true"></div>
+            <figure class="cover-stage">
+              <div class="cover-image" id="coverImage">
+                <picture>
+                  <source media="(max-width: 720px)" srcset="./assets/hero-sm.jpg" />
+                  <img src="./assets/hero.jpg" alt="AI 전파교육 한국 전통화 일러스트" decoding="async" />
+                </picture>
+              </div>
+              <figcaption class="cover-caption">
+                <span class="cover-caption-eyebrow">AI 전파교육 · SW개발팀</span>
+                <span class="cover-caption-title">함께 배우고, 함께 나누다</span>
+                <span class="cover-caption-sub">지난 교육 기록부터 예정된 세션까지, 팀 구성원 모두에게 열려 있는 학습의 장입니다.</span>
+              </figcaption>
+            </figure>
+
+            <div class="cover-quick">
+              <button class="cover-quick-card" data-view-goto="calendar" type="button">
+                <span class="cover-quick-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="14" height="13" rx="1.5"/><path d="M3 8h14M7 2v4M13 2v4"/></svg></span>
+                <span class="cover-quick-title">캘린더</span>
+                <span class="cover-quick-sub">월별 교육 일정</span>
+              </button>
+              <button class="cover-quick-card" data-view-goto="timeline" type="button">
+                <span class="cover-quick-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="5" cy="5" r="1.4"/><circle cx="5" cy="10" r="1.4"/><circle cx="5" cy="15" r="1.4"/><path d="M9 5h8M9 10h8M9 15h8"/></svg></span>
+                <span class="cover-quick-title">타임라인</span>
+                <span class="cover-quick-sub">지난 · 예정 교육 전체</span>
+              </button>
+              <button class="cover-quick-card" data-view-goto="stats" type="button">
+                <span class="cover-quick-icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17h14"/><rect x="5" y="10" width="2.5" height="6"/><rect x="9" y="6" width="2.5" height="10"/><rect x="13" y="12" width="2.5" height="4"/></svg></span>
+                <span class="cover-quick-title">통계</span>
+                <span class="cover-quick-sub">운영 지표 요약</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- CALENDAR VIEW -->
+        <section class="view" data-view-content="calendar">
+          <div class="calendar-bar">
+            <div class="calendar-nav">
+              <button class="icon-btn" id="calPrev" aria-label="이전 달" type="button">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 5-5 5 5 5"/></svg>
+              </button>
+              <div class="calendar-label" id="calLabel">—</div>
+              <button class="icon-btn" id="calNext" aria-label="다음 달" type="button">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m8 5 5 5-5 5"/></svg>
+              </button>
+              <button class="btn btn-ghost btn-sm" id="calToday" type="button">오늘</button>
+            </div>
+            <div class="filter-group" role="group" aria-label="상태 필터">
+              <button class="chip is-active" data-filter="all" type="button">전체</button>
+              <button class="chip" data-filter="scheduled" type="button"><span class="chip-dot chip-dot--scheduled"></span>예정</button>
+              <button class="chip" data-filter="ongoing" type="button"><span class="chip-dot chip-dot--ongoing"></span>진행중</button>
+              <button class="chip" data-filter="completed" type="button"><span class="chip-dot chip-dot--completed"></span>완료</button>
+            </div>
+          </div>
+          <div class="calendar-wrap">
+            <div class="calendar-weekdays">
+              <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+          </div>
+        </section>
+
+        <!-- TIMELINE VIEW -->
+        <section class="view" data-view-content="timeline">
+          <div class="timeline-bar">
+            <div class="filter-group" role="group" aria-label="타임라인 필터">
+              <button class="chip is-active" data-tl-filter="all" type="button">전체</button>
+              <button class="chip" data-tl-filter="upcoming" type="button">예정 · 진행중</button>
+              <button class="chip" data-tl-filter="past" type="button">완료</button>
+            </div>
+            <div class="timeline-count" id="timelineCount"></div>
+          </div>
+          <div class="timeline" id="timelineList"></div>
+        </section>
+
+        <!-- STATS VIEW -->
+        <section class="view" data-view-content="stats">
+          <div class="stats-grid">
+            <div class="panel panel--span-2">
+              <div class="panel-head">
+                <h3 class="panel-title-sm">월별 교육 진행 추이</h3>
+                <span class="panel-sub">최근 12개월 · 건수</span>
+              </div>
+              <div class="panel-body" id="monthlyChart"></div>
+            </div>
+            <div class="panel">
+              <div class="panel-head">
+                <h3 class="panel-title-sm">상태 분포</h3>
+                <span class="panel-sub">전체 교육 기준</span>
+              </div>
+              <div class="panel-body" id="statusChart"></div>
+            </div>
+            <div class="panel">
+              <div class="panel-head">
+                <h3 class="panel-title-sm">조직별 수강</h3>
+                <span class="panel-sub">참여 인원 합계 기준</span>
+              </div>
+              <div class="panel-body" id="orgChart"></div>
+            </div>
+            <div class="panel panel--span-2">
+              <div class="panel-head">
+                <h3 class="panel-title-sm">강사별 진행 현황</h3>
+                <span class="panel-sub">진행한 교육 건수</span>
+              </div>
+              <div class="panel-body" id="instructorChart"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL: SESSION DETAIL -->
+  <div class="modal" id="detailModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <div class="modal-backdrop" data-close="detail"></div>
+    <div class="modal-panel">
+      <header class="modal-head">
+        <div class="modal-head-left">
+          <span class="modal-eyebrow" id="detailEyebrow">교육 상세</span>
+          <h2 class="modal-title" id="detailTitle">—</h2>
+        </div>
+        <div class="modal-head-right">
+          <button class="icon-btn" data-close="detail" aria-label="닫기" type="button">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 5 10 10M15 5 5 15"/></svg>
+          </button>
+        </div>
+      </header>
+      <div class="modal-body" id="detailBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
