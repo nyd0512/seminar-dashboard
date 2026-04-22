@@ -16,7 +16,7 @@ git clone <repo-url> lecture-dashboard
 cd lecture-dashboard
 npm install
 npm start
-# → http://localhost:3000
+# → http://localhost:7271
 ```
 
 다른 포트가 필요하면:
@@ -96,7 +96,7 @@ EDIT_PASSWORD=secret npm start
 예시:
 
 ```bash
-curl -X POST http://localhost:3000/api/sessions \
+curl -X POST http://localhost:7271/api/sessions \
   -H 'Content-Type: application/json' \
   -H 'X-Edit-Password: aijjang' \
   -d '{"title":"MCP 실습","date":"2026-05-28","status":"scheduled"}'

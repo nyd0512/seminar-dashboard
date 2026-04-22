@@ -16,7 +16,7 @@ import { createStore } from './store.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const SESSIONS_JSON = path.join(ROOT, 'data', 'sessions.json');
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT) || 7271;
 const PASSWORD = process.env.EDIT_PASSWORD || 'aijjang';
 const PW_BUF = Buffer.from(PASSWORD, 'utf8');
 
