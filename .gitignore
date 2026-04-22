@@ -4,3 +4,6 @@
 Thumbs.db
 node_modules/
 *.log
+data/sessions.json.tmp
+data/sessions.json.bak
+.env

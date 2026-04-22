@@ -115,6 +115,10 @@
   --shadow-md: 0 4px 10px rgba(15, 23, 42, 0.06), 0 2px 4px rgba(15, 23, 42, 0.04);
   --shadow-lg: 0 10px 28px rgba(15, 23, 42, 0.10), 0 4px 10px rgba(15, 23, 42, 0.05);
   --shadow-focus: 0 0 0 3px rgba(0, 112, 243, 0.18);
+  --shadow-focus-accent: 0 0 0 3px rgba(42, 66, 100, 0.12);
+
+  /* ---- Overlays ---- */
+  --bg-overlay: rgba(43, 33, 23, 0.42);          /* modal backdrop — 먹 톤 */
 
   /* ---- Layout sizes ---- */
   --sidebar-w: 236px;

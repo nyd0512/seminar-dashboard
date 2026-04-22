@@ -1,17 +1,41 @@
 # AI 전파교육 대시보드
 
-SW개발팀 내부 **AI 전파교육 진행 현황 게시판**. 지난 교육과 예정된 세션을 한 화면에서 공유하는 정적 사이트.
+SW개발팀 내부 **AI 전파교육 진행 현황 게시판**. 지난 교육과 예정된 세션을 한 화면에서 공유하고, 담당자가 화면에서 직접 추가·수정할 수 있는 가벼운 사내 캘린더.
 
-- **빌드 없음** — Vanilla JS + 정적 HTML/CSS, GitHub Pages가 저장소 루트를 그대로 서빙
-- **데이터 정본은 `data/sessions.json`** — 브라우저가 fetch 해서 렌더
-- **편집은 JSON 직접 수정** — 별도 어드민·서버·로그인 없음
-- **수기 입력** — 강사·대상·참석 인원은 운영자가 JSON 에 직접 기재
-
-라이브: <https://nyd0512.github.io/seminar-dashboard/>
+- **백엔드**: Node.js + Express, JSON 파일(`data/sessions.json`) 한 개가 정본 (atomic write)
+- **프런트**: Vanilla JS + 정적 HTML/CSS, 빌드 단계 없음
+- **편집 모델**: 읽기는 누구나, 편집은 비밀번호로 잠금 해제 (세션 동안만 유지)
+- **공유 모델**: 로컬 PC 또는 사내 VM에서 항상 띄워두고 URL 공유
 
 ---
 
-## 1. 방문자 (그냥 보는 사람)
+## 1. 빠른 시작
+
+```bash
+git clone <repo-url> lecture-dashboard
+cd lecture-dashboard
+npm install
+npm start
+# → http://localhost:3000
+```
+
+다른 포트가 필요하면:
+
+```bash
+PORT=8080 npm start
+```
+
+비밀번호는 환경변수로 바꿀 수 있다 (기본값 `aijjang`):
+
+```bash
+EDIT_PASSWORD=secret npm start
+```
+
+요구사항: **Node.js ≥ 18.18**.
+
+---
+
+## 2. 방문자 (URL 공유받은 사람)
 
 링크만 열면 끝.
 
@@ -23,152 +47,114 @@ SW개발팀 내부 **AI 전파교육 진행 현황 게시판**. 지난 교육과
 
 ---
 
-## 2. 편집자 (교육 담당자)
+## 3. 편집자 (담당자)
 
-모든 데이터는 `data/sessions.json` 하나에 들어 있다. 이 파일만 수정하면 된다.
+1. 우측 상단 **🔒 편집 잠금** 버튼 클릭
+2. 비밀번호 입력 → 잠금 해제 (현재 세션에만 유지, 탭을 닫으면 다시 잠긴다)
+3. 캘린더 셀에 마우스를 올리면 나타나는 **+** 버튼, 또는 타임라인 상단 **+ 새 교육 추가** 버튼으로 추가
+4. 항목을 클릭해 상세 모달의 **편집 / 삭제** 버튼으로 수정
+5. 작업이 끝나면 다시 잠금 버튼을 눌러 잠금
 
-### GitHub 웹에서 수정하기 (가장 빠름)
-
-1. 저장소에서 `data/sessions.json` 열기
-2. 오른쪽 위 **연필 아이콘** (Edit this file) 클릭
-3. JSON 수정 — 항목 추가·수정·삭제
-4. 페이지 맨 아래 **Commit changes** → 메시지 입력 → Commit
-5. 1~2분 뒤 사이트 새로고침 → 반영 확인
-
-### 로컬에서 수정하기 (IDE 쓰는 경우)
-
-```bash
-git clone https://github.com/nyd0512/seminar-dashboard.git
-cd seminar-dashboard
-# data/sessions.json 편집
-git add data/sessions.json
-git commit -m "Add 2026-05 sessions"
-git push
-```
-
-### 새 교육 1건 추가 예시
-
-`data/sessions.json` 은 객체 배열이다. 배열 끝에 새 객체를 추가:
-
-```json
-{
-  "id": "s021",
-  "title": "MCP 서버 실습",
-  "topic": "도구연동",
-  "date": "2026-05-28",
-  "startTime": "14:00",
-  "endTime": "16:00",
-  "isOnline": false,
-  "location": "본관 3F 교육장",
-  "instructor": "홍길동",
-  "audience": "SW개발팀",
-  "enrolled": 0,
-  "capacity": 20,
-  "status": "scheduled",
-  "description": "Model Context Protocol 기초와 커스텀 서버 붙이기."
-}
-```
-
-주의할 점:
-- `id` 는 **중복 금지** — 기존 마지막 번호(`s020`) 다음으로
-- 새 객체 바로 앞 항목 끝에 **쉼표 `,` 빠지지 않게**
-- JSON 문법이 의심되면 <https://jsonlint.com> 에 붙여넣고 검증
+서버는 변경 내용을 즉시 `data/sessions.json` 에 atomic write (`tmp → rename`) 로 반영한다. 추가로 git 에 커밋할지 여부는 운영 정책에 따라 결정.
 
 ---
 
-## 3. JSON 스키마
+## 4. JSON 스키마
 
 | 필드 | 타입 | 필수 | 설명 |
 |------|------|------|------|
-| `id` | string | ✅ | 고유 ID (예: `s021`) |
+| `id` | string |  | 미입력 시 서버가 `s14`, `s15` … 자동 채번 |
 | `title` | string | ✅ | 교육 제목 |
 | `topic` | string |  | 카테고리 (프롬프트·에이전트·개발도구 등) |
 | `date` | string | ✅ | `YYYY-MM-DD` |
 | `startTime` | string |  | `HH:MM` |
 | `endTime` | string |  | `HH:MM` |
-| `isOnline` | boolean | ✅ | 온라인(`true`) / 오프라인(`false`) |
+| `isOnline` | boolean |  | 온라인(`true`) / 오프라인(`false`) |
 | `location` | string |  | 장소명 또는 링크 |
-| `instructor` | string | ✅ | **강사명 (수기)** |
-| `audience` | string |  | 대상 조직 (예: `"SW개발팀 · 자원자"`) |
-| `enrolled` | number |  | **총 참석 인원 (수기)** |
-| `capacity` | number |  | **대상 정원 (수기)** |
-| `status` | string | ✅ | `scheduled` · `ongoing` · `completed` |
+| `instructor` | string |  | 강사명 |
+| `audience` | string |  | 대상 조직 |
+| `enrolled` | number |  | 참석 인원 |
+| `capacity` | number |  | 정원 |
+| `status` | string |  | `scheduled` · `ongoing` · `completed` (기본 `scheduled`) |
 | `description` | string |  | 교육 내용 요약 |
 
 ---
 
-## 4. 로컬에서 실행
+## 5. REST API
 
-ES modules + `fetch` 를 쓰므로 `file://` 로 직접 열면 동작하지 않는다. 가벼운 정적 서버를 띄워야 한다.
+읽기는 공개, 쓰기는 `X-Edit-Password` 헤더 필수.
+
+| 메서드 | 경로 | 인증 | 설명 |
+|--------|------|------|------|
+| `GET`    | `/api/sessions`        |  | 전체 목록 (날짜 오름차순) |
+| `GET`    | `/api/sessions/:id`    |  | 단건 조회 |
+| `POST`   | `/api/sessions`        | ✅ | 생성 |
+| `PUT`    | `/api/sessions/:id`    | ✅ | 부분 수정 (보낸 필드만 갱신) |
+| `DELETE` | `/api/sessions/:id`    | ✅ | 삭제 |
+| `POST`   | `/api/auth`            |  | `{ password }` 검증 (UI 잠금 해제용) |
+
+예시:
 
 ```bash
-cd seminar-dashboard
-python -m http.server 8000
-# 또는
-npx serve .
+curl -X POST http://localhost:3000/api/sessions \
+  -H 'Content-Type: application/json' \
+  -H 'X-Edit-Password: aijjang' \
+  -d '{"title":"MCP 실습","date":"2026-05-28","status":"scheduled"}'
 ```
-
-브라우저로 `http://localhost:8000` 접속.
 
 ---
 
-## 5. 배포 (GitHub Pages · branch 모드)
+## 6. 사내 VM 배포
 
-빌드 단계가 없어서 **GitHub Actions 워크플로우를 쓰지 않는다**. Pages 가 `main` 브랜치 루트를 그대로 서빙한다.
+```bash
+# (1) 코드 복사
+git clone <repo-url> /opt/lecture-dashboard
+cd /opt/lecture-dashboard
+npm install --omit=dev
 
-최초 1회 설정 (저장소 주인이 하면 됨):
+# (2) 비밀번호·포트 지정해 띄우기 (예: pm2)
+PORT=8080 EDIT_PASSWORD='실제비번' pm2 start server/index.js \
+  --name lecture-dashboard
 
-1. 저장소 → **Settings → Pages**
-2. **Build and deployment → Source** → `Deploy from a branch`
-3. **Branch** → `main` / `/ (root)` → **Save**
-4. 1~2분 뒤 `https://<owner>.github.io/<repo>/` 에서 접근 가능
+pm2 save
+pm2 startup    # 부팅 시 자동 실행 등록
+```
 
-이후엔 `main` 에 푸시할 때마다 자동 갱신된다. (별도 Actions 탭 확인 불필요)
-
-### 편집 권한
-
-- 편집 가능 = **저장소 collaborator + write 권한**
-- 일반 수강생은 사이트 열람만 (읽기 전용)
-- 사람 추가: Settings → Collaborators → Add people
+리버스 프록시(nginx 등) 뒤에 두면 사내 도메인으로 접근 가능. HTTPS 필수는 아니지만 비밀번호가 평문으로 가므로 사내망 외부 노출 시에는 TLS 권장.
 
 ---
 
-## 6. 디렉토리 구조
+## 7. 디렉토리 구조
 
 ```
-seminar-dashboard/
-├── index.html
+lecture-dashboard/
+├── package.json
+├── server/
+│   ├── index.js             # Express 앱 + REST 라우트
+│   └── store.js             # JSON 파일 store (atomic write)
 ├── data/
-│   └── sessions.json        # ⭐ 교육 데이터 정본 (여기만 편집)
-├── assets/
-│   ├── hero.jpg             # 대문 일러스트 (16:7)
-│   ├── hero-sm.jpg          # 모바일용 대문
-│   ├── hanji-bg.jpg         # 한지 타일 배경
-│   ├── dancheong-band.webp  # 단청 띠 (대문 중단)
-│   └── seal-ji.webp         # 낙관 · 智 (대문 우하단)
-├── css/
-│   ├── tokens.css           # 팔레트·타이포·간격 토큰
-│   ├── base.css             # reset + body 배경
-│   ├── layout.css           # 앱 쉘 (사이드바/토픽바/KPI)
-│   ├── components.css       # 버튼·칩·패널·모달·토스트
-│   └── views.css            # 대문·캘린더·타임라인·통계
-├── js/
-│   ├── data.js              # 상수·타입 정의
-│   ├── store.js             # fetch + 상태 스토어
-│   ├── utils.js             # 날짜·DOM·포맷 헬퍼
-│   └── app.js               # 렌더링 + 이벤트 + 상세 모달
-└── README.md
+│   └── sessions.json        # ⭐ 교육 데이터 정본
+├── index.html
+├── assets/                  # hero / 단청 / 낙관 이미지
+├── css/                     # tokens / base / layout / components / views
+└── js/
+    ├── data.js              # 상수·API 경로
+    ├── store.js             # REST 호출 + 편집 모드 상태
+    ├── utils.js             # 날짜·DOM·포맷 헬퍼
+    └── app.js               # 렌더링 + 모달 + 편집 UI
 ```
 
 ---
 
-## 7. 자주 겪는 상황
+## 8. 자주 겪는 상황
 
-- **편집했는데 사이트에 반영이 안 됨** → 브라우저 강력 새로고침 (`Ctrl+Shift+R`). Pages 캐시 갱신엔 1~2분 걸린다.
-- **JSON 파싱 에러로 데이터가 안 뜸** → 콘솔에 "데이터를 불러오지 못했습니다" 토스트. `jsonlint.com` 으로 문법 검증.
-- **상태 색이 이상함** → `status` 는 `scheduled` / `ongoing` / `completed` 3개만 허용. 오타 확인.
-- **누적 수강이 적게 나옴** → `enrolled` 필드 수기 집계 값. 실제 참석 인원으로 업데이트.
+- **편집 버튼이 안 보임** → 우측 상단 잠금 버튼이 회색이면 잠긴 상태. 클릭해 비번 입력.
+- **저장 실패: invalid password** → 비번 만료 또는 변경. 잠금 다시 해제.
+- **JSON 파일이 깨졌을까 걱정** → `data/sessions.json` 옆 `.tmp` 파일이 남아 있다면 마지막 쓰기가 중단된 흔적이니 검토 후 삭제.
+- **포트 충돌 (`EADDRINUSE`)** → `PORT=다른번호 npm start`.
 
-## 8. 브라우저 요구사항
+---
 
-Chrome · Edge · Safari · Firefox 최신 2버전 (ES modules, `fetch` 기반). IE 비지원.
+## 9. 브라우저 요구사항
+
+Chrome · Edge · Safari · Firefox 최신 2버전 (ES modules, `fetch` 기반).

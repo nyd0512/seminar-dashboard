@@ -1,34 +1,19 @@
 /**
- * data.js — constants only
+ * data.js — UI-side constants (API endpoints, derived option lists).
  *
- * 교육 데이터는 data/sessions.json 이 정본이다.
- * 편집은 GitHub 저장소의 sessions.json 을 직접 수정 → 커밋 → Pages 재배포 흐름.
+ * Record-shape constants (status enum, normalize, sort) live in ./schema.js
+ * because they are shared with the Node server.
  */
 
-export const DATA_URL = './data/sessions.json';
+export { STATUS_LABEL, STATUSES } from './schema.js';
+import { STATUS_LABEL } from './schema.js';
 
-export const STATUS_LABEL = {
-  scheduled: '예정',
-  ongoing: '진행중',
-  completed: '완료',
-};
+export const API_BASE = './api';
+export const SESSIONS_URL = `${API_BASE}/sessions`;
+export const AUTH_URL = `${API_BASE}/auth`;
+export const PASSWORD_HEADER = 'X-Edit-Password';
+export const PASSWORD_STORAGE_KEY = 'lecture-dashboard.editpw';
 
-/**
- * @typedef {'scheduled'|'ongoing'|'completed'} SessionStatus
- * @typedef {{
- *   id: string,
- *   title: string,
- *   topic?: string,
- *   date: string,              // YYYY-MM-DD
- *   startTime?: string,        // HH:MM
- *   endTime?: string,
- *   isOnline: boolean,
- *   location?: string,
- *   instructor: string,
- *   audience: string,
- *   enrolled: number,
- *   capacity: number,
- *   status: SessionStatus,
- *   description?: string
- * }} Session
- */
+export const STATUS_OPTIONS = Object.entries(STATUS_LABEL).map(
+  ([value, label]) => ({ value, label })
+);

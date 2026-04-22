@@ -68,6 +68,11 @@
             <svg class="search-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="9" cy="9" r="5.5"/><path d="m13 13 4 4"/></svg>
             <input id="searchInput" type="text" placeholder="교육 · 강사 · 조직 검색" aria-label="교육 검색" />
           </div>
+          <button class="lock-btn" id="lockBtn" type="button" aria-pressed="false" aria-label="편집 모드 잠금 해제">
+            <svg class="lock-icon lock-icon--closed" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4.5" y="9" width="11" height="8" rx="1.5"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/></svg>
+            <svg class="lock-icon lock-icon--open" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4.5" y="9" width="11" height="8" rx="1.5"/><path d="M7 9V6.5a3 3 0 0 1 5.7-1.4"/></svg>
+            <span class="lock-label" id="lockLabel">편집 잠금</span>
+          </button>
         </div>
       </header>
 
@@ -145,13 +150,126 @@
           <span class="modal-eyebrow" id="detailEyebrow">교육 상세</span>
           <h2 class="modal-title" id="detailTitle">—</h2>
         </div>
-        <div class="modal-head-right">
+        <div class="modal-head-right" id="detailActions">
           <button class="icon-btn" data-close="detail" aria-label="닫기" type="button">
             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 5 10 10M15 5 5 15"/></svg>
           </button>
         </div>
       </header>
       <div class="modal-body" id="detailBody"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: PASSWORD GATE -->
+  <div class="modal modal--mini" id="passwordModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="passwordTitle">
+    <div class="modal-backdrop" data-close="password"></div>
+    <div class="modal-panel modal-panel--mini">
+      <header class="modal-head">
+        <div class="modal-head-left">
+          <h2 class="modal-title" id="passwordTitle">편집 잠금 해제</h2>
+        </div>
+        <div class="modal-head-right">
+          <button class="icon-btn" data-close="password" aria-label="닫기" type="button">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 5 10 10M15 5 5 15"/></svg>
+          </button>
+        </div>
+      </header>
+      <form class="modal-body" id="passwordForm">
+        <label class="form-field">
+          <span class="form-label">비밀번호</span>
+          <input class="form-input" id="passwordInput" type="password" autocomplete="current-password" placeholder="••••••" />
+          <span class="form-hint" id="passwordHint">현재 세션에만 유효합니다.</span>
+        </label>
+        <div class="form-actions">
+          <button class="btn btn-ghost" type="button" data-close="password">취소</button>
+          <button class="btn btn-primary" type="submit">잠금 해제</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: SESSION FORM (CREATE / EDIT) -->
+  <div class="modal" id="formModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+    <div class="modal-backdrop" data-close="form"></div>
+    <div class="modal-panel">
+      <header class="modal-head">
+        <div class="modal-head-left">
+          <span class="modal-eyebrow" id="formEyebrow">교육 추가</span>
+          <h2 class="modal-title" id="formTitle">새 교육</h2>
+        </div>
+        <div class="modal-head-right">
+          <button class="icon-btn" data-close="form" aria-label="닫기" type="button">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 5 10 10M15 5 5 15"/></svg>
+          </button>
+        </div>
+      </header>
+      <form class="modal-body form-body" id="sessionForm">
+        <div class="form-grid">
+          <label class="form-field form-field--full">
+            <span class="form-label">제목 *</span>
+            <input class="form-input" name="title" required maxlength="120" />
+          </label>
+          <label class="form-field">
+            <span class="form-label">주제</span>
+            <input class="form-input" name="topic" maxlength="60" />
+          </label>
+          <label class="form-field">
+            <span class="form-label">상태</span>
+            <select class="form-input" name="status">
+              <option value="scheduled">예정</option>
+              <option value="ongoing">진행중</option>
+              <option value="completed">완료</option>
+            </select>
+          </label>
+          <label class="form-field">
+            <span class="form-label">날짜 *</span>
+            <input class="form-input" name="date" type="date" required />
+          </label>
+          <label class="form-field">
+            <span class="form-label">시작</span>
+            <input class="form-input" name="startTime" type="time" />
+          </label>
+          <label class="form-field">
+            <span class="form-label">종료</span>
+            <input class="form-input" name="endTime" type="time" />
+          </label>
+          <label class="form-field form-field--checkbox">
+            <input class="form-checkbox" name="isOnline" type="checkbox" />
+            <span class="form-label">온라인 교육</span>
+          </label>
+          <label class="form-field">
+            <span class="form-label">장소</span>
+            <input class="form-input" name="location" maxlength="80" placeholder="회의실 / 온라인 링크" />
+          </label>
+          <label class="form-field">
+            <span class="form-label">강사</span>
+            <input class="form-input" name="instructor" maxlength="60" />
+          </label>
+          <label class="form-field">
+            <span class="form-label">대상 조직</span>
+            <input class="form-input" name="audience" maxlength="80" />
+          </label>
+          <label class="form-field">
+            <span class="form-label">수강 인원</span>
+            <input class="form-input" name="enrolled" type="number" min="0" step="1" />
+          </label>
+          <label class="form-field">
+            <span class="form-label">정원</span>
+            <input class="form-input" name="capacity" type="number" min="0" step="1" />
+          </label>
+          <label class="form-field form-field--full">
+            <span class="form-label">설명</span>
+            <textarea class="form-input form-textarea" name="description" rows="3" maxlength="400"></textarea>
+          </label>
+        </div>
+        <div class="form-actions form-actions--split">
+          <button class="btn btn-danger btn-ghost" type="button" id="formDelete" hidden>삭제</button>
+          <div class="form-actions-right">
+            <button class="btn btn-ghost" type="button" data-close="form">취소</button>
+            <button class="btn btn-primary" type="submit" id="formSubmit">저장</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 

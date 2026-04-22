@@ -1,0 +1,17 @@
+{
+  "name": "lecture-dashboard",
+  "version": "2.0.0",
+  "private": true,
+  "description": "AI 전파교육 진행 현황 대시보드 (server edition)",
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js"
+  },
+  "engines": {
+    "node": ">=18.18"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

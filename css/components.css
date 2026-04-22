@@ -171,7 +171,7 @@
 .modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(43, 33, 23, 0.42);
+  background: var(--bg-overlay);
   backdrop-filter: blur(2px);
 }
 
@@ -400,14 +400,14 @@
   width: 64px;
   height: 4px;
   background: var(--border-subtle);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   overflow: hidden;
   position: relative;
 }
 .capacity-bar-fill {
   height: 100%;
   background: var(--accent-500);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   transition: width var(--dur-base) var(--ease-out);
 }
 .capacity-bar-fill.is-full { background: var(--status-ongoing); }
@@ -418,4 +418,177 @@
   text-align: center;
   color: var(--text-muted);
   font-size: var(--fs-sm);
+}
+
+/* =========================================================
+   Detail modal meta line
+   ========================================================= */
+.detail-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+/* =========================================================
+   Edit-mode controls
+   ========================================================= */
+
+/* ---- Lock toggle (topbar) ---- */
+.lock-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 34px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-default);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  transition: all var(--dur-fast) var(--ease-out);
+}
+.lock-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+.lock-btn .lock-icon { width: 16px; height: 16px; }
+.lock-btn .lock-icon--open { display: none; }
+.lock-btn.is-unlocked .lock-icon--closed { display: none; }
+.lock-btn.is-unlocked .lock-icon--open { display: inline; }
+.lock-btn.is-unlocked {
+  background: var(--accent-500);
+  color: var(--text-on-accent);
+  border-color: var(--accent-500);
+}
+.lock-btn.is-unlocked:hover {
+  background: var(--accent-600);
+  border-color: var(--accent-600);
+}
+.lock-label { line-height: 1; }
+
+/* ---- Mini modal variant (password gate) ---- */
+.modal-panel--mini { max-width: 360px; }
+
+/* ---- Form ---- */
+.form-body { display: flex; flex-direction: column; gap: var(--space-4); }
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3) var(--space-4);
+  align-items: end;
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.form-field--full { grid-column: 1 / -1; }
+.form-label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--text-muted);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+.form-input {
+  height: 34px;
+  padding: 0 var(--space-3);
+  font: inherit;
+  font-size: var(--fs-md);
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  transition: border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.form-input:hover { border-color: var(--border-strong); }
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-500);
+  box-shadow: var(--shadow-focus-accent);
+}
+.form-textarea {
+  height: auto;
+  padding: var(--space-2) var(--space-3);
+  resize: vertical;
+  line-height: var(--lh-normal);
+  min-height: 72px;
+}
+.form-field--checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-2);
+  height: 34px;
+}
+.form-field--checkbox .form-label {
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-primary);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-md);
+}
+.form-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent-500);
+}
+.form-hint {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  margin-top: var(--space-1);
+}
+.form-hint.is-error { color: var(--danger); }
+.form-actions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+  align-items: center;
+}
+.form-actions--split { justify-content: space-between; }
+.form-actions-right {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+
+/* ---- Calendar inline add (+) button (edit mode only) ---- */
+.cal-day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cal-add-btn {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-md);
+  line-height: 1;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px dashed var(--border-default);
+  opacity: 0;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+.cal-cell:hover .cal-add-btn,
+.cal-cell:focus-within .cal-add-btn { opacity: 1; }
+.cal-add-btn:hover {
+  color: var(--text-on-accent);
+  background: var(--accent-500);
+  border-color: var(--accent-500);
+  border-style: solid;
+}
+
+/* ---- Timeline inline add button ---- */
+.timeline-add {
+  align-self: flex-start;
+  margin: 0 var(--space-5) var(--space-4);
 }
