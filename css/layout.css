@@ -101,20 +101,6 @@
 }
 .nav-icon svg { width: 18px; height: 18px; }
 
-/* External link nav-item (열람실 → presentations/) */
-.nav-item--external {
-  text-decoration: none;
-  position: relative;
-}
-.nav-external-icon {
-  width: 12px;
-  height: 12px;
-  margin-left: auto;
-  opacity: 0.5;
-  flex-shrink: 0;
-}
-.nav-item--external:hover .nav-external-icon { opacity: 0.85; }
-
 .sidebar-footer {
   padding: var(--space-3) var(--space-4);
   border-top: 1px solid var(--border-default);
