@@ -1,5 +1,44 @@
 {
-  "generatedAt": "2026-04-23T06:42:09.380Z",
-  "count": 0,
-  "items": []
+  "generatedAt": "2026-04-23T08:58:39.758Z",
+  "count": 4,
+  "slides": 4,
+  "files": 0,
+  "items": [
+    {
+      "type": "slide",
+      "category": "비개발",
+      "catClass": "biz",
+      "title": "AI가 바꾸는 일하는 방법",
+      "subtitle": "AI Agent 시대와 반도체 · 비개발자",
+      "url": "./presentations/non-dev-seminar/",
+      "ext": "html"
+    },
+    {
+      "type": "slide",
+      "category": "개발",
+      "catClass": "dev",
+      "title": "Claude Code Hands-on",
+      "subtitle": "도구·워크플로·작동 원리 · 2h",
+      "url": "./presentations/dev-seminar/",
+      "ext": "html"
+    },
+    {
+      "type": "slide",
+      "category": "리더",
+      "catClass": "lead",
+      "title": "AI Hands-on Course",
+      "subtitle": "카카오톡·리서치·스킬빌더 실습 · 리더",
+      "url": "./presentations/leadership-hands-on/",
+      "ext": "html"
+    },
+    {
+      "type": "slide",
+      "category": "팀 내부",
+      "catClass": "team",
+      "title": "S/W개발팀 AI PoC 현황",
+      "subtitle": "컨트롤러 PL 리뷰 · 팀 내부",
+      "url": "./presentations/controller_seminar/",
+      "ext": "html"
+    }
+  ]
 }

@@ -54,6 +54,11 @@
   background: var(--bg-subtle);
   border-radius: var(--radius-md);
 }
+.library-card--slide .library-card-icon { background: var(--accent-50); }
+.library-card[data-cat='biz']  .library-card-icon { background: rgba(212, 165, 116, 0.18); }
+.library-card[data-cat='dev']  .library-card-icon { background: rgba(126, 196, 192, 0.22); }
+.library-card[data-cat='lead'] .library-card-icon { background: rgba(181, 167, 213, 0.22); }
+.library-card[data-cat='team'] .library-card-icon { background: rgba(214, 149, 133, 0.22); }
 .library-card-body { min-width: 0; }
 .library-card-title {
   font-size: var(--fs-md);
