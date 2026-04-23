@@ -1,9 +1,20 @@
+# AI 전파교육 대시보드
 .meta-loop/
 .claude/
 .DS_Store
 Thumbs.db
 node_modules/
 *.log
-data/sessions.json.tmp
-data/sessions.json.bak
 .env
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+*-debug.log
+.runtimeconfig.json
+
+# Firebase service account secret keys — NEVER commit these
+*-firebase-adminsdk-*.json
+serviceAccountKey*.json

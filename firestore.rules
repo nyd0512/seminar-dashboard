@@ -1,0 +1,11 @@
+rules_version = '2';
+
+// 편집 권한은 클라이언트의 비밀번호 게이트로만 보호합니다 (data 가벼운 사내용).
+// Firestore Rules 자체는 누구나 read/write 허용.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /sessions/{id} {
+      allow read, write: if true;
+    }
+  }
+}

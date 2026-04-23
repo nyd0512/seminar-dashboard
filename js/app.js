@@ -559,23 +559,17 @@ function openPasswordModal() {
 
 function bindPasswordForm() {
   const form = $('#passwordForm');
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
     const pw = $('#passwordInput').value;
     const hint = $('#passwordHint');
-    try {
-      const ok = await store.unlockEditing(pw);
-      if (!ok) {
-        hint.textContent = '비밀번호가 올바르지 않습니다.';
-        hint.classList.add('is-error');
-        return;
-      }
-      closeModal('password');
-      toast('편집 잠금 해제');
-    } catch (err) {
-      hint.textContent = `오류: ${err.message}`;
+    if (!store.unlockEditing(pw)) {
+      hint.textContent = '비밀번호가 올바르지 않습니다.';
       hint.classList.add('is-error');
+      return;
     }
+    closeModal('password');
+    toast('편집 잠금 해제');
   });
 }
 
@@ -655,16 +649,7 @@ function bindSessionForm() {
       }
       closeModal('form');
     } catch (err) {
-      const expired = err.status === 401;
-      toast(
-        expired
-          ? '편집 권한이 만료되었습니다. 다시 잠금 해제하세요.'
-          : `저장 실패: ${err.message}`
-      );
-      if (expired) {
-        store.lockEditing();
-        closeModal('form');
-      }
+      toast(`저장 실패: ${err.message}`);
     } finally {
       submitBtn.disabled = false;
     }
