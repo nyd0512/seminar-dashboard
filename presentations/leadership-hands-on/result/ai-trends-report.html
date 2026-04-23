@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 개발도구 생태계의 구조적 전환 — 커뮤니티 담론 분석 (2026 Q1)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  /* ══════════════════════════════════════════════════════════════
+     Tufte-inspired Typographic System
+     References: Butterick's Practical Typography, Tufte CSS, typebase.css
+     ══════════════════════════════════════════════════════════════ */
+
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap');
+
+  :root {
+    --text:       #1a1a1a;
+    --text-light: #4a4a4a;
+    --text-muted: #6a6a6a;
+    --bg:         #fffff8;
+    --bg-warm:    #faf8f2;
+    --rule:       #c8c8c0;
+    --rule-light: #e0ddd5;
+    --accent:     #b5343a;
+    --accent-dark:#8a1f24;
+    --blue:       #2a5a8a;
+    --blue-light: #3a7ab5;
+    --green-deep: #2d6a4f;
+    --sidenote-bg:#f5f3ec;
+
+    --serif:      'Noto Serif KR', 'Georgia', serif;
+    --sans:       'Noto Sans KR', -apple-system, sans-serif;
+    --mono:       'Source Code Pro', 'Menlo', monospace;
+
+    --body-width: 640px;
+    --margin-width: 260px;
+    --gap: 40px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--serif);
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.85;
+    counter-reset: sidenote-counter figure-counter table-counter;
+  }
+
+  /* ── Layout: Tufte-style body + margin ────────────────────── */
+  .tufte-page {
+    max-width: calc(var(--body-width) + var(--margin-width) + var(--gap));
+    padding: 0 20px;
+    margin: 0 auto;
+  }
+
+  article {
+    position: relative;
+    width: var(--body-width);
+  }
+
+  /* ── Typography ───────────────────────────────────────────── */
+  p {
+    margin-bottom: 1.4rem;
+    font-size: 1.05rem;
+    hanging-punctuation: first last;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--sans);
+    font-weight: 700;
+    color: var(--text);
+    word-break: keep-all;
+  }
+
+  /* Title block */
+  .title-block {
+    margin-top: 80px;
+    margin-bottom: 56px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 32px;
+  }
+  .title-block h1 {
+    font-size: 2.1rem;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    font-weight: 900;
+    margin-bottom: 12px;
+  }
+  .title-block .subtitle {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    color: var(--text-light);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .title-block .meta {
+    margin-top: 20px;
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  .title-block .meta strong {
+    color: var(--text-light);
+    font-weight: 600;
+  }
+
+  /* Section headings */
+  h2 {
+    font-size: 1.45rem;
+    margin-top: 52px;
+    margin-bottom: 8px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule-light);
+  }
+  h2 .section-num {
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-right: 8px;
+  }
+  h3 {
+    font-size: 1.1rem;
+    margin-top: 32px;
+    margin-bottom: 4px;
+    font-weight: 600;
+    color: var(--text-light);
+  }
+
+  /* ── Sidenotes (Tufte signature) ──────────────────────────── */
+  .sidenote,
+  .marginnote {
+    float: right;
+    clear: right;
+    margin-right: calc(-1 * (var(--margin-width) + var(--gap)));
+    width: var(--margin-width);
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+    padding: 4px 0;
+    vertical-align: baseline;
+    position: relative;
+  }
+  .sidenote {
+    counter-increment: sidenote-counter;
+  }
+  .sidenote::before {
+    content: counter(sidenote-counter);
+    font-size: 0.65rem;
+    position: relative;
+    top: -0.4rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  sup.sidenote-ref {
+    font-size: 0.7rem;
+    color: var(--accent);
+    font-weight: 600;
+    counter-increment: sidenote-counter;
+    cursor: default;
+  }
+  sup.sidenote-ref::after {
+    content: counter(sidenote-counter);
+  }
+
+  .marginnote {
+    font-style: normal;
+  }
+
+  /* ── Abstract ─────────────────────────────────────────────── */
+  .abstract {
+    background: var(--bg-warm);
+    border-left: 3px solid var(--accent);
+    padding: 24px 28px;
+    margin-bottom: 40px;
+    border-radius: 0 4px 4px 0;
+  }
+  .abstract h4 {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .abstract p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin-bottom: 0;
+    line-height: 1.75;
+  }
+
+  /* ── Figures ──────────────────────────────────────────────── */
+  .figure {
+    margin: 36px 0;
+    counter-increment: figure-counter;
+  }
+  .figure-wide {
+    width: calc(var(--body-width) + var(--margin-width) + var(--gap));
+    margin-left: 0;
+  }
+  .figure canvas {
+    width: 100% !important;
+    background: #fff;
+    border: 1px solid var(--rule-light);
+    border-radius: 3px;
+  }
+  .figure-caption {
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    line-height: 1.5;
+    padding-left: 2px;
+  }
+  .figure-caption::before {
+    content: "Figure " counter(figure-counter) ". ";
+    font-weight: 600;
+    color: var(--text-light);
+  }
+
+  /* ── Tables ──────────────────────────────────────────────── */
+  .data-table {
+    counter-increment: table-counter;
+    margin: 32px 0;
+  }
+  .data-table .table-caption {
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .data-table .table-caption::before {
+    content: "Table " counter(table-counter) ". ";
+    font-weight: 600;
+    color: var(--text-light);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--sans);
+    font-size: 0.88rem;
+  }
+  thead th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    padding: 8px 12px 8px 0;
+    border-bottom: 2px solid var(--text);
+  }
+  tbody td {
+    padding: 7px 12px 7px 0;
+    border-bottom: 1px solid var(--rule-light);
+    vertical-align: top;
+  }
+  tbody tr:last-child td {
+    border-bottom: 2px solid var(--text);
+  }
+  td.num {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Inline elements ─────────────────────────────────────── */
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+
+  a {
+    color: var(--blue);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(42,90,138,.2);
+    transition: border-color .15s;
+  }
+  a:hover { border-bottom-color: var(--blue); }
+
+  blockquote {
+    margin: 24px 0;
+    padding: 0 0 0 20px;
+    border-left: 2px solid var(--rule);
+    font-style: italic;
+    color: var(--text-light);
+    font-size: 1rem;
+  }
+  blockquote cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.88em;
+    background: var(--bg-warm);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    vertical-align: middle;
+  }
+  .tag-red    { background: #fde8e8; color: var(--accent); }
+  .tag-blue   { background: #e8f0fa; color: var(--blue); }
+  .tag-green  { background: #e8f5ee; color: var(--green-deep); }
+  .tag-gray   { background: #f0ede6; color: var(--text-muted); }
+
+  /* ── Key-value stat pairs ────────────────────────────────── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 20px 32px;
+    margin: 28px 0;
+    padding: 20px 24px;
+    background: var(--bg-warm);
+    border-radius: 4px;
+    border: 1px solid var(--rule-light);
+  }
+  .stat-item .stat-value {
+    font-family: var(--sans);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .stat-item .stat-label {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* ── Callout box ─────────────────────────────────────────── */
+  .callout {
+    margin: 28px 0;
+    padding: 20px 24px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .callout-insight {
+    background: #f8f6f0;
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--blue);
+  }
+  .callout-finding {
+    background: #faf5f5;
+    border: 1px solid #e8d8d8;
+    border-left: 3px solid var(--accent);
+  }
+  .callout h4 {
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+  .callout-insight h4 { color: var(--blue); }
+  .callout-finding h4 { color: var(--accent); }
+
+  /* ── Horizontal bar (inline sparkline) ───────────────────── */
+  .bar-inline {
+    display: inline-block;
+    height: 8px;
+    background: var(--blue-light);
+    border-radius: 2px;
+    vertical-align: middle;
+    opacity: .6;
+    margin-left: 8px;
+  }
+
+  /* ── Epigraph ────────────────────────────────────────────── */
+  .epigraph {
+    margin: 36px 0;
+    padding: 0;
+  }
+  .epigraph blockquote {
+    border-left: none;
+    font-size: 1.1rem;
+    padding: 0;
+    text-align: right;
+    line-height: 1.65;
+  }
+  .epigraph blockquote cite {
+    text-align: right;
+    font-size: 0.88rem;
+  }
+
+  /* ── Footer ──────────────────────────────────────────────── */
+  .footer {
+    margin-top: 64px;
+    padding: 24px 0;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* ── Responsive ──────────────────────────────────────────── */
+  @media (max-width: 960px) {
+    article { width: 100%; }
+    .sidenote, .marginnote {
+      float: none;
+      display: block;
+      margin: 12px 0;
+      width: 100%;
+      padding: 10px 16px;
+      background: var(--sidenote-bg);
+      border-radius: 3px;
+      font-size: 0.82rem;
+    }
+    .figure-wide { width: 100%; }
+  }
+  @media (max-width: 640px) {
+    .title-block h1 { font-size: 1.5rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    h2 { font-size: 1.25rem; }
+    p { font-size: 1rem; }
+  }
+
+  /* ── Print ───────────────────────────────────────────────── */
+  @media print {
+    body { font-size: 11pt; }
+    .figure canvas { border: none; }
+    .no-print { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="tufte-page">
+<article>
+
+<!-- ════════════════════════════════════════════════════════════
+     TITLE BLOCK
+     ════════════════════════════════════════════════════════════ -->
+<div class="title-block">
+  <h1>AI 개발도구 생태계의 구조적 전환</h1>
+  <div class="subtitle">
+    한국 바이브코딩 커뮤니티 담론 분석을 통해 본<br>
+    2026년 1분기 AI 업계 트렌드와 개발도구 지형 변화
+  </div>
+  <div class="meta">
+    <strong>분석 기간</strong> &mdash; 2026.01.13 ~ 2026.03.09 (56일)<br>
+    <strong>데이터 소스</strong> &mdash; [코드팩토리] 바이브코딩 x 클로드 코드 오픈채팅 (카카오톡)<br>
+    <strong>표본 규모</strong> &mdash; 18,637건 메시지 / 627명 참여자<br>
+    <strong>작성일</strong> &mdash; 2026년 3월 9일<br>
+    <strong>생성</strong> &mdash; Claude Code (Opus 4.6) 자동 분석
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     ABSTRACT
+     ════════════════════════════════════════════════════════════ -->
+<div class="abstract">
+  <h4>Abstract</h4>
+  <p>
+    본 보고서는 국내 최대 규모의 AI 코딩 커뮤니티에서 56일간 축적된 18,637건의 대화 데이터를
+    정량적으로 분석하여, 2026년 1분기 AI 개발도구 생태계의 구조적 변화를 조망한다.
+    분석 결과, <strong>Claude Opus의 지속적 우위</strong>(언급 1,264회), <strong>AntiGravity와 Codex의 급속 부상</strong>,
+    <strong>멀티모델 오케스트레이션 전략의 보편화</strong>, 그리고 <strong>비개발자의 바이브코딩 생태계 진입</strong>이라는
+    네 가지 핵심 트렌드가 확인되었다. 특히 단일 모델 의존에서 복수 모델을 목적별로 조합하는
+    '에이전틱 오케스트레이션' 패러다임으로의 전환이 실무 현장에서 빠르게 진행되고 있음을 확인한다.
+  </p>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     1. INTRODUCTION
+     ════════════════════════════════════════════════════════════ -->
+<h2><span class="section-num">1.</span> 서론</h2>
+
+<p>
+  2026년 1분기, AI 개발도구 시장은 유례없는 격변기를 맞이하고 있다.
+  Anthropic의 Claude 4.6, OpenAI의 GPT-5.3/5.4 Codex, Google의 Gemini 3.0이
+  단 두 달 사이에 연이어 출시되면서, 개발자 커뮤니티는 도구 선택의 복잡성과
+  가능성 확장이라는 이중의 압력에 놓이게 되었다.
+  <span class="sidenote">
+    본 보고서에서 '바이브코딩(Vibe Coding)'이란 AI 에이전트에게 자연어로 지시하여
+    소프트웨어를 작성하는 개발 방법론을 가리킨다. 2025년 Andrej Karpathy가
+    명명한 용어로, 2026년 현재 한국 개발자 커뮤니티에서 광범위하게 사용된다.
+  </span>
+</p>
+
+<p>
+  본 연구는 한국 최대 규모의 바이브코딩 실무 커뮤니티인 "[코드팩토리] 바이브코딩 x 클로드 코드"
+  오픈채팅방의 대화 데이터를 분석 대상으로 삼았다.
+  해당 커뮤니티는 56일간 627명이 참여하여 18,637건의 메시지를 생성했으며,
+  일평균 332.8건의 활발한 기술 토론이 이루어졌다. 누적 658명이 새로 입장하고
+  218명이 퇴장하여, 순유입 +440명이라는 빠른 성장세를 보였다.
+</p>
+
+<div class="stat-grid">
+  <div class="stat-item"><div class="stat-value">18,637</div><div class="stat-label">총 메시지</div></div>
+  <div class="stat-item"><div class="stat-value">627</div><div class="stat-label">고유 참여자</div></div>
+  <div class="stat-item"><div class="stat-value">332.8</div><div class="stat-label">일 평균 메시지</div></div>
+  <div class="stat-item"><div class="stat-value">56</div><div class="stat-label">분석 일수</div></div>
+  <div class="stat-item"><div class="stat-value">+440</div><div class="stat-label">순 유입 인원</div></div>
+  <div class="stat-item"><div class="stat-value">2,340</div><div class="stat-label">단일일 최다</div></div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     2. METHODOLOGY
+     ════════════════════════════════════════════════════════════ -->
+<h2><span class="section-num">2.</span> 분석 방법론</h2>
+
+<p>
+  카카오톡 대화 내보내기 텍스트 파일(36,329행, 2.2MB)을 Python 정규식 파서로 구조화하여
+  발화자, 일시, 메시지 본문을 추출하였다. 봇 메시지(오픈채팅봇)와 시스템 알림(입/퇴장)은
+  별도 집계 후 본문 분석에서 제외하였다.
+  <span class="sidenote">
+    파싱 정규식: <code>[user] [ampm H:MM] text</code> 패턴을 사용했으며,
+    여러 줄에 걸친 메시지는 이전 발화자에 귀속시키지 않고 독립 행으로 처리하였다.
+  </span>
+</p>
+
+<h3>2.1 키워드 분석</h3>
+<p>
+  26개 기술 키워드 카테고리를 정의하고, 각 카테고리에 복수의 한/영 변형 패턴을 매핑하여
+  메시지 단위로 출현 빈도를 집계하였다. 예를 들어 '클로드' 카테고리에는
+  <code>클로드</code>, <code>클코</code>, <code>claude</code>, <code>cc</code> 등의 패턴이 포함된다.
+</p>
+
+<h3>2.2 감성 분석</h3>
+<p>
+  한국어 감성 사전 기반의 규칙 기반(rule-based) 분류를 적용하였다.
+  긍정 단어 35개, 부정 단어 32개 목록을 구성한 후 메시지별 긍/부정 단어 빈도를
+  비교하여 3단계(긍정/부정/중립)로 분류하였다. 이 방식은 맥락 의존적 의미를
+  포착하지 못하는 한계가 있으나, 전체적인 감성 분포의 경향성을 파악하기에는 충분하다.
+</p>
+
+<h3>2.3 시계열 분석</h3>
+<p>
+  주간(weekly) 단위로 메시지량, 키워드 출현 빈도, 감성 비율을 집계하여
+  시간에 따른 트렌드 변화를 추적하였다.
+</p>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     3. FINDINGS
+     ════════════════════════════════════════════════════════════ -->
+<h2><span class="section-num">3.</span> 분석 결과</h2>
+
+<!-- 3.1 커뮤니티 활동 패턴 -->
+<h3>3.1 커뮤니티 활동의 시간적 구조</h3>
+
+<p>
+  주간 메시지량은 일정하지 않고, 특정 이벤트&mdash;주로 새 모델 출시나 서비스 장애&mdash;에
+  의해 급격한 피크를 형성한다. 가장 활발했던 주간은 2월 23일 주(6,255건)로,
+  이 기간에 Claude Opus 4.6 정식 출시와 Codex 5.3 업데이트가 겹치며
+  커뮤니티 담론이 폭발적으로 증가했다.
+</p>
+
+<div class="figure figure-wide">
+  <canvas id="weeklyChart" height="220"></canvas>
+  <div class="figure-caption">주간 메시지 총량 추이. 모델 출시 이벤트와 메시지 급증의 상관관계가 뚜렷하다.</div>
+</div>
+
+<p>
+  시간대별로는 오후 4~6시(16:00~18:00)에 가장 활발한 대화가 이루어진다.
+  17시에 최대 2,247건을 기록하며, 이는 퇴근 전후 시간대에 기술 토론이 집중됨을 시사한다.
+  심야 시간대(0~2시)에도 상당한 활동량(약 1,600건)이 관찰되는데,
+  이는 AI 도구를 활용한 개인 프로젝트 작업이 심야에도 이루어지고 있음을 보여준다.
+  <span class="sidenote">
+    요일별로는 화요일(4,834건)과 목요일(4,003건)이 가장 활발하고,
+    토요일(893건)이 가장 조용하다. 주중 업무 시간의 연장선에서
+    기술 논의가 이루어지는 패턴이 뚜렷하다.
+  </span>
+</p>
+
+<div class="figure">
+  <canvas id="hourChart" height="240"></canvas>
+  <div class="figure-caption">시간대별 메시지 분포. 오후 5시(17:00)를 정점으로 한 단봉 분포를 보이나, 심야 대화도 상당량 존재한다.</div>
+</div>
+
+<div class="figure">
+  <canvas id="dowChart" height="200"></canvas>
+  <div class="figure-caption">요일별 메시지 분포. 화요일과 목요일에 대화가 집중되며, 주말에는 급감한다.</div>
+</div>
+
+
+<!-- 3.2 기술 키워드 -->
+<h3>3.2 기술 키워드 지형도</h3>
+
+<p>
+  전체 분석 기간에 걸쳐 가장 빈번하게 언급된 기술 키워드는 <strong>클로드</strong>(1,264회)로,
+  2위 안티그래비티(402회)의 3배 이상을 기록하며 압도적 우위를 점했다.
+  이는 커뮤니티의 명칭 자체가 '클로드 코드'를 포함하고 있다는 맥락을 감안하더라도,
+  Claude가 현 시점에서 한국 AI 코딩 생태계의 사실상 표준(de facto standard)으로
+  자리 잡았음을 보여주는 지표다.
+</p>
+
+<div class="data-table">
+  <div class="table-caption">주요 기술 키워드 출현 빈도 및 분류</div>
+  <table>
+    <thead>
+      <tr><th>순위</th><th>키워드</th><th style="text-align:right">빈도</th><th>비중</th><th>분류</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><strong>클로드 (Claude)</strong></td><td class="num">1,264</td><td class="num">29.8%</td><td><span class="tag tag-red">모델</span></td></tr>
+      <tr><td>2</td><td>안티그래비티 (AntiGravity)</td><td class="num">402</td><td class="num">9.5%</td><td><span class="tag tag-blue">도구</span></td></tr>
+      <tr><td>3</td><td>Codex</td><td class="num">394</td><td class="num">9.3%</td><td><span class="tag tag-blue">도구</span></td></tr>
+      <tr><td>4</td><td>Opus</td><td class="num">229</td><td class="num">5.4%</td><td><span class="tag tag-red">모델</span></td></tr>
+      <tr><td>5</td><td>GPT</td><td class="num">228</td><td class="num">5.4%</td><td><span class="tag tag-red">모델</span></td></tr>
+      <tr><td>6</td><td>API</td><td class="num">218</td><td class="num">5.1%</td><td><span class="tag tag-green">인프라</span></td></tr>
+      <tr><td>7</td><td>Gemini</td><td class="num">216</td><td class="num">5.1%</td><td><span class="tag tag-red">모델</span></td></tr>
+      <tr><td>8</td><td>토큰</td><td class="num">209</td><td class="num">4.9%</td><td><span class="tag tag-green">인프라</span></td></tr>
+      <tr><td>9</td><td>바이브코딩</td><td class="num">196</td><td class="num">4.6%</td><td><span class="tag tag-gray">방법론</span></td></tr>
+      <tr><td>10</td><td>맥북</td><td class="num">193</td><td class="num">4.6%</td><td><span class="tag tag-gray">하드웨어</span></td></tr>
+      <tr><td>11</td><td>Cursor</td><td class="num">126</td><td class="num">3.0%</td><td><span class="tag tag-blue">도구</span></td></tr>
+      <tr><td>12</td><td>프롬프트</td><td class="num">84</td><td class="num">2.0%</td><td><span class="tag tag-gray">방법론</span></td></tr>
+      <tr><td>13</td><td>MCP</td><td class="num">80</td><td class="num">1.9%</td><td><span class="tag tag-green">인프라</span></td></tr>
+      <tr><td>14</td><td>GitHub</td><td class="num">62</td><td class="num">1.5%</td><td><span class="tag tag-green">인프라</span></td></tr>
+      <tr><td>15</td><td>배포</td><td class="num">33</td><td class="num">0.8%</td><td><span class="tag tag-green">인프라</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 3.3 키워드 트렌드 -->
+<h3>3.3 키워드 시계열 변화: 모델 전쟁의 궤적</h3>
+
+<p>
+  가장 주목할 만한 시계열 변화는 <strong>Codex의 급부상</strong>이다.
+  1월에는 주당 4~15회에 불과하던 Codex 언급이, 2월 9일 주 95회, 2월 23일 주 107회,
+  3월 2일 주 <strong>108회</strong>로 급등하여 Claude(153회)와의 격차를 빠르게 좁혔다.
+  이는 OpenAI의 GPT-5.3 Codex 출시와 맞물린 현상으로, 한국 개발자들이
+  Codex를 Claude의 실질적 대안으로 평가하기 시작했음을 시사한다.
+  <span class="sidenote">
+    커뮤니티 내 평가에 따르면 Codex는 "디테일한 작업에 강하지만 넓은 범위를 보지 못하는"
+    특성이 있으며, Claude는 "말을 잘 듣고 시키는 대로 하는" 반면
+    Codex는 "자기 맘대로 판단을 더 하는" 스타일로 구분된다.
+  </span>
+</p>
+
+<p>
+  GPT 언급은 3월 첫째 주에 80회로 급등하여 전 기간 최고치를 기록했다.
+  이는 GPT-5.4 출시 소식과 관련된 것으로, 커뮤니티가 새로운 모델에 대해
+  신속하게 반응하는 패턴을 보여준다.
+</p>
+
+<div class="figure figure-wide">
+  <canvas id="kwTrendChart" height="280"></canvas>
+  <div class="figure-caption">상위 6개 키워드의 주간 언급 빈도 추이. Codex(주황)와 GPT(노랑)의 급격한 상승 곡선이 가장 두드러진다.</div>
+</div>
+
+
+<!-- 3.4 감성 분석 -->
+<h3>3.4 감성 분석: 커뮤니티의 정서적 온도</h3>
+
+<p>
+  전체 18,637건의 메시지 중 긍정 3,064건(16.4%), 부정 876건(4.7%), 중립 14,697건(78.9%)으로
+  분류되었다. 긍정 대 부정의 비율은 <strong>3.5:1</strong>로, 기술 커뮤니티로서
+  건강하고 협력적인 분위기가 유지되고 있음을 나타낸다.
+</p>
+
+<div class="figure">
+  <canvas id="sentPieChart" height="260"></canvas>
+  <div class="figure-caption">전체 메시지의 감성 분포. 긍정이 부정의 3.5배로, 전반적으로 건설적인 대화가 우세하다.</div>
+</div>
+
+<div class="figure figure-wide">
+  <canvas id="sentWeekChart" height="220"></canvas>
+  <div class="figure-caption">주간 긍정/부정 메시지 추이. 대화량이 급증하는 주간에 긍정과 부정이 모두 증가하나, 긍정 비율이 일관되게 높다.</div>
+</div>
+
+<p>
+  부정 감성은 주로 세 가지 맥락에서 발생한다: (1) 디버깅 실패 및 에러 발생,
+  (2) 토큰 제한(rate limit)으로 인한 작업 중단, (3) 새 모델의 기대 이하 성능.
+  특히 "리밋(limit)"이라는 단어가 빈번하게 등장하며, 토큰 소진과 사용량 제한이
+  현 시점에서 바이브코딩 실무자들의 가장 큰 불만 요인임을 보여준다.
+</p>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     4. DISCUSSION
+     ════════════════════════════════════════════════════════════ -->
+<h2><span class="section-num">4.</span> 논의: 네 가지 핵심 트렌드</h2>
+
+<div class="epigraph">
+  <blockquote>
+    "오퍼스로 계획을 세우고, 제미나이로 코딩하고, GPT로 검수한다."
+    <cite>&mdash; 커뮤니티 참여자 '건록', 멀티모델 전략을 설명하며</cite>
+  </blockquote>
+</div>
+
+<!-- Trend 1 -->
+<h3>4.1 Claude Opus의 지배적 위치와 구조적 한계</h3>
+
+<p>
+  Claude는 1,264회 언급으로 다른 모든 모델을 압도한다. 커뮤니티 참여자들은
+  Opus를 "복잡한 로직에서 놀라울 정도로 사고하는", "실수는 하지만 대체 불가"한
+  모델로 평가한다. 특히 계획(planning) 단계에서의 우수성이 반복적으로 언급된다.
+  <span class="sidenote">
+    "정말 복잡한 내용이 포함될 때 놀라울 정도로 복잡한 걸 훌륭히 사고해서
+    안내해 줍니다. 실수는 가끔 하더라도." &mdash; 탑데브/안티그래비티
+  </span>
+</p>
+
+<p>
+  그러나 두 가지 구조적 불만이 지속적으로 제기된다.
+  첫째, <strong>토큰 소진 속도</strong>. "4.6 되면서 왜 이리 녹는 느낌이지 토큰"이라는
+  발언이 상징하듯, Opus 4.6의 사고(thinking) 블록이 컨텍스트를 빠르게 소진시킨다.
+  둘째, <strong>가격 대비 제한(rate limit)</strong>. $200/월 Max 플랜에서도
+  주간 리밋에 도달하는 사례가 보고되며, 이는 개발자들이 대안 모델을
+  적극적으로 탐색하는 직접적 원인이 된다.
+</p>
+
+<!-- Trend 2 -->
+<h3>4.2 AntiGravity와 Codex의 부상: 도구 다변화의 시대</h3>
+
+<p>
+  2위와 3위를 차지한 안티그래비티(402회)와 Codex(394회)는 각각
+  Google 생태계와 OpenAI 생태계에서 Claude Code의 대안으로 부상한 CLI 도구다.
+</p>
+
+<p>
+  <strong>AntiGravity</strong>는 Google AI Ultra 구독($250/월)과 결합하여
+  Gemini 3.0 + Claude Opus를 동시에 사용할 수 있는 멀티모델 환경을 제공한다.
+  커뮤니티에서는 "스킬(Skills)", "오케스트레이션" 등의 고급 기능이 활발히 논의되며,
+  특히 Claude 토큰 소진 시 Gemini로 자동 전환되는 유연성이 높이 평가된다.
+  <span class="sidenote">
+    AntiGravity는 Claude Code의 CLAUDE.md, Hooks 같은 기능에 대응하는
+    Skills 시스템을 2026년 1월에 도입하여 기능 격차를 빠르게 좁히고 있다.
+  </span>
+</p>
+
+<p>
+  <strong>Codex</strong>는 특히 2월 이후 급격한 성장세를 보인다.
+  주간 언급이 1월의 4~15회에서 3월의 108회로 약 10배 증가했으며,
+  "디테일한 작업"에서의 강점과 GPT-5.3/5.4의 성능 향상이 주된 동인이다.
+  다만 "넓은 범위를 보지 못한다", "자기 맘대로 판단한다"는 한계도 동시에 지적된다.
+</p>
+
+<div class="data-table">
+  <div class="table-caption">주요 AI 코딩 도구 비교 (커뮤니티 담론 기반)</div>
+  <table>
+    <thead>
+      <tr><th>도구</th><th>기반 모델</th><th>강점 (커뮤니티 평가)</th><th>한계</th><th>언급 빈도</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Claude Code</strong></td>
+        <td>Opus 4.6</td>
+        <td>계획 수립, 복잡한 로직, 지시 이행률</td>
+        <td>토큰 소진, 가격, rate limit</td>
+        <td class="num">1,264</td>
+      </tr>
+      <tr>
+        <td><strong>AntiGravity</strong></td>
+        <td>Gemini 3.0 + Multi</td>
+        <td>멀티모델, Skills, 토큰 유연성</td>
+        <td>Opus 용량 제한, 응답 속도</td>
+        <td class="num">402</td>
+      </tr>
+      <tr>
+        <td><strong>Codex</strong></td>
+        <td>GPT-5.3/5.4</td>
+        <td>디테일 작업, 빠른 속도</td>
+        <td>넓은 범위 파악 부족, 독자적 판단</td>
+        <td class="num">394</td>
+      </tr>
+      <tr>
+        <td><strong>Cursor</strong></td>
+        <td>Multi</td>
+        <td>IDE 통합, GUI 편의성</td>
+        <td>CLI 대비 유연성 부족</td>
+        <td class="num">126</td>
+      </tr>
+      <tr>
+        <td>OpenCode</td>
+        <td>Multi (Zen)</td>
+        <td>무료 모델 접근, 클코 설정 공유</td>
+        <td>안정성, 보안 취약점 우려</td>
+        <td class="num">&mdash;</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Trend 3 -->
+<h3>4.3 멀티모델 오케스트레이션: 새로운 패러다임</h3>
+
+<p>
+  가장 주목할 만한 질적 변화는 <strong>단일 모델 의존에서 멀티모델 오케스트레이션으로의
+  전환</strong>이다. 커뮤니티의 파워유저들은 이미 목적별로 복수의 모델을 조합하는
+  워크플로우를 정립하고 있다.
+</p>
+
+<div class="callout callout-finding">
+  <h4>핵심 발견</h4>
+  <p>
+    커뮤니티에서 관찰된 대표적 멀티모델 전략은 다음과 같다:<br><br>
+    <strong>전략 A — Opus 중심 오케스트레이션:</strong>
+    Opus로 세션(계획)을 잡고, 실제 코딩은 Gemini나 Codex에 위임.
+    "세션만 오퍼스로 하시고 나머지는 다른 CLI나 AG 쓰셔요."<br><br>
+    <strong>전략 B — 교차 검증:</strong>
+    Opus로 코드를 작성한 후 GPT와 Gemini에게 검수를 맡김.
+    "오퍼스로 일시키고 결과물 GPT랑 제미나이한테 돌려보거든요. 검수하라고요."<br><br>
+    <strong>전략 C — 비용 최적화:</strong>
+    Opus는 복잡한 추론에만 사용하고, 단순 작업은 무료/저가 모델(GLM, OpenCode Zen)로 처리.
+    컨텍스트가 길어지면 저비용 모델을 중간에 삽입하여 토큰을 절약.
+  </p>
+</div>
+
+<p>
+  이러한 멀티모델 전략은 서브에이전트(sub-agent) 아키텍처로 확장되고 있다.
+  Claude Code의 서브에이전트 기능, AntiGravity의 오케스트레이션,
+  그리고 사용자 자체 구현한 스웜(Swarm) 방식이 논의되며,
+  "초기 기획만 Opus 4.6 쓰고, 깃 연동 같은 간단한 건 Gemini 2.5도 섞어 쓰는"
+  자동 모델 라우팅까지 실험되고 있다.
+</p>
+
+<!-- Trend 4 -->
+<h3>4.4 비개발자의 진입과 바이브코딩 민주화</h3>
+
+<p>
+  "비개발자", "비전공자"라는 키워드와 함께 바이브코딩의 접근성에 대한 논의가
+  활발하게 이루어지고 있다. "칼도마있으마/비개발자/클로드"와 같이 닉네임 자체에
+  '비개발자'를 명시한 참여자가 적극적으로 활동하며, 스킬 업데이트, API 연동,
+  에이전트 구축 등의 고급 주제까지 다루고 있다.
+  <span class="sidenote">
+    "바이브코딩으로 5가지 프로젝트 납품 결과 유지보수가 가능하면 살아남을 수 있어요."
+    &mdash; 비개발자 참여자의 실무 경험 공유. 비개발자가 실제 납품까지 수행하는
+    사례가 등장하고 있다는 점은 주목할 만하다.
+  </span>
+</p>
+
+<p>
+  다만 이 민주화에는 명확한 경계선도 존재한다. 커뮤니티 참여자들은
+  "CS와 SQL 개념을 잡아야 한다", "보안 검사를 반드시 받아야 한다",
+  "에이전트가 데이터를 지우거나 고치면 안 되는 걸 고쳐놓는" 위험성을
+  반복적으로 경고한다. 바이브코딩은 진입 장벽을 낮추되,
+  결과물의 품질 보증에는 여전히 기술적 리터러시가 필요하다는 것이
+  커뮤니티의 합의된 인식이다.
+</p>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     5. ACTIVE PARTICIPANTS
+     ════════════════════════════════════════════════════════════ -->
+<h2><span class="section-num">5.</span> 핵심 참여자 분석</h2>
+
+<p>
+  상위 15명의 참여자가 전체 메시지의 약 47%를 생성하며, 소수의 파워유저가
+  커뮤니티 담론을 주도하는 전형적인 멱법칙(power law) 분포를 보인다.
+</p>
+
+<div class="figure">
+  <canvas id="userChart" height="380"></canvas>
+  <div class="figure-caption">상위 15명 참여자의 메시지 빈도. 상위 3인이 전체의 24.3%를 차지하는 극단적 편중이 관찰된다.</div>
+</div>
+
+<div class="data-table">
+  <div class="table-caption">상위 참여자 프로필 및 주요 담론 기여</div>
+  <table>
+    <thead>
+      <tr><th>#</th><th>닉네임</th><th style="text-align:right">건수</th><th>주요 사용 도구</th><th>핵심 담론 기여</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Alfie/anti,cc</strong></td><td class="num">1,835</td><td>AntiGravity, CC</td><td>멀티모델 전략, OpenCode Zen, 오케스트레이션</td></tr>
+      <tr><td>2</td><td><strong>탑데브/안티그래비티</strong></td><td class="num">1,471</td><td>AntiGravity</td><td>에이전트 신뢰성, 워크플로우, AI 위험성</td></tr>
+      <tr><td>3</td><td><strong>몽키몽키</strong></td><td class="num">1,220</td><td>Claude Code</td><td>Opus 단독 사용 경험, 스웜 실험</td></tr>
+      <tr><td>4</td><td>편집자P</td><td class="num">559</td><td>CC, Cursor, Codex</td><td>도서 출판, 도구 비교 리뷰</td></tr>
+      <tr><td>5</td><td>코드팩토리 공장장</td><td class="num">301</td><td>Claude Code</td><td>커뮤니티 운영, 기술 가이드</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     6. CONCLUSION
+     ════════════════════════════════════════════════════════════ -->
+<h2><span class="section-num">6.</span> 결론</h2>
+
+<p>
+  2026년 1분기, AI 개발도구 생태계는 '단일 모델 시대'에서 '멀티모델 오케스트레이션 시대'로의
+  구조적 전환을 경험하고 있다. 본 분석에서 확인된 네 가지 핵심 트렌드를 종합하면 다음과 같다.
+</p>
+
+<div class="callout callout-insight">
+  <h4>핵심 결론</h4>
+  <p>
+    <strong>1. Claude Opus는 여전히 왕좌에 있으나, 왕좌는 흔들리고 있다.</strong>
+    언급 1,264회로 압도적 1위이나, 토큰 소진과 가격이라는 구조적 한계가
+    대안 도구 탐색의 직접적 동기가 되고 있다.<br><br>
+    <strong>2. Codex가 가장 빠르게 성장하는 도전자다.</strong>
+    주간 4회에서 108회로 급등한 언급 추이는 GPT-5.x 시대의 실질적 경쟁력을 반영한다.<br><br>
+    <strong>3. '어떤 모델을 쓸 것인가'에서 '어떻게 조합할 것인가'로 질문이 바뀌고 있다.</strong>
+    계획은 Opus, 코딩은 Gemini, 검수는 GPT라는 역할 분담 전략이 실무에서 확산 중이다.<br><br>
+    <strong>4. 바이브코딩은 비개발자에게 문을 열었으나, 열린 문 너머에는 여전히 학습이 있다.</strong>
+    진입 장벽은 극적으로 낮아졌지만, 보안, 디버깅, 아키텍처 이해의 필요성은 사라지지 않았다.
+  </p>
+</div>
+
+<p>
+  본 연구는 단일 커뮤니티의 카카오톡 대화라는 제한된 데이터에 기반하며,
+  규칙 기반 감성 분석의 정확도 한계가 존재한다. 향후 연구에서는
+  LLM 기반 의미 분석, 다수 커뮤니티 교차 분석, 그리고 실제 코드 품질과
+  도구 선택 간의 상관관계 분석이 보완될 필요가 있다.
+</p>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     APPENDIX: DATA METHODOLOGY NOTE
+     ════════════════════════════════════════════════════════════ -->
+<h2><span class="section-num">A.</span> 부록: 데이터 처리 노트</h2>
+
+<div class="data-table">
+  <div class="table-caption">데이터 파이프라인 요약</div>
+  <table>
+    <thead><tr><th>단계</th><th>방법</th><th>결과</th></tr></thead>
+    <tbody>
+      <tr><td>원본 데이터</td><td>KakaoTalk 대화 내보내기</td><td>36,329행, 2.2MB</td></tr>
+      <tr><td>파싱</td><td>Python 정규식 (날짜/사용자/시간/본문)</td><td>18,637건 메시지 추출</td></tr>
+      <tr><td>필터링</td><td>봇 메시지 제외, 시스템 알림 분리 집계</td><td>658 입장, 218 퇴장</td></tr>
+      <tr><td>키워드 분석</td><td>26개 카테고리 x 복수 패턴 매칭</td><td>4,242건 키워드 매치</td></tr>
+      <tr><td>감성 분석</td><td>규칙 기반 (긍정 35단어 / 부정 32단어)</td><td>긍정 16.4%, 부정 4.7%</td></tr>
+      <tr><td>시각화</td><td>Chart.js 4.4, Tufte-inspired HTML</td><td>본 보고서</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ── Footer ──────────────────────────────────────────────── -->
+<div class="footer">
+  <strong>AI 개발도구 생태계의 구조적 전환</strong> &mdash; 커뮤니티 담론 분석 보고서<br>
+  데이터: [코드팩토리] 바이브코딩 x 클로드 코드 (KakaoTalk, 2026.01.13&ndash;03.09)<br>
+  생성: Claude Code (Opus 4.6) &nbsp;|&nbsp; 2026-03-09<br>
+  분석 도구: Python 3.11, Chart.js 4.4 &nbsp;|&nbsp; 디자인: Tufte CSS 기반 타이포그래피
+</div>
+
+</article>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     CHARTS
+     ════════════════════════════════════════════════════════════ -->
+<script>
+// ── Chart.js Global ──────────────────────────────────────────
+Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+Chart.defaults.color = '#6a6a6a';
+Chart.defaults.borderColor = 'rgba(0,0,0,.06)';
+
+const C = {
+  ink: '#1a1a1a', muted: '#6a6a6a', rule: '#e0ddd5',
+  red: '#b5343a', blue: '#2a5a8a', blueL: '#3a7ab5',
+  green: '#2d6a4f', greenL: '#52b788',
+  orange: '#c05621', orangeL: '#dd6b20',
+  gold: '#9a6c1f', goldL: '#d69e2e',
+  purple: '#6b46c1', purpleL: '#805ad5',
+  teal: '#0d9488', tealL: '#14b8a6',
+};
+
+function tufteTicks(opts = {}) {
+  return {
+    grid: { color: 'rgba(0,0,0,.04)', drawBorder: false, ...opts.grid },
+    ticks: { font: { size: 10 }, padding: 4, ...opts.ticks },
+    ...opts.extra,
+  };
+}
+
+const noLegend = { plugins: { legend: { display: false } } };
+const cleanTooltip = {
+  plugins: {
+    tooltip: {
+      backgroundColor: '#fff',
+      titleColor: '#1a1a1a',
+      bodyColor: '#4a4a4a',
+      borderColor: '#e0ddd5',
+      borderWidth: 1,
+      cornerRadius: 3,
+      padding: 10,
+      bodyFont: { size: 12 },
+      titleFont: { size: 12, weight: '600' },
+    }
+  }
+};
+
+// ── Weekly ────────────────────────────────────────────────────
+new Chart(document.getElementById('weeklyChart'), {
+  type: 'bar',
+  data: {
+    labels: ['01/12','01/19','02/02','02/09','02/16','02/23','03/02','03/09'],
+    datasets: [{
+      data: [1501,1985,634,3855,1372,6255,2102,933],
+      backgroundColor: [1501,1985,634,3855,1372,6255,2102,933].map(v =>
+        v >= 5000 ? C.red + 'dd' : v >= 3000 ? C.red + '88' : C.red + '44'),
+      borderRadius: 2,
+      borderSkipped: false,
+      barPercentage: .7,
+    }]
+  },
+  options: {
+    responsive: true,
+    ...noLegend, ...cleanTooltip,
+    scales: {
+      y: tufteTicks(),
+      x: tufteTicks({ grid: { display: false }, extra: { border: { display: false } } }),
+    },
+    layout: { padding: { top: 12 } },
+  }
+});
+
+// ── Hourly ───────────────────────────────────────────────────
+const hourData = [1000,421,252,39,10,8,34,46,299,949,1032,891,856,1055,1585,1325,1928,2247,884,743,669,728,779,857];
+new Chart(document.getElementById('hourChart'), {
+  type: 'line',
+  data: {
+    labels: Array.from({length:24}, (_,i) => i + '시'),
+    datasets: [{
+      data: hourData,
+      borderColor: C.blue,
+      backgroundColor: C.blue + '0a',
+      fill: true,
+      tension: .35,
+      pointRadius: 2.5,
+      pointBackgroundColor: C.blue,
+      pointBorderWidth: 0,
+      borderWidth: 2,
+    }]
+  },
+  options: {
+    responsive: true,
+    ...noLegend, ...cleanTooltip,
+    scales: {
+      y: tufteTicks(),
+      x: tufteTicks({ grid: { display: false }, ticks: { font: { size: 9 }, maxRotation: 0 } }),
+    }
+  }
+});
+
+// ── DOW ──────────────────────────────────────────────────────
+new Chart(document.getElementById('dowChart'), {
+  type: 'bar',
+  data: {
+    labels: ['월','화','수','목','금','토','일'],
+    datasets: [{
+      data: [2485,4834,1787,4003,2583,893,2052],
+      backgroundColor: [2485,4834,1787,4003,2583,893,2052].map(v =>
+        v > 4000 ? C.blue + 'cc' : v > 2000 ? C.blue + '77' : C.blue + '44'),
+      borderRadius: 2,
+      borderSkipped: false,
+      barPercentage: .65,
+    }]
+  },
+  options: {
+    responsive: true,
+    indexAxis: 'y',
+    ...noLegend, ...cleanTooltip,
+    scales: {
+      x: tufteTicks(),
+      y: tufteTicks({ grid: { display: false } }),
+    }
+  }
+});
+
+// ── Keyword Trend ────────────────────────────────────────────
+const weeks = ['01/12','01/19','02/02','02/09','02/16','02/23','03/02','03/09'];
+const series = {
+  '클로드':     { data: [125,115,48,327,108,344,153,44], c: C.red },
+  '안티그래비티': { data: [23,61,10,88,18,130,49,23],    c: C.teal },
+  'Codex':      { data: [15,6,4,95,35,107,108,24],       c: C.orange },
+  'Opus':       { data: [28,16,7,64,19,65,23,7],         c: C.purple },
+  'GPT':        { data: [21,13,1,37,14,50,80,12],        c: C.gold },
+  'API':        { data: [50,13,8,53,18,38,31,7],         c: C.muted },
+};
+new Chart(document.getElementById('kwTrendChart'), {
+  type: 'line',
+  data: {
+    labels: weeks,
+    datasets: Object.entries(series).map(([name, s]) => ({
+      label: name,
+      data: s.data,
+      borderColor: s.c,
+      backgroundColor: s.c + '08',
+      fill: false,
+      tension: .3,
+      borderWidth: 2,
+      pointRadius: 3.5,
+      pointBackgroundColor: s.c,
+      pointBorderWidth: 0,
+    }))
+  },
+  options: {
+    responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    ...cleanTooltip,
+    plugins: {
+      ...cleanTooltip.plugins,
+      legend: {
+        position: 'top',
+        labels: { usePointStyle: true, pointStyle: 'circle', padding: 16, font: { size: 11 } }
+      }
+    },
+    scales: {
+      y: tufteTicks(),
+      x: tufteTicks({ grid: { display: false } }),
+    }
+  }
+});
+
+// ── Sentiment Pie ────────────────────────────────────────────
+new Chart(document.getElementById('sentPieChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['긍정 (16.4%)','부정 (4.7%)','중립 (78.9%)'],
+    datasets: [{
+      data: [3064, 876, 14697],
+      backgroundColor: [C.greenL + 'cc', C.red + 'aa', '#c8c8c0'],
+      borderWidth: 1,
+      borderColor: '#fffff8',
+      spacing: 2,
+    }]
+  },
+  options: {
+    responsive: true,
+    cutout: '58%',
+    plugins: {
+      ...cleanTooltip.plugins,
+      legend: {
+        position: 'bottom',
+        labels: { usePointStyle: true, padding: 14, font: { size: 11 } }
+      }
+    }
+  }
+});
+
+// ── Sentiment Weekly ─────────────────────────────────────────
+const sentW = [
+  {w:'01/12',p:266,n:73},{w:'01/19',p:394,n:91},{w:'02/02',p:115,n:28},
+  {w:'02/09',p:591,n:183},{w:'02/16',p:242,n:65},{w:'02/23',p:982,n:293},
+  {w:'03/02',p:327,n:87},{w:'03/09',p:147,n:56}
+];
+new Chart(document.getElementById('sentWeekChart'), {
+  type: 'bar',
+  data: {
+    labels: sentW.map(s => s.w),
+    datasets: [
+      { label: '긍정', data: sentW.map(s=>s.p), backgroundColor: C.greenL+'88', borderRadius: 2, barPercentage: .6 },
+      { label: '부정', data: sentW.map(s=>s.n), backgroundColor: C.red+'88', borderRadius: 2, barPercentage: .6 },
+    ]
+  },
+  options: {
+    responsive: true,
+    ...cleanTooltip,
+    plugins: {
+      ...cleanTooltip.plugins,
+      legend: {
+        position: 'top',
+        labels: { usePointStyle: true, padding: 12, font: { size: 11 } }
+      }
+    },
+    scales: {
+      x: tufteTicks({ grid: { display: false } }),
+      y: tufteTicks(),
+    }
+  }
+});
+
+// ── User Bar Chart ───────────────────────────────────────────
+const users = [
+  ['Alfie/anti,cc',1835],['탑데브/안티그래비티',1471],['몽키몽키',1220],
+  ['편집자P',559],['Lukaid',309],['코드팩토리 공장장',301],
+  ['라율/안티코덱스',270],['데부부/클로드코드',251],['헬로/Codex',225],
+  ['좋은날/작아서',219],['뚱이/개발자',219],['엉엉 우는 어피치',205],
+  ['옐로카드 프로도',204],['건록',189],['ASIC/클로드코드',182]
+];
+new Chart(document.getElementById('userChart'), {
+  type: 'bar',
+  data: {
+    labels: users.map(u=>u[0]),
+    datasets: [{
+      data: users.map(u=>u[1]),
+      backgroundColor: users.map((_,i) =>
+        i < 3 ? C.red + (i===0?'cc':i===1?'99':'66') : C.blue + '44'),
+      borderRadius: 2,
+      borderSkipped: false,
+      barPercentage: .7,
+    }]
+  },
+  options: {
+    responsive: true,
+    indexAxis: 'y',
+    ...noLegend, ...cleanTooltip,
+    scales: {
+      x: tufteTicks(),
+      y: tufteTicks({ grid: { display: false }, ticks: { font: { size: 10 } } }),
+    },
+    layout: { padding: { right: 12 } },
+  }
+});
+</script>
+
+</body>
+</html>

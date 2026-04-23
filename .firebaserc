@@ -1,5 +1,18 @@
 {
   "projects": {
     "default": "swdp-seminar-dashboard"
-  }
+  },
+  "targets": {
+    "swdp-seminar-dashboard": {
+      "hosting": {
+        "default": [
+          "swdp-seminar-dashboard"
+        ],
+        "agent": [
+          "ai-agent-edu"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

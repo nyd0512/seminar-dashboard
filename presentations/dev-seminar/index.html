@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<title>AI 개발 도구 Hands-on 세미나</title>
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&family=Figtree:wght@300;400;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<script defer src="https://unpkg.com/@phosphor-icons/web"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{overflow:hidden;width:100%;height:100%}
+body{font-family:'Noto Sans KR',sans-serif;background:#000;color:#fff;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.slides{display:flex;transition:none}
+.slide{width:100vw;min-width:100vw;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:4vh 6vw;position:relative;overflow:hidden;background:#0D0D0D}
+.slide>*{position:relative;z-index:1;flex-shrink:0}
+.slide.surface,.slide.in-blue,.slide.in-indigo,.slide.in-violet,.slide.in-rose,.slide.in-mint,.slide.in-cyan,.slide.in-amber,.slide.in-orange,.slide.in-navy,.slide.in-teal{background:#0D0D0D}
+.slide.samsung{background:#0D0D0D}
+.slide.blue,.slide.navy,.slide.indigo,.slide.violet,.slide.rose,.slide.mint,.slide.teal,.slide.cyan,.slide.amber,.slide.orange{background:#0D0D0D}
+.slide.light{background:#F0F4FF;color:#0C0F1E}.slide.light .sub{color:#3A4A6A}
+h1{font-family:'Figtree','Noto Sans KR',sans-serif;font-size:clamp(3.5rem,6vw,6rem);font-weight:900;text-align:center;line-height:1.18;letter-spacing:-0.03em;color:#fff;padding-bottom:4px}
+h2{font-family:'Figtree','Noto Sans KR',sans-serif;font-size:clamp(2.4rem,4.2vw,4rem);font-weight:900;text-align:center;line-height:1.15;letter-spacing:-0.02em}
+h3{margin:0;font-size:clamp(0.9rem,1.2vw,1.1rem);font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:3vh}
+.sub{font-size:clamp(1.35rem,2vw,2rem);color:rgba(255,255,255,0.55);margin-top:2vh;text-align:center;line-height:1.5;font-weight:300}
+.sub strong{color:#fff;font-weight:700}
+.em{color:#60a5fa}.accent{color:#60a5fa}.red{color:#fca5a5}.green{color:#34d399}.yellow{color:#fbbf24}
+.meta{margin-top:2vh;font-size:0.8rem;color:rgba(255,255,255,0.55);font-weight:400;letter-spacing:0.18em;text-transform:uppercase}
+.comp{display:flex;gap:0;width:100%;max-width:1100px;margin:3vh 0;align-items:stretch}
+.comp-item{padding:4vh 3vw;text-align:center;flex:1;border-right:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px}
+.comp-item:last-child{border-right:none}
+.comp-item.on,.comp-item.green-on,.comp-item.yellow-on,.comp-item.red-on{background:transparent}
+.comp-item .tag{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.18em;color:rgba(255,255,255,0.45);font-weight:400}
+.comp-item.on .tag{color:rgba(255,255,255,0.4)}
+.comp-item p{font-size:clamp(1.05rem,1.4vw,1.3rem);font-weight:300;line-height:1.5;color:rgba(255,255,255,0.7)}
+.comp-item p strong{color:#fff;font-weight:700}
+.list{list-style:none;max-width:80vw;width:100%;margin:0 auto}
+.list li{font-size:clamp(1.15rem,1.7vw,1.5rem);padding:1.8vh 0;border-bottom:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.6);font-weight:300;line-height:1.5;text-align:center}
+.list li:last-child{border-bottom:none}
+.list strong{color:#fff;font-weight:700}
+.grid{display:flex;gap:0;margin-top:3vh;width:100%;max-width:1100px;align-items:stretch}
+.grid-item{padding:3vh 2.5vw;text-align:center;flex:1;border-right:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;justify-content:center;align-items:center}
+.grid-item:last-child{border-right:none}
+.grid-item .name{font-size:clamp(1.1rem,1.4vw,1.35rem);font-weight:700;margin-bottom:8px;color:#fff}
+.grid-item .desc{font-size:clamp(0.85rem,1.1vw,1rem);color:rgba(255,255,255,0.5);font-weight:300;line-height:1.7}
+blockquote{font-size:clamp(1.8rem,3.2vw,2.6rem);font-weight:300;max-width:780px;text-align:center;line-height:1.6;color:rgba(255,255,255,0.85);letter-spacing:-0.01em}
+cite{display:block;margin-top:24px;font-size:0.78rem;color:rgba(255,255,255,0.55);font-style:normal;letter-spacing:0.15em;text-transform:uppercase}
+.note{padding:1.4vh 2.5vw;margin-top:3vh;max-width:82vw;display:flex;align-items:center;gap:12px}
+.note.warn{border-left:2px solid rgba(255,255,255,0.2);background:transparent}.note.warn p{color:rgba(255,255,255,0.55);font-size:clamp(0.9rem,1.1vw,1.05rem);font-weight:300}
+.note.tip{border-left:2px solid rgba(96,165,250,0.4);background:transparent}.note.tip p{color:rgba(255,255,255,0.55);font-size:clamp(0.9rem,1.1vw,1.05rem);font-weight:300}
+.pipeline{display:flex;align-items:center;gap:0;margin:3vh 0;flex-wrap:nowrap}
+.pipeline-step{padding:1.4vh 2.4vw;font-size:clamp(0.85rem,1.1vw,1rem);font-weight:300;text-align:center;color:rgba(255,255,255,0.5);white-space:nowrap}
+.pipeline-step.on{color:#fff;font-weight:700}
+.pipeline-arrow{color:rgba(255,255,255,0.3);font-size:1rem;padding:0 4px}
+.tbl{margin-top:2vh;border-collapse:collapse;max-width:82vw}
+.tbl th,.tbl td{padding:1.2vh 2vw;text-align:left;border-bottom:1px solid rgba(255,255,255,0.06)}
+.tbl th{color:rgba(255,255,255,0.4);font-weight:400;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase}
+.tbl td{font-size:clamp(1rem,1.3vw,1.2rem);color:rgba(255,255,255,0.55)}
+.tbl td strong{color:#fff}
+.stat-grid{display:flex;gap:0;width:100%;max-width:1100px;margin-top:3vh}
+.stat-card{flex:1;text-align:center;padding:0 2vw;border-right:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px}
+.stat-card:last-child{border-right:none}
+.stat-card.on,.stat-card.green-on,.stat-card.yellow-on,.stat-card.red-on{background:transparent}
+.stat-card .label{font-size:0.75rem;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:1.2vh}
+.stat-card .value{font-family:'Figtree',sans-serif;font-size:clamp(2.5rem,5vw,4.5rem);font-weight:900;letter-spacing:-0.04em;line-height:1.1;color:#fff;margin-bottom:6px;padding-bottom:2px}
+.stat-card .source{font-size:0.78rem;color:rgba(255,255,255,0.55);letter-spacing:0.05em}
+.arch-layers{display:flex;flex-direction:column;gap:0;width:100%;max-width:780px;margin-top:3vh}
+.arch-layer{display:flex;align-items:center;gap:2vw;padding:2.5vh 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.arch-layer:last-child{border-bottom:none}
+.arch-layer.on{border-bottom-color:rgba(96,165,250,0.2)}
+.arch-layer .role{width:auto;min-width:40px;margin-right:1.5vw;font-size:0.78rem;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.12em;text-align:left}
+.arch-layer .brand{flex:1;font-size:clamp(1.1rem,1.4vw,1.35rem);font-weight:700;color:#fff;text-align:left}
+.arch-layer .desc{flex-shrink:0;font-size:clamp(0.85rem,1.1vw,1rem);color:rgba(255,255,255,0.5);text-align:right;font-weight:300}
+.two-col{display:flex;gap:4vw;width:100%;max-width:1100px;margin-top:3vh}
+.two-col .col{flex:1;text-align:left}
+.impact-text{font-family:'Figtree','Noto Sans KR',sans-serif;font-size:clamp(3rem,5.5vw,5.5rem);font-weight:900;line-height:1.2;letter-spacing:-0.03em;text-align:center;color:#fff;padding-bottom:4px}
+.impact-sub{font-size:clamp(1.25rem,1.8vw,1.8rem);font-weight:300;color:rgba(255,255,255,0.55);margin-top:2vh;text-align:center;letter-spacing:-0.01em;line-height:1.5}
+.impact-sub strong{color:#fff;font-weight:700}
+.formula{font-family:'Figtree',sans-serif;font-size:clamp(1.5rem,3vw,2.4rem);font-weight:700;letter-spacing:0.02em}
+.stat{text-align:center}.stat .number{font-family:'Figtree',sans-serif;font-size:clamp(5rem,12vw,11rem);font-weight:900;letter-spacing:-0.05em;line-height:0.9;color:#fff}.stat .label{font-size:clamp(0.85rem,1.1vw,1rem);color:rgba(255,255,255,0.4);margin-top:1.5vh;font-weight:300;letter-spacing:0.1em}
+kbd{display:inline-block;padding:2px 8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:0.88em;color:rgba(255,255,255,0.7)}
+.nav{position:fixed;bottom:28px;left:44px;display:flex;gap:6px;z-index:100}
+.nav button{width:36px;height:36px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.45);font-size:14px;cursor:pointer;border-radius:50%;transition:all 0.18s}
+.nav button:hover{background:rgba(255,255,255,0.14);color:#fff}
+.nav button:focus-visible{outline:2px solid #60a5fa;outline-offset:2px}
+.part-label{position:fixed;top:28px;left:44px;font-size:0.7rem;color:rgba(255,255,255,0.15);letter-spacing:0.14em;text-transform:uppercase;font-weight:400;z-index:100}
+.page-num{position:fixed;bottom:32px;right:44px;font-size:0.7rem;color:rgba(255,255,255,0.3);letter-spacing:0.1em;font-family:'Figtree',sans-serif;z-index:100}
+.progress{position:fixed;top:0;left:0;height:1px;background:rgba(255,255,255,0.3);z-index:200;transition:none}
+.slide:focus-visible{outline:none}
+@media(max-width:768px){.slide{padding:6vh 6vw 80px}.comp,.grid,.stat-grid{flex-direction:column;gap:0}.comp-item,.stat-card{border-right:none;border-bottom:1px solid rgba(255,255,255,0.06);padding:2vh 0}.comp-item:last-child,.stat-card:last-child{border-bottom:none}.arch-layers{gap:0}.arch-layer{flex-direction:column;align-items:flex-start;padding:1.5vh 0;gap:4px}.arch-layer .role{width:auto;margin-bottom:2px}.arch-layer .desc{text-align:left}.two-col{flex-direction:column;gap:2vh}.tbl{display:block;overflow-x:auto}.nav{left:20px;bottom:20px}.pipeline{flex-wrap:wrap;gap:0}}
+@media print{body{background:#fff;color:#000;overflow:visible}.nav,.progress,.part-label,.page-num{display:none}.slides{display:block}.slide{min-height:auto;page-break-after:always;background:#fff!important;color:#000!important;padding:2cm}.em,.red,.green,.yellow{color:#000!important}.sub{color:#333!important}}
+@media(prefers-reduced-motion:reduce){.nav button{transition:none}}
+
+/* ===== VISIBILITY OVERRIDE (2026-04-14 v3) — 회색 가시성 추가 상향 ===== */
+html{font-size:117%}
+.meta{font-size:0.92rem!important;color:rgba(255,255,255,0.85)!important}
+.part-label{font-size:0.78rem!important;color:rgba(255,255,255,0.78)!important}
+.page-num{font-size:0.78rem!important;color:rgba(255,255,255,0.8)!important}
+cite{font-size:0.88rem!important;color:rgba(255,255,255,0.82)!important}
+.tbl th{font-size:0.85rem!important;color:rgba(255,255,255,0.85)!important}
+.tbl td{font-size:clamp(1rem,1.2vw,1.15rem)!important;color:rgba(255,255,255,0.93)!important}
+.comp-item .tag{font-size:0.85rem!important;color:rgba(255,255,255,0.88)!important}
+.comp-item p{color:rgba(255,255,255,0.95)!important}
+.grid-item .desc{font-size:clamp(0.92rem,1.1vw,1rem)!important;color:rgba(255,255,255,0.88)!important}
+.arch-layer .role{font-size:0.88rem!important;color:rgba(255,255,255,0.88)!important}
+.arch-layer .desc{font-size:1rem!important;color:rgba(255,255,255,0.92)!important}
+.stat-card .label{font-size:0.85rem!important;color:rgba(255,255,255,0.92)!important}
+.stat-card .source{font-size:0.85rem!important;color:rgba(255,255,255,0.82)!important}
+.sub{color:rgba(255,255,255,0.93)!important}
+.note.warn p,.note.tip p{font-size:clamp(0.98rem,1.2vw,1.12rem)!important;color:rgba(255,255,255,0.92)!important}
+.list li{font-size:clamp(1.2rem,1.8vw,1.55rem)!important;color:rgba(255,255,255,0.95)!important}
+.pipeline-step{font-size:clamp(0.95rem,1.2vw,1.1rem)!important;color:rgba(255,255,255,0.88)!important}
+/* 인라인 낮은 opacity 회색 일괄 상향 */
+[style*="rgba(255,255,255,0.25)"]{color:rgba(255,255,255,0.8)!important}
+[style*="rgba(255,255,255,0.3)"]{color:rgba(255,255,255,0.82)!important}
+[style*="rgba(255,255,255,0.35)"]{color:rgba(255,255,255,0.85)!important}
+[style*="rgba(255,255,255,0.4)"]{color:rgba(255,255,255,0.87)!important}
+[style*="rgba(255,255,255,0.45)"]{color:rgba(255,255,255,0.88)!important}
+[style*="rgba(255,255,255,0.5)"]{color:rgba(255,255,255,0.9)!important}
+[style*="rgba(255,255,255,0.55)"]{color:rgba(255,255,255,0.92)!important}
+[style*="rgba(255,255,255,0.6)"]{color:rgba(255,255,255,0.93)!important}
+[style*="rgba(255,255,255,0.65)"]{color:rgba(255,255,255,0.95)!important}
+[style*="rgba(255,255,255,0.7)"]{color:rgba(255,255,255,0.96)!important}
+/* ===== BACK HALF VISIBILITY BUMP (2026-04-15 v4) — 뒷단 폰트·가독성 상향 ===== */
+.arch-layer .brand{font-size:clamp(1.15rem,1.5vw,1.38rem)!important;color:#fff!important}
+.arch-layer .desc{font-size:clamp(1rem,1.2vw,1.15rem)!important;line-height:1.5!important}
+.comp-item p{font-size:clamp(1.1rem,1.5vw,1.4rem)!important;line-height:1.55!important}
+.stat-card .source{font-size:clamp(0.82rem,1vw,0.95rem)!important;color:rgba(255,255,255,0.88)!important}
+.tbl td{font-size:clamp(1rem,1.3vw,1.2rem)!important;color:rgba(255,255,255,0.95)!important}
+.tbl th{font-size:clamp(0.82rem,1vw,0.95rem)!important;color:rgba(255,255,255,0.9)!important}
+.grid-item .name{font-size:clamp(1.2rem,1.5vw,1.5rem)!important}
+.grid-item .desc{font-size:clamp(1rem,1.2vw,1.15rem)!important;color:rgba(255,255,255,0.92)!important}
+.note.warn p,.note.tip p{font-size:clamp(1.05rem,1.3vw,1.2rem)!important;color:rgba(255,255,255,0.95)!important}
+h3{font-size:clamp(1rem,1.35vw,1.25rem)!important;color:rgba(255,255,255,0.78)!important}
+/* ===== SECTION ACCENT COLORS (2026-04-15) — 섹션별 em 강조색 통일 ===== */
+.slide.rose .em, .slide.in-rose .em { color:#fca5a5 !important }
+.slide.mint .em, .slide.in-mint .em { color:#34d399 !important }
+.slide.indigo .em, .slide.in-indigo .em { color:#818cf8 !important }
+.slide.cyan .em, .slide.in-cyan .em { color:#22d3ee !important }
+.slide.amber .em, .slide.in-amber .em { color:#fbbf24 !important }
+.slide.violet .em, .slide.in-violet .em { color:#a78bfa !important }
+.slide.teal .em, .slide.in-teal .em { color:#2dd4bf !important }
+.slide.blue .em, .slide.in-blue .em { color:#60a5fa !important }
+.slide.orange .em, .slide.in-orange .em { color:#fb923c !important }
+/* 섹션 컬러가 .sub strong 에도 은은히 반영 */
+.slide.rose h1, .slide.mint h1, .slide.indigo h1, .slide.cyan h1,
+.slide.amber h1, .slide.violet h1, .slide.teal h1, .slide.blue h1 { position:relative }
+.slide.rose h1::after { content:""; display:block; width:48px; height:3px; background:#fca5a5; margin:2vh auto 0; border-radius:2px }
+.slide.mint h1::after { content:""; display:block; width:48px; height:3px; background:#34d399; margin:2vh auto 0; border-radius:2px }
+.slide.indigo h1::after { content:""; display:block; width:48px; height:3px; background:#818cf8; margin:2vh auto 0; border-radius:2px }
+.slide.cyan h1::after { content:""; display:block; width:48px; height:3px; background:#22d3ee; margin:2vh auto 0; border-radius:2px }
+.slide.amber h1::after { content:""; display:block; width:48px; height:3px; background:#fbbf24; margin:2vh auto 0; border-radius:2px }
+.slide.violet h1::after { content:""; display:block; width:48px; height:3px; background:#a78bfa; margin:2vh auto 0; border-radius:2px }
+.slide.teal h1::after { content:""; display:block; width:48px; height:3px; background:#2dd4bf; margin:2vh auto 0; border-radius:2px }
+.slide.blue h1::after { content:""; display:block; width:48px; height:3px; background:#60a5fa; margin:2vh auto 0; border-radius:2px }
+.slide.orange h1::after { content:""; display:block; width:48px; height:3px; background:#fb923c; margin:2vh auto 0; border-radius:2px }
+/* 포인트 em 가독성 */
+.em{font-weight:700}
+.slide.light .em{font-weight:800}
+
+</style>
+</head>
+<body>
+<div class="part-label" id="partLabel">AI 세미나 · 2026. 4</div>
+<div class="progress" id="progress"></div>
+<div class="slides" id="slides">
+
+<!-- ══ OPENING (1-3) ══ -->
+
+<!-- S01 Cover -->
+<div class="slide samsung">
+  <h1>AI 개발 도구<br>Hands-on</h1>
+  <p class="sub">에이전트 &middot; 컨텍스트 엔지니어링 &middot; 실습</p>
+  <p class="meta" style="margin-top:4vh; color:rgba(255,255,255,0.55);">S/W개발팀 SE &middot; 김학민 &middot; 2026. 4</p>
+</div>
+
+<!-- S02 프로그램 구성 -->
+<div class="slide surface">
+  <h2 style="font-size:clamp(1.9rem,3.2vw,2.7rem);">프로그램 구성</h2>
+  <p class="sub" style="margin-top:0.5vh; font-size:clamp(1rem,1.3vw,1.2rem); color:rgba(255,255,255,0.65);">Part A 맥락 &middot; Part B Claude Code 심화 &middot; Part C Hands-on Labs</p>
+  <div style="display:grid;grid-template-columns:52px 1fr auto;column-gap:2vw;row-gap:0;width:100%;max-width:920px;margin-top:3vh;">
+    <span style="font-size:0.78rem;color:rgba(255,255,255,0.4);letter-spacing:0.15em;padding:1.4vh 0;border-bottom:1px solid rgba(255,255,255,0.06);">A1</span>
+    <span style="font-size:1.2rem;font-weight:700;color:#fff;padding:1.4vh 0;border-bottom:1px solid rgba(255,255,255,0.06);">시장 반응 &middot; 업계 기준선</span>
+    <span style="font-size:0.95rem;color:rgba(255,255,255,0.75);font-weight:300;padding:1.4vh 0;border-bottom:1px solid rgba(255,255,255,0.06);text-align:right;">SaaSpocalypse &middot; DORA &middot; DX Core 4</span>
+    <span style="font-size:0.78rem;color:rgba(255,255,255,0.4);letter-spacing:0.15em;padding:1.4vh 0;border-bottom:1px solid rgba(255,255,255,0.06);">A2</span>
+    <span style="font-size:1.2rem;font-weight:700;color:#fff;padding:1.4vh 0;border-bottom:1px solid rgba(255,255,255,0.06);">Model &ne; Agent</span>
+    <span style="font-size:0.95rem;color:rgba(255,255,255,0.75);font-weight:300;padding:1.4vh 0;border-bottom:1px solid rgba(255,255,255,0.06);text-align:right;">개념 &middot; 성능 공식 &middot; 패러다임 전환</span>
+    <span style="font-size:0.78rem;color:rgba(255,255,255,0.4);letter-spacing:0.15em;padding:1.4vh 0;border-bottom:1px solid rgba(255,255,255,0.06);">A3</span>
+    <span style="font-size:1.2rem;font-weight:700;color:#fff;padding:1.4vh 0;border-bottom:1px solid rgba(255,255,255,0.06);">인프라 &middot; 역할 변화</span>
+    <span style="font-size:0.95rem;color:rgba(255,255,255,0.75);font-weight:300;padding:1.4vh 0;border-bottom:1px solid rgba(255,255,255,0.06);text-align:right;">메모리 병목 &middot; Addy Osmani &middot; 인지 소진</span>
+    <span style="font-size:0.78rem;color:#22d3ee;letter-spacing:0.15em;padding:1.4vh 0;border-bottom:1px solid rgba(34,211,238,0.22);">B1</span>
+    <span style="font-size:1.2rem;font-weight:700;color:#22d3ee;padding:1.4vh 0;border-bottom:1px solid rgba(34,211,238,0.22);">Claude Code 개요 &middot; Agent Loop</span>
+    <span style="font-size:0.95rem;color:rgba(34,211,238,0.85);font-weight:300;padding:1.4vh 0;border-bottom:1px solid rgba(34,211,238,0.22);text-align:right;">설치 &middot; 명령어 &middot; Plan &middot; Tool use</span>
+    <span style="font-size:0.78rem;color:#22d3ee;letter-spacing:0.15em;padding:1.4vh 0;border-bottom:1px solid rgba(34,211,238,0.22);">B2</span>
+    <span style="font-size:1.2rem;font-weight:700;color:#22d3ee;padding:1.4vh 0;border-bottom:1px solid rgba(34,211,238,0.22);">Context Engineering &middot; Multi-agent</span>
+    <span style="font-size:0.95rem;color:rgba(34,211,238,0.85);font-weight:300;padding:1.4vh 0;border-bottom:1px solid rgba(34,211,238,0.22);text-align:right;">CLAUDE.md &middot; Rules &middot; Teams &middot; MCP</span>
+    <span style="font-size:0.78rem;color:#22d3ee;letter-spacing:0.15em;padding:1.4vh 0;border-bottom:1px solid rgba(34,211,238,0.22);">B3</span>
+    <span style="font-size:1.2rem;font-weight:700;color:#22d3ee;padding:1.4vh 0;border-bottom:1px solid rgba(34,211,238,0.22);">실전 워크플로 &middot; Harness</span>
+    <span style="font-size:0.95rem;color:rgba(34,211,238,0.85);font-weight:300;padding:1.4vh 0;border-bottom:1px solid rgba(34,211,238,0.22);text-align:right;">TDD &middot; PR 리뷰 &middot; Worktree &middot; 프롬프팅</span>
+    <span style="font-size:0.78rem;color:#22d3ee;letter-spacing:0.15em;padding:1.4vh 0;">B4</span>
+    <span style="font-size:1.2rem;font-weight:700;color:#22d3ee;padding:1.4vh 0;">운영 &middot; 비용 &middot; 실천</span>
+    <span style="font-size:0.95rem;color:rgba(34,211,238,0.85);font-weight:300;padding:1.4vh 0;text-align:right;">A/B/C 프레임워크 &middot; 비용 &middot; Takeaway</span>
+  </div>
+</div>
+
+<!-- S03 왜 지금 이 이야기를? — dev 재서술 -->
+<div class="slide">
+  <p class="impact-text">자동완성 &rarr; 대화 &rarr; <span class="em">에이전트</span> &rarr; 팀</p>
+  <p class="impact-sub" style="margin-top:3vh;">지난 1년, 개발 도구의 축이 매년 하나씩 이동했습니다</p>
+</div>
+
+<!-- ══ SECTION 01: 시장이 말하는 것 (4-9) ══ -->
+
+<!-- S04 섹션 구분: 시장이 말하는 것 -->
+<div class="slide rose">
+  <p class="meta" style="color:rgba(255,255,255,0.4);">SECTION 01</p>
+  <h1>시장이 말하는 것</h1>
+  <p class="sub"><span class="em">SaaSpocalypse</span> &mdash; SaaS(구독형 소프트웨어) + Apocalypse</p>
+</div>
+
+<!-- S05 SaaSpocalypse Chart -->
+<div class="slide">
+  <h3>SaaSpocalypse &mdash; 시장의 즉각적 반응</h3>
+  <div class="two-col" style="max-width:1040px; align-items:center; margin-top:4vh; gap:4vw;">
+    <div class="col" style="flex:1.3; display:flex; flex-direction:column;">
+      <div style="flex:1; display:flex; justify-content:center; align-items:center;">
+        <img src="../assets/images/saaspocalypse-chart.png" alt="S&amp;P 500 vs Software Sector (IGV)" style="width:100%; max-height:46vh; object-fit:contain;">
+      </div>
+      <p style="text-align:center; margin-top:10px; font-size:0.88rem; color:rgba(255,255,255,0.5); font-weight:500;">S&amp;P 500 vs Software Sector(IGV) 디커플링 <span style="color:rgba(255,255,255,0.3); font-size:0.78rem;">— 2025.10 고점 대비</span></p>
+    </div>
+    <div class="col" style="flex:1; display:flex; flex-direction:column; gap:14px;">
+      <div class="comp-item on" style="flex:1; padding:22px 24px;">
+        <div class="tag">Salesforce &middot; Workday 등 대형 SaaS</div>
+        <p style="font-size:1.7rem;">하루 시총 큰 폭 하락</p>
+      </div>
+      <div class="comp-item on" style="flex:1; padding:20px 24px;">
+        <div class="tag">소프트웨어 섹터 분위기</div>
+        <p style="font-size:1.5rem;">AI 자동화가 좌석 라이선스에 압력</p>
+      </div>
+      <div class="comp-item on" style="flex:1; padding:20px 24px;">
+        <div class="tag">전제의 재검토</div>
+        <p style="font-size:1.5rem;">직원 ≠ 라이선스</p>
+      </div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:3vh;">AI Agent가 <span class="em">사람이 직접 쓰고 판단을 내리는 도구</span>가 되자, 중간 소프트웨어가 흔들렸습니다</p>
+</div>
+
+<!-- S06 피처폰 vs 스마트폰 -->
+<div class="slide">
+  <div style="display:flex; gap:4vw; align-items:center; justify-content:center; margin:6vh 0; width:100%;">
+    <div style="text-align:center; color:rgba(255,255,255,0.4); border:1px solid rgba(255,255,255,0.12); padding:40px 30px; border-radius:4px; width:240px;">
+      <i class="ph ph-device-mobile" style="font-size:5rem; margin-bottom:1rem;"></i>
+      <p style="font-size:1.1rem; font-weight:500;">제한된 기능<br>(피처폰)</p>
+    </div>
+    <div style="font-size:2.5rem; color:rgba(255,255,255,0.1);"><i class="ph-bold ph-x"></i></div>
+    <div style="text-align:center; color:#60a5fa; border:1px solid rgba(96,165,250,0.3); padding:40px 30px; border-radius:4px; width:240px;">
+      <i class="ph-fill ph-device-mobile" style="font-size:5rem; margin-bottom:1rem;"></i>
+      <p style="font-size:1.1rem; font-weight:700; color:#FFF;">무한한 확장성<br>(스마트폰)</p>
+    </div>
+  </div>
+  <p class="sub">1년 사이 모델 성능이 크게 달라져서, <span class="em">예전 경험 기준</span>으로는 현재 상황을 가늠하기 어려운 구간입니다</p>
+</div>
+
+<!-- S07 개발 업무 전반 적용 -->
+<div class="slide in-rose">
+  <h3>개발 업무 전반에 확산</h3>
+  <div class="comp" style="margin-top:2vh;">
+    <div class="comp-item on">
+      <div class="tag">구현</div>
+      <p>기능 개발 &middot; 리팩터링<br>보일러플레이트 제거</p>
+    </div>
+    <div class="comp-item on">
+      <div class="tag">품질</div>
+      <p>PR 리뷰 &middot; 테스트 생성<br>엣지 케이스 탐색</p>
+    </div>
+    <div class="comp-item on">
+      <div class="tag">디버깅</div>
+      <p>재현 &middot; 원인 분석<br>가설 경쟁</p>
+    </div>
+    <div class="comp-item on">
+      <div class="tag">운영</div>
+      <p>로그 분석 &middot; 장애 대응<br>문서화 &middot; 온콜 보조</p>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">단순 코드 생성이 아니라 <span class="em">개발 사이클 전반</span>에 AI가 스며드는 구조</p>
+</div>
+
+<!-- S09 Jensen Huang Quote -->
+<div class="slide in-rose">
+  <blockquote>"자연어가 새로운 프로그래밍 언어가 되고 있고, <span class="em">더 많은 사람이</span> 기계와 직접 대화한다"</blockquote>
+  <cite>&mdash; Jensen Huang, NVIDIA CEO</cite>
+  <p class="sub" style="margin-top:4vh;">셸 명령 대신 <span class="em">의도</span>로 컴퓨터를 조작하는 시대 &mdash; CLI에서 자연어 에이전트로</p>
+</div>
+
+<!-- ══ SECTION 02: 업계 기준선 (10-15) ══ -->
+
+<!-- S10 섹션 구분: 업계 기준선 -->
+<div class="slide mint">
+  <p class="meta" style="color:rgba(255,255,255,0.4);">SECTION 02</p>
+  <h1>업계 기준선</h1>
+  <p class="sub">지금 <span class="em">어디까지</span> 와 있는가</p>
+</div>
+
+<!-- S11 AI 사용자 규모 -->
+<div class="slide surface">
+  <h3>AI 사용자 규모 &mdash; 점 하나가 120만 명</h3>
+  <div class="two-col" style="max-width:1180px; align-items:center; margin-top:2vh; gap:2.2vw;">
+    <div class="col" style="flex:2.2; display:flex; flex-direction:column;">
+      <img loading="lazy" src="../assets/images/ai-users-scale.png" alt="Each dot is ~1.2 million people" style="width:100%; max-height:62vh; object-fit:contain; border-radius:8px;" />
+      <p style="text-align:center; margin-top:8px; font-size:0.8rem; color:rgba(255,255,255,0.3);">전 세계 AI 도구 사용자 분포</p>
+    </div>
+    <div class="col" style="flex:0.8; display:flex; flex-direction:column; gap:14px;">
+      <div class="comp-item on" style="padding:18px 22px;">
+        <div class="tag">AI 사용자</div>
+        <p style="font-size:1.6rem; line-height:1.2;"><strong>수억 명</strong></p>
+      </div>
+      <div class="comp-item" style="padding:18px 22px; border-top-color:rgba(255,255,255,0.08);">
+        <div class="tag">에이전트 사용자</div>
+        <p style="font-size:1.6rem; line-height:1.2; color:rgba(255,255,255,0.5);"><strong>극소수</strong></p>
+      </div>
+      <div class="comp-item on" style="padding:18px 22px; border-top-color:rgba(16,232,144,0.5); background:transparent;">
+        <div class="tag" style="color:#34d399;">직접 써본 사람</div>
+        <p style="font-size:1.6rem; line-height:1.2; color:#34d399;"><strong>매우 소수</strong></p>
+      </div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:1.5vh; font-size:clamp(1rem,1.4vw,1.2rem);">AI를 <span class="em">들어본 사람</span>은 많지만, 에이전트를 <span class="em">직접 써본 사람</span>은 거의 없습니다</p>
+</div>
+
+<!-- S12 핵심 지표 -->
+<div class="slide surface">
+  <h3>핵심 지표</h3>
+  <div class="stat-grid">
+    <div class="stat-card on">
+      <div class="label">개발자 AI 도구 채택률</div>
+      <div class="value">90%+</div>
+      <div class="source">출처: DORA, DX</div>
+    </div>
+    <div class="stat-card on">
+      <div class="label">AI 코드 작성 비율</div>
+      <div class="value">90%</div>
+      <div class="source">출처: Anthropic</div>
+    </div>
+    <div class="stat-card on">
+      <div class="label">높은 채택 조직 생산성 향상</div>
+      <div class="value">110%+</div>
+      <div class="source">출처: Jellyfish-OpenAI</div>
+    </div>
+    <div class="stat-card on">
+      <div class="label">Staff+ 엔지니어 주당 시간 절감</div>
+      <div class="value">4.4<span style="font-size:1.5rem">시간</span></div>
+      <div class="source">출처: DX Q4 2025</div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">개발자 세계에서는 이미 <span class="em">표준</span> &mdash; 다음 차례는 모든 직군</p>
+</div>
+
+<!-- S13 변화의 속도 -->
+<div class="slide surface">
+  <h3>변화의 속도</h3>
+  <div class="stat-grid" style="grid-template-columns:repeat(4, 1fr); margin-top:3vh;">
+    <div class="stat-card" style="border-top-color:rgba(255,255,255,0.15); background:rgba(255,255,255,0.03);">
+      <div class="label" style="color:rgba(255,255,255,0.35);">2023</div>
+      <div class="value" style="font-size:1.4rem; color:rgba(255,255,255,0.4);">자동완성</div>
+      <div class="source" style="color:rgba(255,255,255,0.55);">코드 제안 수락</div>
+    </div>
+    <div class="stat-card" style="border-top-color:rgba(196,181,253,0.4); background:transparent;">
+      <div class="label" style="color:#60a5fa;">2024</div>
+      <div class="value" style="font-size:1.4rem; color:#60a5fa;">채팅 코드생성</div>
+      <div class="source" style="color:rgba(196,181,253,0.5);">대화형 코딩</div>
+    </div>
+    <div class="stat-card on" style="border-top-color:rgba(95,179,255,0.5); background:transparent;">
+      <div class="label" style="color:#60a5fa;">2025</div>
+      <div class="value" style="font-size:1.4rem; color:#60a5fa;">에이전트</div>
+      <div class="source" style="color:rgba(95,179,255,0.6);">자율 실행 &middot; 도구 사용</div>
+    </div>
+    <div class="stat-card on" style="border-top-color:rgba(16,232,144,0.5); background:transparent;">
+      <div class="label" style="color:#34d399;">2026</div>
+      <div class="value" style="font-size:1.4rem; color:#34d399;">멀티에이전트</div>
+      <div class="source" style="color:rgba(16,232,144,0.6);">전문가 팀 &middot; 병렬 실행</div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">2년 만에 자동완성에서 멀티에이전트까지</p>
+</div>
+
+
+<!-- ══ SECTION 03: Model ≠ Agent ══ -->
+
+<!-- S16 섹션 구분: Model ≠ Agent -->
+<div class="slide indigo">
+  <p class="meta" style="color:rgba(255,255,255,0.4);">SECTION 03</p>
+  <h1>Model &ne; Agent</h1>
+  <p class="sub">같은 모델이어도 <span class="em">어떤 에이전트 위에서</span> 구동하느냐로 결과가 달라진다</p>
+</div>
+
+<!-- UX 진화: CLI → GUI → 챗봇 → 자율 에이전트 (leader deck lift) -->
+<div class="slide orange">
+  <h3>패러다임 전환 &mdash; CLI &rarr; GUI &rarr; 챗봇 &rarr; 자율 에이전트</h3>
+  <div style="display:flex; align-items:center; justify-content:space-between; width:100%; max-width:960px; margin:6vh 0;">
+    <div style="text-align:center; flex:1;">
+      <i class="ph ph-terminal-window" style="font-size:3.6rem; color:rgba(255,255,255,0.4); margin-bottom:1rem;"></i>
+      <div style="color:rgba(255,255,255,0.5); font-weight:500; font-size:1.05rem;">명령어 (CLI)</div>
+      <div style="color:rgba(255,255,255,0.55); font-size:0.78rem; margin-top:4px;">셸 · 스크립트</div>
+    </div>
+    <div style="font-size:1.4rem; color:rgba(255,255,255,0.15);"><i class="ph-bold ph-caret-right"></i></div>
+    <div style="text-align:center; flex:1;">
+      <i class="ph ph-cursor-click" style="font-size:3.6rem; color:rgba(255,255,255,0.55); margin-bottom:1rem;"></i>
+      <div style="color:rgba(255,255,255,0.65); font-weight:500; font-size:1.05rem;">마우스 (GUI)</div>
+      <div style="color:rgba(255,255,255,0.4); font-size:0.78rem; margin-top:4px;">IDE · 웹</div>
+    </div>
+    <div style="font-size:1.4rem; color:rgba(255,255,255,0.15);"><i class="ph-bold ph-caret-right"></i></div>
+    <div style="text-align:center; flex:1;">
+      <i class="ph ph-chat-teardrop-dots" style="font-size:3.6rem; color:#60a5fa; margin-bottom:1rem;"></i>
+      <div style="color:#60a5fa; font-weight:600; font-size:1.05rem;">자연어 (챗봇)</div>
+      <div style="color:rgba(96,165,250,0.6); font-size:0.78rem; margin-top:4px;">ChatGPT · Copilot Chat</div>
+    </div>
+    <div style="font-size:1.4rem; color:rgba(255,255,255,0.2);"><i class="ph-bold ph-caret-right"></i></div>
+    <div style="text-align:center; flex:1;">
+      <i class="ph-fill ph-robot" style="font-size:4.4rem; color:#34d399; margin-bottom:0.4rem;"></i>
+      <div style="color:#34d399; font-weight:800; font-size:1.15rem;">자율 에이전트</div>
+      <div style="color:rgba(52,211,153,0.65); font-size:0.78rem; margin-top:4px;">Claude Code · Codex</div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">인터페이스의 축이 <span class="em">지시</span>에서 <span class="em">위임</span>으로 이동</p>
+</div>
+
+<!-- S17 ARS vs 전담 비서 -->
+<div class="slide">
+  <h3 style="margin-bottom:0.5vh;">콜센터 ARS vs 전담 비서</h3>
+  <p class="sub" style="margin-top:0; margin-bottom:3vh;">챗봇과 에이전트의 주요 차이</p>
+  <div style="display:flex; gap:2.5vw; align-items:stretch; width:100%; max-width:920px;">
+    <div style="flex:1; border:1px solid rgba(255,255,255,0.08); border-radius:4px; padding:32px 24px; display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <i class="ph ph-phone" style="font-size:3.5rem; color:rgba(255,255,255,0.25);"></i>
+      <h4 style="color:rgba(255,255,255,0.4); font-size:1.2rem;">ARS (챗봇)</h4>
+      <div style="width:100%; display:flex; flex-direction:column; gap:8px;">
+        <p style="color:rgba(255,255,255,0.4); font-size:0.95rem; padding:8px 12px; background:rgba(255,255,255,0.02); border-radius:6px;">1번 누르세요, 2번 누르세요</p>
+        <p style="color:rgba(255,255,255,0.4); font-size:0.95rem; padding:8px 12px; background:rgba(255,255,255,0.02); border-radius:6px;">정해진 메뉴 바깥은 불가</p>
+        <p style="color:rgba(255,255,255,0.4); font-size:0.95rem; padding:8px 12px; background:rgba(255,255,255,0.02); border-radius:6px;">매번 처음부터 다시 설명</p>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; color:rgba(255,255,255,0.12); font-size:2rem;"><i class="ph-bold ph-arrow-right"></i></div>
+    <div style="flex:1; border:1px solid rgba(52,211,153,0.2); border-radius:4px; padding:32px 24px; display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <i class="ph-fill ph-user-circle-gear" style="font-size:3.5rem; color:#34d399;"></i>
+      <h4 style="color:#34d399; font-size:1.2rem;">전담 비서 (에이전트)</h4>
+      <div style="width:100%; display:flex; flex-direction:column; gap:8px;">
+        <p style="color:rgba(255,255,255,0.5); font-size:0.95rem; padding:8px 12px; background:transparent; border-radius:6px;">맥락을 이해하고 알아서 조사</p>
+        <p style="color:rgba(255,255,255,0.5); font-size:0.95rem; padding:8px 12px; background:transparent; border-radius:6px;">판단 &middot; 실행 &middot; 중간 보고</p>
+        <p style="color:rgba(255,255,255,0.5); font-size:0.95rem; padding:8px 12px; background:transparent; border-radius:6px;">피드백 반영 &middot; 후속 조치까지</p>
+      </div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:3vh;">기본 챗봇 경험과 에이전트 경험은 <span class="em">구조적으로 다른 체험</span>이라, 한쪽으로는 다른 쪽을 가늠하기 어렵습니다</p>
+</div>
+
+<!-- S18 대답하는 도구 → 일하는 도구 -->
+<div class="slide surface">
+  <h3>대답하는 도구 &rarr; 일하는 도구</h3>
+  <table class="tbl" style="margin-top:3vh; width:100%; max-width:900px;">
+    <thead><tr>
+      <th style="width:120px;"></th>
+      <th style="color:rgba(255,255,255,0.35); text-align:center;">챗봇 (ARS)</th>
+      <th style="color:#60a5fa; text-align:center;">에이전트 (비서)</th>
+    </tr></thead>
+    <tbody>
+      <tr><td><strong style="color:rgba(255,255,255,0.5);">환경 인식</strong></td><td style="text-align:center; color:rgba(255,255,255,0.5);">주어진 정보만 참조</td><td style="text-align:center; color:#60a5fa; font-weight:600;">프로젝트의 전체 맥락 이해</td></tr>
+      <tr><td><strong style="color:rgba(255,255,255,0.5);">실행 능력</strong></td><td style="text-align:center; color:rgba(255,255,255,0.5);">텍스트 답변만 가능</td><td style="text-align:center; color:#60a5fa; font-weight:600;">문서 작성 &middot; 분석 &middot; 도구 실행</td></tr>
+      <tr><td><strong style="color:rgba(255,255,255,0.5);">작업 범위</strong></td><td style="text-align:center; color:rgba(255,255,255,0.5);">1회 질의-응답</td><td style="text-align:center; color:#60a5fa; font-weight:600;">수시간 자율 실행 &middot; 중간 보고</td></tr>
+      <tr><td><strong style="color:rgba(255,255,255,0.5);">오류 대응</strong></td><td style="text-align:center; color:rgba(255,255,255,0.5);">다시 지시해야 함</td><td style="text-align:center; color:#60a5fa; font-weight:600;">자체 감지 &rarr; 수정 &rarr; 재시도</td></tr>
+    </tbody>
+  </table>
+</div>
+<!-- S19 비유로 이해하는 구조 -->
+<div class="slide surface">
+  <h3>비유로 이해하는 구조</h3>
+  <div class="arch-layers" style="max-width:1040px;">
+    <div class="arch-layer">
+      <div class="role">제조사</div>
+      <div class="brand">Samsung</div>
+      <div class="desc">Anthropic &middot; Google &middot; OpenAI</div>
+    </div>
+    <div class="arch-layer">
+      <div class="role">브랜드</div>
+      <div class="brand">Galaxy</div>
+      <div class="desc">Claude &middot; Gemini &middot; ChatGPT</div>
+    </div>
+    <div class="arch-layer">
+      <div class="role">에이전트 (제품)</div>
+      <div class="brand">Galaxy S 시리즈</div>
+      <div class="desc">Claude Code &middot; Codex &middot; Gemini CLI</div>
+    </div>
+    <div class="arch-layer">
+      <div class="role">모델 (두뇌)</div>
+      <div class="brand">Exynos 2600</div>
+      <div class="desc">Claude Opus &middot; Gemini Pro &middot; GPT-5</div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:3vh;">같은 모델이라도 <span class="em">어떤 에이전트 위에서 구동하느냐</span>에 따라 결과가 달라집니다</p>
+</div>
+
+<!-- S20 성능 공식 -->
+<div class="slide in-indigo">
+  <h3>성능 공식</h3>
+  <p class="formula" style="margin:4vh 0; font-size:clamp(2.5rem,5vw,3.8rem);">성능 = <span class="em">Model</span> &times; <span class="green">Agent</span> &times; <span class="yellow">나(Pilot)</span></p>
+  <div class="comp" style="margin-top:2vh;">
+    <div class="comp-item on">
+      <div class="tag">Model</div>
+      <p>AI의 추론 능력<br><span style="font-size:0.85rem; color:rgba(255,255,255,0.4);">Claude, GPT, Gemini</span></p>
+    </div>
+    <div class="comp-item on">
+      <div class="tag" style="color:#34d399;">Agent</div>
+      <p>도구 사용·실행 능력<br><span style="font-size:0.85rem; color:rgba(255,255,255,0.4);">Claude Code, Codex</span></p>
+    </div>
+    <div class="comp-item on">
+      <div class="tag" style="color:#fbbf24;">나 (Pilot)</div>
+      <p>판단·지시 능력<br><span style="font-size:0.85rem; color:rgba(255,255,255,0.4);">도메인 지식, 프롬프트</span></p>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">셋 중 하나라도 0이면 결과도 0 &mdash; <span class="em">사용하는 사람이 핵심</span></p>
+</div>
+
+<!-- S21 에이전트 → 팀(Team) -->
+<div class="slide surface">
+  <h3>에이전트에서 팀(Team)으로</h3>
+  <p class="sub" style="margin-top:0; margin-bottom:3vh; font-size:clamp(1.05rem,1.5vw,1.3rem); color:rgba(255,255,255,0.6);">비서 1명에서 <span class="em">전문가 팀</span>으로 확장</p>
+  <div style="display:flex; gap:3vw; width:100%; max-width:1080px; align-items:stretch;">
+    <!-- LEFT: Solo agent -->
+    <div style="flex:0.85; border:1px solid rgba(255,255,255,0.08); border-radius:4px; padding:28px 22px; text-align:center; display:flex; flex-direction:column;">
+      <i class="ph-fill ph-robot" style="font-size:3rem; color:rgba(255,255,255,0.4); margin-bottom:8px;"></i>
+      <h4 style="color:rgba(255,255,255,0.65); font-size:1.05rem; margin-bottom:4px; font-weight:700;">에이전트 1명</h4>
+      <p style="color:rgba(255,255,255,0.4); font-size:0.8rem; margin-bottom:14px;">Solo &middot; Sequential</p>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:3px; flex:1;">
+        <div style="background:rgba(255,255,255,0.05); padding:8px 14px; border-radius:4px; width:100%; font-size:0.86rem; color:rgba(255,255,255,0.65);">시장조사</div>
+        <i class="ph ph-caret-down" style="font-size:0.85rem; color:rgba(255,255,255,0.2);"></i>
+        <div style="background:rgba(255,255,255,0.05); padding:8px 14px; border-radius:4px; width:100%; font-size:0.86rem; color:rgba(255,255,255,0.65);">보고서</div>
+        <i class="ph ph-caret-down" style="font-size:0.85rem; color:rgba(255,255,255,0.2);"></i>
+        <div style="background:rgba(255,255,255,0.05); padding:8px 14px; border-radius:4px; width:100%; font-size:0.86rem; color:rgba(255,255,255,0.65);">팩트체크</div>
+        <i class="ph ph-caret-down" style="font-size:0.85rem; color:rgba(255,255,255,0.2);"></i>
+        <div style="background:rgba(255,255,255,0.05); padding:8px 14px; border-radius:4px; width:100%; font-size:0.86rem; color:rgba(255,255,255,0.65);">프레젠테이션</div>
+      </div>
+      <p style="margin-top:12px; color:rgba(255,255,255,0.55); font-size:0.8rem;">순차 처리</p>
+    </div>
+    <!-- Arrow -->
+    <div style="display:flex; align-items:center; flex-direction:column; justify-content:center; gap:8px;">
+      <i class="ph-bold ph-arrow-right" style="font-size:2rem; color:rgba(52,211,153,0.4);"></i>
+      <div style="color:rgba(52,211,153,0.55); font-size:0.7rem; font-weight:700; letter-spacing:0.12em;">SCALE</div>
+    </div>
+    <!-- RIGHT: Team -->
+    <div style="flex:1.4; border:1px solid rgba(52,211,153,0.25); border-radius:4px; padding:24px 22px; text-align:center; position:relative;">
+      <div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:linear-gradient(90deg,#34d399,#60a5fa); padding:4px 18px; border-radius:20px; font-size:0.75rem; font-weight:800; letter-spacing:0.15em; color:#062418;">TEAM</div>
+      <!-- Team Lead -->
+      <div style="display:flex; flex-direction:column; align-items:center; margin-top:8px;">
+        <div style="display:inline-flex; align-items:center; gap:8px; padding:10px 20px; background:rgba(52,211,153,0.12); border:1px solid rgba(52,211,153,0.4); border-radius:6px;">
+          <i class="ph-fill ph-crown-simple" style="font-size:1.3rem; color:#fbbf24;"></i>
+          <i class="ph-fill ph-robot" style="font-size:1.5rem; color:#34d399;"></i>
+          <span style="color:#D4F5E2; font-weight:700; font-size:0.95rem;">Team Lead</span>
+        </div>
+        <div style="color:rgba(52,211,153,0.55); font-size:0.75rem; margin-top:4px; letter-spacing:0.04em;">Orchestrator &middot; 역할 분배 &middot; 취합</div>
+        <div style="width:2px; height:16px; background:linear-gradient(180deg,rgba(52,211,153,0.6),rgba(52,211,153,0.2)); margin-top:6px;"></div>
+        <div style="width:86%; height:1px; background:rgba(52,211,153,0.35);"></div>
+      </div>
+      <!-- Specialists -->
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:0;">
+        <div style="background:rgba(52,211,153,0.06); padding:14px 6px 10px; border-radius:4px; border:1px solid rgba(52,211,153,0.2); position:relative;">
+          <div style="position:absolute; top:-9px; left:50%; transform:translateX(-50%); width:1px; height:9px; background:rgba(52,211,153,0.5);"></div>
+          <i class="ph-fill ph-magnifying-glass" style="font-size:1.4rem; color:#34d399;"></i>
+          <p style="color:#D4F5E2; font-size:0.78rem; margin-top:6px; font-weight:600;">시장조사</p>
+        </div>
+        <div style="background:rgba(52,211,153,0.06); padding:14px 6px 10px; border-radius:4px; border:1px solid rgba(52,211,153,0.2); position:relative;">
+          <div style="position:absolute; top:-9px; left:50%; transform:translateX(-50%); width:1px; height:9px; background:rgba(52,211,153,0.5);"></div>
+          <i class="ph-fill ph-note-pencil" style="font-size:1.4rem; color:#34d399;"></i>
+          <p style="color:#D4F5E2; font-size:0.78rem; margin-top:6px; font-weight:600;">보고서</p>
+        </div>
+        <div style="background:rgba(52,211,153,0.06); padding:14px 6px 10px; border-radius:4px; border:1px solid rgba(52,211,153,0.2); position:relative;">
+          <div style="position:absolute; top:-9px; left:50%; transform:translateX(-50%); width:1px; height:9px; background:rgba(52,211,153,0.5);"></div>
+          <i class="ph-fill ph-shield-check" style="font-size:1.4rem; color:#34d399;"></i>
+          <p style="color:#D4F5E2; font-size:0.78rem; margin-top:6px; font-weight:600;">팩트체크</p>
+        </div>
+        <div style="background:rgba(52,211,153,0.06); padding:14px 6px 10px; border-radius:4px; border:1px solid rgba(52,211,153,0.2); position:relative;">
+          <div style="position:absolute; top:-9px; left:50%; transform:translateX(-50%); width:1px; height:9px; background:rgba(52,211,153,0.5);"></div>
+          <i class="ph-fill ph-presentation-chart" style="font-size:1.4rem; color:#34d399;"></i>
+          <p style="color:#D4F5E2; font-size:0.78rem; margin-top:6px; font-weight:600;">시각화</p>
+        </div>
+      </div>
+      <div style="margin-top:14px; padding:6px 14px; background:rgba(52,211,153,0.15); border-radius:4px; display:inline-flex; align-items:center; gap:6px;">
+        <i class="ph-fill ph-lightning" style="font-size:0.95rem; color:#34d399;"></i>
+        <span style="color:#34d399; font-size:0.85rem; font-weight:700;">전문가 4명이 동시에 병렬</span>
+      </div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:3vh;">한 명이 순서대로 처리하던 일을 <span class="em">팀이 동시에</span> &mdash; 개인 작업에서 조직 작업으로</p>
+</div>
+
+<!-- S22 지시 → 결과물 -->
+<div class="slide in-indigo">
+  <p class="impact-text">에이전트는 <span class="em">지시 → 실행 → 결과</span> 구조입니다</p>
+  <p class="impact-sub" style="margin-top:3vh;">사람이 매 단계 개입하지 않습니다</p>
+</div>
+
+<!-- Claude Code 소개 -->
+<div class="slide surface">
+  <h3>실제 에이전트 &mdash; Claude Code</h3>
+  <p class="sub" style="margin-top:0; margin-bottom:3vh; color:rgba(255,255,255,0.45);">코딩 에이전트가 아니라, <span class="em">파일을 열고 수정하고 실행하는</span> 자율 에이전트</p>
+  <div style="display:flex; gap:0; width:100%; max-width:960px; align-items:stretch;">
+    <div class="comp-item on" style="flex:1; padding:24px 16px;">
+      <div class="tag">코드 작성</div>
+      <p>앱 &middot; 웹사이트<br><strong>자동 생성</strong></p>
+    </div>
+    <div class="comp-item on" style="flex:1; padding:24px 16px;">
+      <div class="tag">실행</div>
+      <p>작성한 코드를<br><strong>직접 실행 &middot; 검증</strong></p>
+    </div>
+    <div class="comp-item on" style="flex:1; padding:24px 16px;">
+      <div class="tag">문서</div>
+      <p>보고서 &middot; 발표자료<br><strong>구조화 &middot; 작성</strong></p>
+    </div>
+    <div class="comp-item on" style="flex:1; padding:24px 16px;">
+      <div class="tag">분석</div>
+      <p>데이터 수집<br><strong>인사이트 도출</strong></p>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">코딩뿐 아니라 <span class="em">문서 &middot; 분석 &middot; 발표자료</span> 같은 디지털 산출물 전반에 적용</p>
+</div>
+
+<!-- GitHub README for Human/Agent (leader deck lift, dev 재맥락화) -->
+<div class="slide">
+  <h3>이미 일어난 변화 &mdash; GitHub README가 사람과 에이전트용으로 분기</h3>
+  <div class="two-col" style="max-width:1080px; align-items:center; margin-top:3vh; gap:3vw;">
+    <div class="col" style="flex:1.1; display:flex; flex-direction:column;">
+      <div style="display:flex; justify-content:center; align-items:center;">
+        <img loading="lazy" src="../assets/images/github-readme-for-human-for-agent.jpg" alt="GitHub README: For Humans / For LLM Agents" style="width:100%; max-height:46vh; object-fit:contain; border-radius:8px;" />
+      </div>
+      <p style="text-align:center; margin-top:10px; font-size:0.78rem; color:rgba(255,255,255,0.55);">출처: GitHub &mdash; Oh My OpenCode README</p>
+    </div>
+    <div class="col" style="flex:1; display:flex; flex-direction:column; gap:12px;">
+      <div style="border:1px solid rgba(255,255,255,0.08); border-left:3px solid rgba(255,255,255,0.25); border-radius:4px; padding:18px 22px;">
+        <h4 style="color:rgba(255,255,255,0.6); font-size:0.92rem; margin-bottom:6px; letter-spacing:0.08em;">For Humans</h4>
+        <p style="color:#D0D8E8; font-size:0.95rem; line-height:1.55;">"이 설치 프롬프트를 LLM 에이전트에게<br>복사해서 붙여넣으세요"</p>
+      </div>
+      <div style="border:1px solid rgba(52,211,153,0.25); border-left:3px solid #34d399; border-radius:4px; padding:18px 22px;">
+        <h4 style="color:#34d399; font-size:0.92rem; margin-bottom:6px; letter-spacing:0.08em;">For LLM Agents</h4>
+        <p style="color:rgba(255,255,255,0.9); font-size:0.95rem; line-height:1.55;"><code style="color:#22d3ee;">curl -s</code> 로 가이드를 직접 가져와<br>각자 환경에 맞춰 실행하세요</p>
+      </div>
+      <div style="border:1px dashed rgba(255,255,255,0.14); border-radius:6px; padding:16px 22px; background:rgba(255,255,255,0.02);">
+        <p style="color:rgba(255,255,255,0.85); font-size:0.92rem; line-height:1.6;">"사람이 직접 설치하면 오타낸다. 에이전트한테 시켜라."</p>
+      </div>
+      <p class="sub" style="margin-top:2px; font-size:clamp(0.92rem,1.2vw,1.08rem); text-align:left;">문서의 독자가 <span class="em">사람만이 아닌 것</span>은 이미 오픈소스의 현실</p>
+    </div>
+  </div>
+</div>
+
+<!-- Addy Osmani 인용: 아키텍처 사고의 가치 -->
+<div class="slide in-indigo">
+  <blockquote style="max-width:900px;">"AI가 구현을 대신할수록,<br><span class="em">아키텍처 사고와 보안 인식</span>의 가치는 오히려 더 높아진다"</blockquote>
+  <cite>&mdash; Addy Osmani, Google &middot; Agentic Engineering</cite>
+  <p class="sub" style="margin-top:4vh; font-size:clamp(1.05rem,1.4vw,1.25rem);">시스템 설계 &middot; 도메인 이해 &middot; 품질 검증 역량이 상대적으로 더 중요해짐</p>
+</div>
+
+<!-- 전환: Section 03 → Section 05 (메모리) 브릿지 -->
+<div class="slide">
+  <p class="impact-text">에이전트 확산은 <span class="em">인프라 수요</span>를 끌어올립니다</p>
+  <p class="impact-sub" style="margin-top:3vh;">토큰 소모 수 배~수십 배 &rarr; 메모리·네트워크·전력이 가장 먼저 움직임</p>
+</div>
+
+<!-- ══ SECTION 04: AI 인프라의 병목 ══ -->
+
+<!-- S28 섹션 구분: AI 인프라 병목 -->
+<div class="slide amber">
+  <p class="meta" style="color:rgba(255,255,255,0.4);">SECTION 04</p>
+  <h1>AI 인프라의 병목</h1>
+  <p class="sub">에이전트 확산이 어디에 압력을 만드는가</p>
+</div>
+
+<!-- AI 밸류체인 — 위치 이동 (먼저 전체 맥락) -->
+<div class="slide surface">
+  <h3>AI 밸류체인 &mdash; 레이어 전체 지도</h3>
+  <div style="text-align:center; width:100%; max-width:1120px; margin-top:0.5vh;">
+    <img src="../assets/images/ai-value-chain-medium.png" alt="AI Value Chain Framework" style="width:100%; max-width:1120px; max-height:74vh; object-fit:contain; border-radius:8px; background:#F5F7FA; padding:10px; box-shadow:0 2px 20px rgba(0,0,0,0.4);">
+    <p style="text-align:center; margin-top:6px; font-size:0.72rem; color:rgba(255,255,255,0.4);">출처: Machine Learning Made Simple &mdash; Investor's Analysis of the Gen AI Market</p>
+  </div>
+  <p class="sub" style="margin-top:1vh; font-size:clamp(1rem,1.4vw,1.2rem);">반도체 &middot; 데이터센터 &middot; 클라우드 &middot; 모델 &middot; 애플리케이션 &mdash; 이 중 어디에 먼저 압력이 쌓일지 함께 살펴봅시다</p>
+</div>
+
+<!-- S29 메모리 — 어디가 병목인가 -->
+<div class="slide surface">
+  <h3>수요 증가가 가장 먼저 닿는 곳</h3>
+  <p class="sub" style="margin-top:0; margin-bottom:3vh; font-size:clamp(1.05rem,1.5vw,1.3rem); color:rgba(255,255,255,0.6);">훈련 &middot; 추론 &middot; 영상 &middot; 월드모델 &mdash; 수요 패턴이 <span class="em">메모리 쪽으로 수렴</span>하는 양상</p>
+  <div class="stat-grid">
+    <div class="stat-card on">
+      <div class="label">훈련 데이터</div>
+      <div class="value" style="color:#fca5a5;">10배+</div>
+      <div class="source">텍스트 LLM 대비 영상 AI</div>
+    </div>
+    <div class="stat-card on">
+      <div class="label">추론 KV 캐시</div>
+      <div class="value" style="color:#fbbf24;">100배</div>
+      <div class="source">Reasoning 모델 long context</div>
+    </div>
+    <div class="stat-card on">
+      <div class="label">생성물 크기</div>
+      <div class="value" style="color:#34d399;">수만 배</div>
+      <div class="source">KB(텍스트) vs GB(영상)</div>
+    </div>
+  </div>
+  <div class="note tip">
+    <p>텍스트 LLM보다 추론·영상·월드모델 쪽이 훨씬 빠르게 자원을 소모 &mdash; 로직 칩보다 <strong>HBM 공급 측 여유</strong>가 출고량에 더 크게 영향</p>
+  </div>
+</div>
+
+<!-- S30 AI Agent 시대 = 추론 상시화 -->
+<div class="slide in-amber">
+  <h3>AI Agent 시대 = 추론 상시화 시대</h3>
+  <div class="arch-layers" style="margin-top:3vh;">
+    <div class="arch-layer" style="border-left-color:rgba(255,255,255,0.15);padding-left:14px;">
+      <div class="role" style="color:rgba(255,255,255,0.55);">과거</div>
+      <div class="brand" style="font-size:1.1rem;">사람이 질문할 때만 AI 작동</div>
+      <div class="desc" style="color:rgba(255,255,255,0.5);">간헐적 추론</div>
+    </div>
+    <div class="arch-layer" style="border-left-color:rgba(96,165,250,0.45);padding-left:14px;">
+      <div class="role" style="color:#60a5fa;">현재</div>
+      <div class="brand" style="font-size:1.1rem;">에이전트가 자율적으로 24/7 작업</div>
+      <div class="desc" style="color:#60a5fa;">상시 추론</div>
+    </div>
+    <div class="arch-layer on" style="border-left:3px solid #fbbf24;padding-left:14px;">
+      <div class="role" style="color:#fbbf24;">미래</div>
+      <div class="brand" style="font-size:1.1rem; color:#fbbf24;">수천 개 에이전트가 동시에 병렬 작업</div>
+      <div class="desc" style="color:#fbbf24; font-weight:700;">폭발적 추론</div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:3vh;">에이전트가 늘어날수록 &mdash; <span class="em">추론 연산 &times; 저장 수요 = 메모리 수요</span></p>
+</div>
+<!-- 왜 천문학적 투자를 멈출 수 없는가 — 치킨게임 내러티브 -->
+<div class="slide in-amber">
+  <h3>왜 천문학적 투자를 멈출 수 없는가</h3>
+  <p class="sub" style="margin-top:0; margin-bottom:3vh; font-size:clamp(1.05rem,1.5vw,1.3rem); color:rgba(255,255,255,0.6);">과잉투자는 <span style="color:#fbbf24;">비용</span>의 문제, 과소투자는 <span class="em">존재</span>의 문제</p>
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:18px; width:100%; max-width:1000px;">
+    <div style="border:1px solid rgba(252,165,165,0.25); border-top:3px solid rgba(252,165,165,0.55); border-radius:4px; padding:26px 22px;">
+      <i class="ph-fill ph-warning-octagon" style="font-size:2.2rem; color:#fca5a5; margin-bottom:10px;"></i>
+      <div style="color:#fca5a5; font-size:0.85rem; font-weight:700; letter-spacing:0.04em; margin-bottom:8px;">공포</div>
+      <p style="color:rgba(255,255,255,0.88); font-size:0.98rem; line-height:1.55;">향후 10&ndash;15년 AI 플랫폼 재편 국면에서 <strong style="color:#fff;">포지션을 놓칠</strong> 가능성<br><span style="color:rgba(252,165,165,0.7); font-size:0.78rem;">&mdash; 빅테크 CEO 공개 발언 종합</span></p>
+    </div>
+    <div style="border:1px solid rgba(251,191,36,0.25); border-top:3px solid rgba(251,191,36,0.55); border-radius:4px; padding:26px 22px;">
+      <i class="ph-fill ph-scales" style="font-size:2.2rem; color:#fbbf24; margin-bottom:10px;"></i>
+      <div style="color:#fbbf24; font-size:0.85rem; font-weight:700; letter-spacing:0.04em; margin-bottom:8px;">비대칭 리스크</div>
+      <p style="color:rgba(255,255,255,0.75); font-size:0.98rem; line-height:1.55;">과소투자 리스크가<br>과잉투자보다 <strong style="color:#fff;">극적으로 크다</strong><br><span style="color:rgba(251,191,36,0.5); font-size:0.78rem;">&mdash; Sundar Pichai, Alphabet CEO</span></p>
+    </div>
+    <div style="border:1px solid rgba(96,165,250,0.25); border-top:3px solid rgba(96,165,250,0.55); border-radius:4px; padding:26px 22px;">
+      <i class="ph-fill ph-tree-structure" style="font-size:2.2rem; color:#60a5fa; margin-bottom:10px;"></i>
+      <div style="color:#60a5fa; font-size:0.85rem; font-weight:700; letter-spacing:0.04em; margin-bottom:8px;">치킨게임 구조</div>
+      <p style="color:rgba(255,255,255,0.75); font-size:0.98rem; line-height:1.55;">수요 &gt; 공급, 긴 리드타임<br>지금 안 깔면 따라잡을 수 없음<br><span style="color:rgba(96,165,250,0.5); font-size:0.78rem;">&mdash; AI 클라우드 점유율 게이트</span></p>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:3vh;">&ldquo;<span class="em">I am willing to go bankrupt rather than lose this race.</span>&rdquo; <span style="color:rgba(255,255,255,0.45); font-size:0.85rem;">&mdash; Larry Page, Google 공동창업자</span></p>
+</div>
+
+<!-- V2: Tier 5 메모리 상세 — HBM / DDR5 / NAND / DDR4 -->
+<div class="slide surface">
+  <h3>메모리 &middot; 스토리지 &mdash; AI 서버의 주요 구성 요소</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;width:100%;max-width:980px;margin-top:2vh;">
+    <!-- HBM -->
+    <div style="padding:2.8vh 2.2vw;border-left:3px solid #fca5a5;background:rgba(252,165,165,0.04);border-radius:4px;">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px;">
+        <span style="font-size:1.45rem;font-weight:800;color:#fff;">HBM</span>
+        <span style="font-size:0.78rem;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.1em;">High Bandwidth Memory</span>
+      </div>
+      <p style="font-size:1.05rem;color:rgba(255,255,255,0.9);line-height:1.6;margin:0;">GPU 위에 직접 적층, AI 연산 속도의 <strong style="color:#fff;">최대 병목</strong></p>
+      <div style="margin-top:12px;font-size:0.85rem;padding:5px 12px;border-radius:4px;background:rgba(252,165,165,0.12);color:#fca5a5;display:inline-block;">웨이퍼 소모 일반 DRAM의 3~4배</div>
+    </div>
+    <!-- DDR5 -->
+    <div style="padding:2.8vh 2.2vw;border-left:3px solid #60a5fa;background:rgba(96,165,250,0.04);border-radius:4px;">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px;">
+        <span style="font-size:1.45rem;font-weight:800;color:#fff;">DDR5</span>
+        <span style="font-size:0.78rem;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.1em;">범용 DRAM</span>
+      </div>
+      <p style="font-size:1.05rem;color:rgba(255,255,255,0.9);line-height:1.6;margin:0;">CPU 시스템 메모리, 에이전트 세션 &middot; <strong style="color:#fff;">KV-cache 오프로드</strong></p>
+      <div style="margin-top:12px;font-size:0.85rem;padding:5px 12px;border-radius:4px;background:rgba(96,165,250,0.12);color:#60a5fa;display:inline-block;">AI 서버·에이전트 상시화로 수요 급증</div>
+    </div>
+    <!-- NAND -->
+    <div style="padding:2.8vh 2.2vw;border-left:3px solid #34d399;background:rgba(52,211,153,0.04);border-radius:4px;">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px;">
+        <span style="font-size:1.45rem;font-weight:800;color:#fff;">NAND &middot; SSD</span>
+        <span style="font-size:0.78rem;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.1em;">비휘발성 스토리지</span>
+      </div>
+      <p style="font-size:1.05rem;color:rgba(255,255,255,0.9);line-height:1.6;margin:0;">학습 데이터 &middot; 모델 저장, 에이전트 <strong style="color:#fff;">파일 I/O 경유</strong></p>
+      <div style="margin-top:12px;font-size:0.85rem;padding:5px 12px;border-radius:4px;background:rgba(52,211,153,0.12);color:#34d399;display:inline-block;">학습 데이터·생성물 저장 수요 확대</div>
+    </div>
+    <!-- DDR4 -->
+    <div style="padding:2.8vh 2.2vw;border-left:3px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.02);border-radius:4px;">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px;">
+        <span style="font-size:1.45rem;font-weight:800;color:#fff;">DDR4</span>
+        <span style="font-size:0.78rem;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.1em;">레거시 DRAM</span>
+      </div>
+      <p style="font-size:1.05rem;color:rgba(255,255,255,0.9);line-height:1.6;margin:0;">레거시 서버 &middot; 산업용, HBM 확대로 <strong style="color:#fff;">공급 감소 &rarr; 동반 상승</strong></p>
+      <div style="margin-top:12px;font-size:0.85rem;padding:5px 12px;border-radius:4px;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7);display:inline-block;">일부 규격 DDR5보다 비싼 역전 사례</div>
+    </div>
+  </div>
+</div>
+
+<!-- V2: 가격 동조화 — 공급·수요 구조 -->
+<div class="slide in-amber">
+  <h3>공급·수요 구조</h3>
+  <div class="comp" style="margin-top:3vh;">
+    <div class="comp-item on" style="padding:3vh 2vw;">
+      <div class="tag" style="color:#fca5a5;">공급 측</div>
+      <p>같은 웨이퍼 라인 공유<br>HBM 확대 &rarr; <strong>범용 DRAM·NAND 캐파 경쟁</strong></p>
+    </div>
+    <div class="comp-item on" style="padding:3vh 2vw;">
+      <div class="tag" style="color:#60a5fa;">수요 측</div>
+      <p>에이전트 전환으로<br>토큰 소모 <strong>수 배~수십 배</strong><br>같은 사용자 수여도 인프라 소모 폭증</p>
+    </div>
+    <div class="comp-item on" style="padding:3vh 2vw;">
+      <div class="tag" style="color:#fbbf24;">결과</div>
+      <p>HBM &middot; DDR5 &middot; NAND<br><strong style="color:#fbbf24;">동반 상승</strong><br>리드타임 장기화</p>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">GPU 수요가 커질수록 <span class="em">메모리 수요도 함께</span> 따라가는 구조</p>
+</div>
+
+<!-- ══ SECTION 05: 역할의 변화 ══ -->
+
+<!-- S34 섹션 구분: 역할의 변화 -->
+<div class="slide violet">
+  <p class="meta" style="color:rgba(255,255,255,0.4);">SECTION 05</p>
+  <h1>역할의 변화</h1>
+  <p class="sub">구현에서 <span class="em">설계 &middot; 판단</span>으로</p>
+</div>
+
+<!-- S35 구현 비용의 붕괴 -->
+<div class="slide in-violet">
+  <h3>구현 비용의 붕괴</h3>
+  <blockquote style="max-width:920px;">"코드 작성은 점점 값싼 상품이 되고 있고, 정말로 중요한 것은 어떤 <span class="em">질문</span>을 할 수 있느냐"</blockquote>
+  <cite>&mdash; Jensen Huang, NVIDIA CEO</cite>
+</div>
+
+<!-- S36 기획자:실행자 비율의 역전 -->
+<div class="slide in-violet">
+  <h3>기획자 : 실행자 비율의 역전</h3>
+  <div class="comp">
+    <div class="comp-item on">
+      <div class="tag">전통적 조직</div>
+      <p style="font-size:clamp(1.3rem,1.9vw,1.7rem);">기획 : 실행<br><strong style="font-size:clamp(2.4rem,4vw,3.2rem);display:inline-block;margin-top:0.6rem;">1 : 7</strong></p>
+    </div>
+    <div class="comp-item on" style="border-top-color:rgba(16,232,144,0.5); background:transparent;">
+      <div class="tag" style="color:#34d399;">AI 시대 (Andrew Ng)</div>
+      <p style="color:#34d399;font-size:clamp(1.3rem,1.9vw,1.7rem);">기획 : 실행<br><strong style="font-size:clamp(2.4rem,4vw,3.2rem);display:inline-block;margin-top:0.6rem;">2 : 1</strong></p>
+    </div>
+  </div>
+  <p class="sub">실행 시간이 3주 &rarr; 1일로 압축되면서, <span class="em">기획과 판단</span>의 비중이 더 커지고 있습니다</p>
+</div>
+
+<!-- S37 도메인 전문성 + AI -->
+<div class="slide surface">
+  <h3>도메인 전문성과 AI의 결합</h3>
+  <div class="comp" style="margin-top:3vh;">
+    <div class="comp-item" style="border-top-color:rgba(255,255,255,0.15);">
+      <i class="ph-fill ph-robot" style="font-size:2.5rem; color:rgba(255,255,255,0.3);"></i>
+      <div class="tag">AI만</div>
+      <p style="color:rgba(255,255,255,0.5);">범용적이지만<br>깊이 부족</p>
+    </div>
+    <div class="comp-item" style="border-top-color:rgba(255,255,255,0.15);">
+      <i class="ph-fill ph-user" style="font-size:2.5rem; color:rgba(255,255,255,0.3);"></i>
+      <div class="tag">전문성만</div>
+      <p style="color:rgba(255,255,255,0.5);">깊지만<br>속도 제한</p>
+    </div>
+    <div class="comp-item on" style="border-top-color:rgba(16,232,144,0.5); background:transparent;">
+      <i class="ph-fill ph-lightning" style="font-size:2.5rem; color:#34d399;"></i>
+      <div class="tag" style="color:#34d399;">전문성 + AI</div>
+      <p style="color:#34d399;">깊이 + 속도<br>= <strong>차별화된 결과물</strong></p>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">도메인 경험과 AI가 결합될 때 <span class="em">차별화된 관점</span>이 만들어지기 쉽습니다</p>
+</div>
+<!-- S38 인지 노동의 심화 -->
+<div class="slide in-violet">
+  <h3>인지 노동의 심화</h3>
+  <div style="display:flex; align-items:center; justify-content:center; gap:2.5vw; margin:5vh 0; width:100%; max-width:850px;">
+    <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
+      <div style="background:transparent; border:1px solid rgba(95,179,255,0.3); padding:16px 20px; border-radius:8px; display:flex; align-items:center; gap:14px; color:#60a5fa;">
+        <i class="ph-fill ph-lightning" style="font-size:1.8rem;"></i> <span style="font-size:1.05rem; font-weight:600;">초고속 AI 산출물</span>
+      </div>
+      <div style="background:transparent; border:1px solid rgba(95,179,255,0.3); padding:16px 20px; border-radius:8px; display:flex; align-items:center; gap:14px; color:#60a5fa;">
+        <i class="ph-fill ph-check-square-offset" style="font-size:1.8rem;"></i> <span style="font-size:1.05rem; font-weight:600;">쏟아지는 보고서·분석</span>
+      </div>
+      <div style="background:transparent; border:1px solid rgba(95,179,255,0.3); padding:16px 20px; border-radius:8px; display:flex; align-items:center; gap:14px; color:#60a5fa;">
+        <i class="ph-fill ph-chat-centered-text" style="font-size:1.8rem;"></i> <span style="font-size:1.05rem; font-weight:600;">맥락·결정 요청</span>
+      </div>
+    </div>
+    <div style="color:rgba(255,255,255,0.5); display:flex; flex-direction:column; align-items:center;">
+      <i class="ph-fill ph-funnel" style="font-size:4.5rem; margin-bottom:8px;"></i>
+      <div style="font-size:0.9rem; font-weight:800; background:rgba(255,255,255,0.08); padding:4px 12px; border-radius:4px;">인지 병목</div>
+    </div>
+    <div style="flex:0.8; background:transparent; border:2px solid rgba(252,165,165,0.3); padding:28px 20px; border-radius:12px; text-align:center;">
+      <i class="ph-fill ph-user-focus" style="font-size:4rem; color:#fca5a5; margin-bottom:8px;"></i>
+      <h4 style="color:#fca5a5; font-size:1.1rem; line-height:1.5;">AI 산출물을 확인하고<br>맥락·판단을 더하는<br><span style="font-weight:900; color:#FFF; font-size:1.3rem;">사람 쪽 작업</span></h4>
+    </div>
+  </div>
+  <p class="sub">AI가 빨라질수록, 다음 결정을 내리는 <span class="em">사람이 critical path</span></p>
+</div>
+
+<!-- S39 AI는 증폭기 -->
+<div class="slide in-violet">
+  <h3>AI는 증폭기(Amplifier)</h3>
+  <div class="comp">
+    <div class="comp-item green-on">
+      <div class="tag" style="color:rgba(52,211,153,0.6);">성숙한 조직</div>
+      <p style="color:#34d399;">효과 <strong>가속</strong></p>
+    </div>
+    <div class="comp-item red-on">
+      <div class="tag" style="color:rgba(252,165,165,0.6);">정리되지 않은 조직</div>
+      <p style="color:#fca5a5;">문제 <strong>악화</strong></p>
+    </div>
+  </div>
+  <cite>&mdash; Google DORA Report, 2025</cite>
+  <p class="sub" style="margin-top:3vh;">AI는 마법이 아닌 <span class="em">증폭기</span> &mdash; 기반이 좋으면 가속, 아니면 혼란도 가속</p>
+</div>
+
+<!-- AI의 한계 — 환각(Hallucination) -->
+<div class="slide in-violet">
+  <h3>AI의 한계 &mdash; 환각(Hallucination)</h3>
+  <div class="comp" style="margin-top:3vh;">
+    <div class="comp-item on">
+      <div class="tag">현상</div>
+      <p>존재하지 않는 데이터를<br><strong>자신 있게</strong> 생성</p>
+    </div>
+    <div class="comp-item on">
+      <div class="tag">위험</div>
+      <p>보고서에 가짜 출처<br>틀린 수치가 포함될 수 있음</p>
+    </div>
+    <div class="comp-item on">
+      <div class="tag">대응</div>
+      <p>AI 산출물은 반드시<br><strong>사람이 검증</strong></p>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">AI가 만든 것을 <span class="em">그대로 쓰는 것</span>이 아니라 <strong style="color:#fff;">검증하고 판단하는 것</strong>이 핵심</p>
+</div>
+
+<!-- S40 개발자 역할은 어떻게 변하는가? -->
+<div class="slide surface">
+  <h3>개발자 역할은 어떻게 변하는가?</h3>
+  <div class="arch-layers" style="margin-top:3vh;">
+    <div class="arch-layer">
+      <div class="role">코드 탐색</div>
+      <div class="brand">AI가 레포 구조 파악 &middot; 관련 파일 수집</div>
+      <div class="desc" style="color:#60a5fa; font-weight:600;">&rarr; 설계 판단 &middot; 영향 범위 확정</div>
+    </div>
+    <div class="arch-layer">
+      <div class="role">구현</div>
+      <div class="brand">AI가 1차 초안 &middot; 보일러플레이트</div>
+      <div class="desc" style="color:#60a5fa; font-weight:600;">&rarr; 사양 정의 &middot; 계약 리뷰</div>
+    </div>
+    <div class="arch-layer">
+      <div class="role">디버깅</div>
+      <div class="brand">AI가 가설 여러 개 병렬 검토</div>
+      <div class="desc" style="color:#60a5fa; font-weight:600;">&rarr; 도메인 추론 &middot; 원인 확정</div>
+    </div>
+    <div class="arch-layer on">
+      <div class="role" style="color:#60a5fa;">PR 리뷰 &middot; 문서</div>
+      <div class="brand">AI가 초안 &middot; 체크리스트 자동</div>
+      <div class="desc" style="color:#60a5fa; font-weight:600;">&rarr; 아키텍처 판단 &middot; 책임</div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">키보드 타격 시간은 줄고 &mdash; <span class="em">판단·검증의 밀도</span>가 올라간다</p>
+</div>
+
+<!-- S41 생산성의 역설 -->
+<div class="slide surface">
+  <h3>생산성의 역설과 도파민 루프</h3>
+  <div class="arch-layers">
+    <div class="arch-layer">
+      <div class="role" style="color:#34d399;">빠른 성과</div>
+      <div class="brand">즉각적 완성의 쾌감</div>
+      <div class="desc" style="font-weight:700;">반복 유도</div>
+    </div>
+    <div class="arch-layer">
+      <div class="role" style="color:rgba(255,255,255,0.6);">과몰입</div>
+      <div class="brand">빠른 피드백 &rarr; 연속 작업</div>
+      <div class="desc" style="font-weight:700;">몰입 심화</div>
+    </div>
+    <div class="arch-layer on">
+      <div class="role" style="color:#fca5a5;">인지 소진</div>
+      <div class="brand">100건 보고서 = 3년치 업무량</div>
+      <div class="desc" style="color:#fca5a5; font-weight:700;">시간은 압축, 인지 피로는 누적</div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">AI가 일을 해준다고 <span class="em">사람이 편해지는 것은 아닙니다</span></p>
+</div>
+
+<!-- 인지 소진 대응법 -->
+<div class="slide in-violet">
+  <h3>인지 소진 &mdash; 실천적 대응</h3>
+  <div class="arch-layers" style="margin-top:3vh;">
+    <div class="arch-layer">
+      <div class="role" style="color:#34d399;">분리</div>
+      <div class="brand">작업 시간과 검토 시간을 나눠두기</div>
+      <div class="desc" style="color:#34d399; font-weight:600;">생성 &ne; 판단</div>
+    </div>
+    <div class="arch-layer">
+      <div class="role" style="color:#60a5fa;">제한</div>
+      <div class="brand">한 번에 볼 산출물 양을 정해두기</div>
+      <div class="desc" style="color:#60a5fa; font-weight:600;">3건 단위 끊기</div>
+    </div>
+    <div class="arch-layer">
+      <div class="role" style="color:#fbbf24;">기록</div>
+      <div class="brand">시킨 것 &middot; 판단한 것 구분해 적기</div>
+      <div class="desc" style="color:#fbbf24; font-weight:600;">판단의 추적성</div>
+    </div>
+    <div class="arch-layer on">
+      <div class="role" style="color:#fca5a5;">휴식</div>
+      <div class="brand">빨라진 만큼 회복 시간도 확보</div>
+      <div class="desc" style="color:#fca5a5; font-weight:600;">지속가능성</div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">도구가 빨라졌다고 <span class="em">사람도 빨라져야 하는 것은 아닙니다</span></p>
+</div>
+
+<!-- ══ SECTION 06: 현실 제약과 실천 ══ -->
+
+<!-- S42 섹션 구분: 현실 제약과 실천 -->
+<div class="slide teal">
+  <p class="meta" style="color:rgba(255,255,255,0.4);">SECTION 06</p>
+  <h1>현실 제약과<br>실천 방향</h1>
+  <p class="sub">기술 가능성과 우리 환경의 적용 가능성은 별개의 문제</p>
+</div>
+
+<!-- S43 A/B/C 프레임워크 -->
+<div class="slide in-teal">
+  <h3>기술 가능성과 적용 가능성의 분리</h3>
+  <table class="tbl" style="margin-top:3vh; width:100%; max-width:900px;">
+    <thead><tr>
+      <th style="width:50px;"></th>
+      <th style="text-align:center;">기술적으로</th>
+      <th style="text-align:center;">우리 환경에서</th>
+      <th style="text-align:center;">예시</th>
+      <th style="text-align:center; width:160px;">대응</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td><strong style="color:#34d399; font-size:1.3rem;">A</strong></td>
+        <td style="text-align:center; color:#34d399; font-weight:600;">가능</td>
+        <td style="text-align:center; color:#34d399; font-weight:600;">적용 가능</td>
+        <td style="text-align:center;">외부 AI로 시장 분석 &middot; 보고서 초안 &middot; 번역</td>
+        <td style="text-align:center; color:#34d399; font-weight:700; white-space:nowrap;">즉시 시작</td>
+      </tr>
+      <tr>
+        <td><strong style="color:#fbbf24; font-size:1.3rem;">B</strong></td>
+        <td style="text-align:center; color:#fbbf24; font-weight:600;">가능</td>
+        <td style="text-align:center; color:#fbbf24; font-weight:600;">제약 존재</td>
+        <td style="text-align:center;">사내 데이터 분석 &middot; 내부 시스템 연동</td>
+        <td style="text-align:center; color:#fbbf24; font-weight:700; white-space:nowrap;">제약 해소 추진</td>
+      </tr>
+      <tr>
+        <td><strong style="color:#fca5a5; font-size:1.3rem;">C</strong></td>
+        <td style="text-align:center; color:#fca5a5; font-weight:600;">불가</td>
+        <td style="text-align:center; color:#fca5a5; font-weight:600;">해당 없음</td>
+        <td style="text-align:center;">100% 자율 의사결정</td>
+        <td style="text-align:center; color:#fca5a5; font-weight:700; white-space:nowrap;">기술 성숙 관찰</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="note tip" style="margin-top:3vh;">
+    <p><strong style="color:#34d399;">A</strong>는 오늘부터 가능 &middot; <strong style="color:#fbbf24;">B</strong>는 논의의 여지 &middot; <strong style="color:#fca5a5;">C</strong>는 기술 성숙도를 지켜보는 영역</p>
+  </div>
+</div>
+
+<!-- S44 우리 환경의 제약 -->
+<div class="slide surface">
+  <h3>우리 환경의 제약</h3>
+  <div class="arch-layers">
+    <div class="arch-layer">
+      <div class="role">사내망 보안</div>
+      <div class="brand" style="font-size:1.1rem; color:rgba(255,255,255,0.7)">프론티어 AI 직접 사용 불가</div>
+      <div class="desc" style="color:#60a5fa; font-weight:700;">사외망 구축 (진행 중) &rarr;</div>
+    </div>
+    <div class="arch-layer">
+      <div class="role">데이터 보안</div>
+      <div class="brand" style="font-size:1.1rem; color:rgba(255,255,255,0.7)">외부 서비스 데이터 노출 우려</div>
+      <div class="desc" style="color:#60a5fa; font-weight:700;">데이터 분류 (진행 중) &rarr;</div>
+    </div>
+    <div class="arch-layer on">
+      <div class="role" style="color:rgba(255,255,255,0.5);">조직 인식</div>
+      <div class="brand" style="font-size:1.1rem; color:rgba(255,255,255,0.8);">AI 활용이 일부 조직에만 집중</div>
+      <div class="desc" style="color:rgba(255,255,255,0.5); font-weight:700;">이 세미나의 목적 ★</div>
+    </div>
+  </div>
+</div>
+
+<!-- 제약 속에서도 이미 움직이고 있는 지점 -->
+<div class="slide in-teal">
+  <h3>S/W 개발팀이 현재 진행 중인 사항</h3>
+  <div class="comp" style="margin-top:3vh;">
+    <div class="comp-item on">
+      <div class="tag">전사 AI 활용 의지</div>
+      <p>DS부문 차원의<br><strong>AI 도구 적극 활용</strong> 방침</p>
+    </div>
+    <div class="comp-item on">
+      <div class="tag">AI센터 협업</div>
+      <p>공통 인프라 조직과<br><strong>메모리사업부 SW조직</strong></p>
+    </div>
+    <div class="comp-item on">
+      <div class="tag">S/W개발팀 선행</div>
+      <p>외부 AI 도구 활용<br><strong>개발 효율화 PoC</strong> 진행</p>
+    </div>
+  </div>
+  <div class="stat-grid" style="margin-top:3vh;">
+    <div class="stat-card on">
+      <div class="label">교육 완료</div>
+      <div class="value" style="font-size:clamp(2rem,3.5vw,3rem);">100명+</div>
+      <div class="source">2025.12 — 2026.03</div>
+    </div>
+    <div class="stat-card on">
+      <div class="label">축적된 AI 활용 사례</div>
+      <div class="value" style="font-size:clamp(2rem,3.5vw,3rem);">100건+</div>
+      <div class="source">공유가 만드는 집단 지성</div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">전사 의지 &middot; 협업 기반 &middot; 선행 PoC &mdash; <span class="em">실행 궤도에 이미 올라 있음</span></p>
+</div>
+
+<!-- ══ PART II: Claude Code Hands-on ══ -->
+
+<!-- B1.0 PART II Section Opener -->
+<div class="slide cyan">
+  <p class="meta" style="color:rgba(34,211,238,0.55);">PART II</p>
+  <h1>Claude Code<br>Hands-on</h1>
+  <p class="sub">도구 &middot; 워크플로 &middot; 작동 원리</p>
+</div>
+
+<!-- B1.1 Claude Code란 -->
+<div class="slide surface">
+  <h3>Claude Code &mdash; 무엇인가</h3>
+  <div class="arch-layers" style="margin-top:2vh;">
+    <div class="arch-layer">
+      <div class="role" style="color:#22d3ee;">Interface</div>
+      <div class="brand">CLI + IDE 확장 (VS Code, JetBrains)</div>
+      <div class="desc" style="color:rgba(255,255,255,0.6);">터미널 우선, 에디터 통합</div>
+    </div>
+    <div class="arch-layer">
+      <div class="role" style="color:#22d3ee;">Runtime</div>
+      <div class="brand">에이전트 루프 내장 &middot; 도구 호출 자동화</div>
+      <div class="desc" style="color:rgba(255,255,255,0.6);">Read / Edit / Bash / Grep / Web</div>
+    </div>
+    <div class="arch-layer">
+      <div class="role" style="color:#22d3ee;">Context</div>
+      <div class="brand">프로젝트 단위 지식 (CLAUDE.md, Rules, Memory)</div>
+      <div class="desc" style="color:rgba(255,255,255,0.6);">세션 간 유지</div>
+    </div>
+    <div class="arch-layer on">
+      <div class="role" style="color:#22d3ee;">Extensions</div>
+      <div class="brand">MCP 서버 &middot; Plugins &middot; Custom Skills &middot; Hooks</div>
+      <div class="desc" style="color:#22d3ee; font-weight:700;">자기 워크플로에 맞춰 확장 가능</div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">코딩 도구가 아니라 <span class="em">파일 시스템 위에서 작동하는 에이전트</span> &mdash; 범용 작업 인터페이스</p>
+</div>
+
+<!-- B1.2 도구 비교 -->
+<div class="slide in-cyan">
+  <h3>주요 AI 개발 도구 비교</h3>
+  <table class="tbl" style="margin-top:2vh; width:100%; max-width:1000px;">
+    <thead><tr>
+      <th style="width:170px; white-space:nowrap;">도구</th>
+      <th style="width:130px; text-align:center; white-space:nowrap;">형태</th>
+      <th style="text-align:center;">기본 모델</th>
+      <th style="text-align:center;">특징</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td style="white-space:nowrap;"><strong style="color:#22d3ee;">Claude Code</strong></td>
+        <td style="text-align:center; white-space:nowrap;">CLI + IDE</td>
+        <td style="text-align:center; white-space:nowrap;">Claude (Opus/Sonnet/Haiku)</td>
+        <td style="text-align:center; white-space:nowrap;">에이전트 루프 &middot; Skills &middot; Teams</td>
+      </tr>
+      <tr>
+        <td style="white-space:nowrap;"><strong style="color:#fbbf24;">Codex CLI</strong></td>
+        <td style="text-align:center; white-space:nowrap;">CLI</td>
+        <td style="text-align:center; white-space:nowrap;">GPT-5 계열</td>
+        <td style="text-align:center; white-space:nowrap;">리뷰 &middot; 병렬 검증에 강점</td>
+      </tr>
+      <tr>
+        <td style="white-space:nowrap;"><strong style="color:#a78bfa;">Cursor</strong></td>
+        <td style="text-align:center; white-space:nowrap;">IDE 전용</td>
+        <td style="text-align:center; white-space:nowrap;">멀티 (Claude/GPT/Gemini)</td>
+        <td style="text-align:center; white-space:nowrap;">에디터 UX 완성도</td>
+      </tr>
+      <tr>
+        <td style="white-space:nowrap;"><strong style="color:#34d399;">Continue</strong></td>
+        <td style="text-align:center; white-space:nowrap;">IDE 확장</td>
+        <td style="text-align:center; white-space:nowrap;">로컬/원격 선택</td>
+        <td style="text-align:center; white-space:nowrap;">오픈소스 &middot; 커스텀 자유도</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="note tip" style="margin-top:2vh;">
+    <p>오늘은 Claude Code 중심으로 다룹니다 &mdash; 다른 도구는 필요에 따라 병행. 도구는 자주 바뀌지만 <strong style="color:#fff;">에이전트 작동 원리</strong>는 공통</p>
+  </div>
+</div>
+
+<!-- B1.3 설치 + 첫 실행 -->
+<div class="slide in-cyan">
+  <h3>설치 &middot; 첫 실행</h3>
+  <div style="display:flex; gap:2vw; width:100%; max-width:960px; align-items:stretch; margin-top:2vh;">
+    <div style="flex:1.2; background:rgba(34,211,238,0.04); border:1px solid rgba(34,211,238,0.2); border-radius:6px; padding:22px;">
+      <div style="color:#22d3ee; font-size:0.85rem; font-weight:700; letter-spacing:0.1em; margin-bottom:12px;">SETUP</div>
+      <pre style="margin:0; font-family:'JetBrains Mono',monospace; font-size:0.95rem; color:rgba(255,255,255,0.9); line-height:1.8;"><span style="color:rgba(255,255,255,0.45);"># 설치</span>
+npm install -g @anthropic-ai/claude-code
+
+<span style="color:rgba(255,255,255,0.45);"># 실행 (프로젝트 루트에서)</span>
+cd your-project
+claude
+
+<span style="color:rgba(255,255,255,0.45);"># 인증</span>
+OAuth 로그인 또는 API 키
+</pre>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; gap:12px;">
+      <div style="border:1px solid rgba(52,211,153,0.25); border-left:3px solid #34d399; padding:16px 18px; border-radius:4px;">
+        <div style="color:#34d399; font-size:0.82rem; font-weight:700; margin-bottom:6px;">필수 환경</div>
+        <p style="color:rgba(255,255,255,0.88); font-size:0.95rem; line-height:1.55;">Node.js 18.18+<br>Git 2.30+</p>
+      </div>
+      <div style="border:1px solid rgba(251,191,36,0.25); border-left:3px solid #fbbf24; padding:16px 18px; border-radius:4px;">
+        <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; margin-bottom:6px;">삼성 환경</div>
+        <p style="color:rgba(255,255,255,0.88); font-size:0.95rem; line-height:1.55;">사외망 환경에서 프론티어 모델 사용<br>사내망 가이드는 별도 공지</p>
+      </div>
+      <div style="border:1px solid rgba(96,165,250,0.25); border-left:3px solid #60a5fa; padding:16px 18px; border-radius:4px;">
+        <div style="color:#60a5fa; font-size:0.82rem; font-weight:700; margin-bottom:6px;">첫 프롬프트</div>
+        <p style="color:rgba(255,255,255,0.88); font-size:0.95rem; line-height:1.55;">"이 레포 구조를 요약하고 CLAUDE.md 초안을 만들어줘"</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- B2.1 Agent Loop -->
+<div class="slide in-cyan">
+  <h3>Agent Loop &mdash; 에이전트는 이렇게 작동한다</h3>
+  <div class="arch-layers" style="margin-top:2vh;">
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">1. 지시</div><div class="brand">사용자 프롬프트 &middot; 현재 컨텍스트</div><div class="desc" style="color:rgba(255,255,255,0.65);">입력</div></div>
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">2. 계획</div><div class="brand">작업 분해 &middot; 어떤 도구를 쓸지 결정</div><div class="desc" style="color:rgba(255,255,255,0.65);">Plan mode에서 명시화</div></div>
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">3. 도구 호출</div><div class="brand">Read / Edit / Bash / Grep / Web / MCP</div><div class="desc" style="color:rgba(255,255,255,0.65);">실제 환경에 개입</div></div>
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">4. 관찰</div><div class="brand">도구 결과를 해석 &middot; 다음 행동 판단</div><div class="desc" style="color:rgba(255,255,255,0.65);">피드백</div></div>
+    <div class="arch-layer on"><div class="role" style="color:#22d3ee;">5. 반복</div><div class="brand" style="color:#22d3ee;">목표 달성까지 2~5를 계속</div><div class="desc" style="color:#22d3ee; font-weight:700;">자율 수시간 &rarr; 중간 보고</div></div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">챗봇은 1회 응답, 에이전트는 <span class="em">이 루프 자체가 메커니즘</span></p>
+</div>
+
+<!-- B2.2 Tool Use -->
+<div class="slide in-cyan">
+  <h3>Tool Use &mdash; 무엇을 할 수 있나</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:980px;margin-top:2vh;">
+    <div style="border-left:3px solid #22d3ee; background:rgba(34,211,238,0.04); padding:20px;">
+      <div style="color:#22d3ee; font-weight:800; font-size:1.05rem; margin-bottom:8px;">내장 도구 (Claude Code)</div>
+      <p style="color:rgba(255,255,255,0.9); font-size:0.95rem; line-height:1.7;"><code style="color:#22d3ee;">Read</code> 파일 읽기 &middot; <code style="color:#22d3ee;">Edit</code> 수정 &middot; <code style="color:#22d3ee;">Write</code> 생성<br><code style="color:#22d3ee;">Bash</code> 셸 실행 &middot; <code style="color:#22d3ee;">Grep</code> 검색 &middot; <code style="color:#22d3ee;">Glob</code> 패턴<br><code style="color:#22d3ee;">WebFetch</code> &middot; <code style="color:#22d3ee;">WebSearch</code></p>
+    </div>
+    <div style="border-left:3px solid #34d399; background:rgba(52,211,153,0.04); padding:20px;">
+      <div style="color:#34d399; font-weight:800; font-size:1.05rem; margin-bottom:8px;">확장 (MCP &middot; Plugin)</div>
+      <p style="color:rgba(255,255,255,0.9); font-size:0.95rem; line-height:1.7;">GitHub / Jira / Slack 연동<br>Chrome 브라우저 자동화<br>DB 쿼리 &middot; 내부 API<br><span style="color:rgba(255,255,255,0.65);">필요에 따라 등록</span></p>
+    </div>
+    <div style="border-left:3px solid #fbbf24; background:rgba(251,191,36,0.04); padding:20px;">
+      <div style="color:#fbbf24; font-weight:800; font-size:1.05rem; margin-bottom:8px;">하위 에이전트 (Task)</div>
+      <p style="color:rgba(255,255,255,0.9); font-size:0.95rem; line-height:1.7;">독립 컨텍스트에서 병렬 실행<br>대규모 탐색 &middot; 교차 검증<br>메인 세션 컨텍스트 보호</p>
+    </div>
+    <div style="border-left:3px solid #a78bfa; background:rgba(167,139,250,0.04); padding:20px;">
+      <div style="color:#a78bfa; font-weight:800; font-size:1.05rem; margin-bottom:8px;">Skills &middot; Hooks</div>
+      <p style="color:rgba(255,255,255,0.9); font-size:0.95rem; line-height:1.7;">자주 쓰는 절차를 한 단어로<br>이벤트 기반 자동 트리거<br><span style="color:rgba(255,255,255,0.65);">팀 단위로 공유 가능</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- B2.3 Plan Mode + 핵심 명령어 -->
+<div class="slide in-cyan">
+  <h3>Plan Mode &middot; 핵심 명령어</h3>
+  <table class="tbl" style="margin-top:2vh; width:100%; max-width:960px;">
+    <thead><tr><th style="width:160px;">명령</th><th style="text-align:left;">용도</th><th style="text-align:left;">언제 쓰나</th></tr></thead>
+    <tbody>
+      <tr><td><code style="color:#22d3ee;">/plan</code></td><td>실행 전 계획만 제시</td><td>3파일 이상 변경, 설계 판단 필요</td></tr>
+      <tr><td><code style="color:#22d3ee;">/compact</code></td><td>대화를 요약으로 압축</td><td>긴 세션 진입 전, 컨텍스트 포화 예상</td></tr>
+      <tr><td><code style="color:#22d3ee;">/clear</code></td><td>컨텍스트 초기화</td><td>무관한 작업 전환</td></tr>
+      <tr><td><code style="color:#22d3ee;">/resume</code></td><td>드롭된 세션 복구</td><td>연결 끊김 / 재시작</td></tr>
+      <tr><td><code style="color:#22d3ee;">/mcp</code></td><td>MCP 서버 관리</td><td>외부 도구 연결</td></tr>
+      <tr><td><code style="color:#22d3ee;">/fast</code></td><td>빠른 출력 모드</td><td>간단한 쿼리, 빠른 이터레이션</td></tr>
+    </tbody>
+  </table>
+  <div class="note tip" style="margin-top:2vh;"><p>Plan mode는 <strong style="color:#22d3ee;">의사결정이 있는 작업</strong>에서 특히 유용 &mdash; 에이전트의 판단 근거를 먼저 본다</p></div>
+</div>
+
+<!-- B2.4 컨텍스트 관리 -->
+<div class="slide in-cyan">
+  <h3>컨텍스트 관리 &mdash; /compact vs /clear</h3>
+  <div class="comp" style="margin-top:2vh;">
+    <div class="comp-item on" style="border-top:3px solid rgba(34,211,238,0.55);"><div class="tag" style="color:#22d3ee;">/compact</div><p style="font-size:clamp(1rem,1.3vw,1.2rem); color:rgba(255,255,255,0.92);">대화 요약을 컨텍스트로 유지<br><strong style="color:#22d3ee;">맥락 보존</strong>하며 토큰 감량</p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(251,191,36,0.55);"><div class="tag" style="color:#fbbf24;">/clear</div><p style="font-size:clamp(1rem,1.3vw,1.2rem); color:rgba(255,255,255,0.92);">완전 초기화<br><strong style="color:#fbbf24;">새 주제</strong>로 전환</p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(167,139,250,0.55);"><div class="tag" style="color:#a78bfa;">5분 규칙</div><p style="font-size:clamp(1rem,1.3vw,1.2rem); color:rgba(255,255,255,0.92);">프롬프트 캐시 TTL 5분<br><strong style="color:#a78bfa;">연속 사용</strong>이 비용 효율</p></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>긴 작업은 2시간 단위로 세션 리셋 &mdash; 컨텍스트가 얇아지면 판단 품질이 떨어진다</p></div>
+</div>
+
+<!-- B2.5 Sub-agent & Delegation 임계값 -->
+<div class="slide in-cyan">
+  <h3>Sub-agent &middot; 위임 임계값</h3>
+  <table class="tbl" style="margin-top:2vh; width:100%; max-width:960px;">
+    <thead><tr><th style="width:180px;">상황</th><th style="text-align:left;">처리</th><th style="text-align:left;">이유</th></tr></thead>
+    <tbody>
+      <tr><td style="color:rgba(255,255,255,0.88);">2 파일 수정</td><td>메인 세션</td><td>컨텍스트 오버헤드가 더 큼</td></tr>
+      <tr><td style="color:rgba(255,255,255,0.88);">순차 단계 작업</td><td>메인 세션</td><td>병렬화 이득 없음</td></tr>
+      <tr><td style="color:#22d3ee; font-weight:700;">≥10 파일 탐색</td><td style="color:#22d3ee;">Explore 서브에이전트</td><td>메인 컨텍스트 보호</td></tr>
+      <tr><td style="color:#22d3ee; font-weight:700;">≥3 독립 작업</td><td style="color:#22d3ee;">병렬 Task 호출</td><td>시간 단축 &middot; 격리된 실행</td></tr>
+      <tr><td style="color:#34d399; font-weight:700;">리서치 / 의사결정</td><td style="color:#34d399;">리서치 fan-out</td><td>다각도 perspective 필요</td></tr>
+    </tbody>
+  </table>
+  <div class="note tip" style="margin-top:2vh;"><p>3명 팀 = 순차 실행 대비 <strong>3~4배 토큰</strong> &mdash; 실제 병렬 이득이 있을 때만 붙여라</p></div>
+</div>
+
+<!-- B3.1 CLAUDE.md 계층 -->
+<div class="slide in-cyan">
+  <h3>CLAUDE.md &mdash; 프로젝트 지식을 코드처럼 관리</h3>
+  <div class="arch-layers" style="margin-top:2vh; max-width:1000px;">
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">Global</div><div class="brand"><code style="color:#22d3ee;">~/.claude/CLAUDE.md</code></div><div class="desc" style="color:rgba(255,255,255,0.7);">모든 프로젝트 공통 (언어·스타일·협업 원칙)</div></div>
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">Project</div><div class="brand"><code style="color:#22d3ee;">&lt;repo&gt;/CLAUDE.md</code></div><div class="desc" style="color:rgba(255,255,255,0.7);">이 레포의 규칙 (빌드·테스트·컨벤션)</div></div>
+    <div class="arch-layer on"><div class="role" style="color:#22d3ee;">Local</div><div class="brand" style="color:#22d3ee;"><code style="color:#22d3ee;">.claude/settings.local.json</code></div><div class="desc" style="color:#22d3ee; font-weight:700;">개인 설정 (권한 &middot; env &middot; hook) &middot; .gitignore 대상</div></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>세션 시작 시 자동 로드 &mdash; <strong style="color:#22d3ee;">AI가 맥락을 찾느라 허비하는 시간</strong>을 없앤다</p></div>
+</div>
+
+<!-- B3.2 Rules 모듈 -->
+<div class="slide in-cyan">
+  <h3>Rules &mdash; 규칙을 모듈로 쪼개라</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:980px;margin-top:2vh;">
+    <div style="border-left:3px solid #22d3ee; padding:18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">agent-teams.md</code><p style="color:rgba(255,255,255,0.85); font-size:0.95rem; margin-top:6px;">언제 서브에이전트 띄울지, 모델 티어 선택</p></div>
+    <div style="border-left:3px solid #22d3ee; padding:18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">coding-standards.md</code><p style="color:rgba(255,255,255,0.85); font-size:0.95rem; margin-top:6px;">스타일 &middot; 테스트 &middot; 커밋 메시지 규칙</p></div>
+    <div style="border-left:3px solid #22d3ee; padding:18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">memory.md</code><p style="color:rgba(255,255,255,0.85); font-size:0.95rem; margin-top:6px;">auto-memory 레이어 동작 방식</p></div>
+    <div style="border-left:3px solid #22d3ee; padding:18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">monitoring.md</code><p style="color:rgba(255,255,255,0.85); font-size:0.95rem; margin-top:6px;">Monitor tool 활용 패턴</p></div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">단일 CLAUDE.md 거대화 &rarr; <span class="em">@-import</span>로 모듈 로드, 필요할 때만 펼침</p>
+</div>
+
+<!-- B3.3 Auto-memory -->
+<div class="slide in-cyan">
+  <h3>Auto-memory &mdash; 세션을 넘는 기억</h3>
+  <div class="comp" style="margin-top:2vh;">
+    <div class="comp-item on" style="border-top:3px solid rgba(96,165,250,0.5);"><div class="tag" style="color:#60a5fa;">user</div><p style="font-size:0.98rem; color:rgba(255,255,255,0.92);">역할 &middot; 선호 &middot; 지식 수준</p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(251,191,36,0.5);"><div class="tag" style="color:#fbbf24;">feedback</div><p style="font-size:0.98rem; color:rgba(255,255,255,0.92);">교정 &middot; 확인된 판단 + Why</p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(52,211,153,0.5);"><div class="tag" style="color:#34d399;">project</div><p style="font-size:0.98rem; color:rgba(255,255,255,0.92);">현재 이니셔티브 &middot; 마감 &middot; 이해관계</p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(167,139,250,0.5);"><div class="tag" style="color:#a78bfa;">reference</div><p style="font-size:0.98rem; color:rgba(255,255,255,0.92);">외부 시스템 포인터 (Jira, Confluence)</p></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p><code style="color:#22d3ee;">~/.claude/projects/&lt;name&gt;/memory/MEMORY.md</code> 인덱스 + topic 파일 &mdash; 200줄/25KB 자동 로드</p></div>
+</div>
+
+<!-- B3.4 Skills -->
+<div class="slide in-cyan">
+  <h3>Skills &mdash; 반복 절차를 한 단어 명령으로</h3>
+  <div style="display:flex; gap:2vw; width:100%; max-width:980px; align-items:stretch; margin-top:2vh;">
+    <div style="flex:1.2; background:rgba(34,211,238,0.04); border:1px solid rgba(34,211,238,0.2); border-radius:6px; padding:22px;">
+      <div style="color:#22d3ee; font-size:0.85rem; font-weight:700; letter-spacing:0.1em; margin-bottom:10px;">EXAMPLE</div>
+      <pre style="margin:0; font-family:'JetBrains Mono',monospace; font-size:0.92rem; color:rgba(255,255,255,0.9); line-height:1.75;"><span style="color:rgba(255,255,255,0.45);"># 사용</span>
+/review-pr 1234
+
+<span style="color:rgba(255,255,255,0.45);"># 내부 동작 (스킬 정의)</span>
+1. gh pr view 1234
+2. 변경 파일 분석
+3. 프로젝트 컨벤션 적용
+4. 리스크 항목 요약
+5. Codex 교차 검증 병렬
+</pre>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; gap:12px;">
+      <div style="border:1px solid rgba(52,211,153,0.25); border-left:3px solid #34d399; padding:16px 18px; border-radius:4px;"><div style="color:#34d399; font-size:0.82rem; font-weight:700; margin-bottom:6px;">효과</div><p style="color:rgba(255,255,255,0.9); font-size:0.95rem;">프롬프트 반복 제거 &middot; 품질 일관성</p></div>
+      <div style="border:1px solid rgba(251,191,36,0.25); border-left:3px solid #fbbf24; padding:16px 18px; border-radius:4px;"><div style="color:#fbbf24; font-size:0.82rem; font-weight:700; margin-bottom:6px;">팀 공유</div><p style="color:rgba(255,255,255,0.9); font-size:0.95rem;">레포에 커밋 &rarr; 팀원이 즉시 동일 결과</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- B3.5 Prompt Caching -->
+<div class="slide in-cyan">
+  <h3>Prompt Caching &mdash; 5분 TTL의 경제학</h3>
+  <div class="stat-grid" style="margin-top:2vh;">
+    <div class="stat-card on" style="border-top:3px solid rgba(34,211,238,0.55);"><div class="label" style="color:#22d3ee;">Hit</div><div class="value" style="color:#22d3ee;">~10%</div><div class="source">캐시 비용 (읽기)</div></div>
+    <div class="stat-card on" style="border-top:3px solid rgba(251,191,36,0.55);"><div class="label" style="color:#fbbf24;">Write</div><div class="value" style="color:#fbbf24;">~1.25x</div><div class="source">최초 쓰기 비용</div></div>
+    <div class="stat-card on" style="border-top:3px solid rgba(52,211,153,0.55);"><div class="label" style="color:#34d399;">TTL</div><div class="value" style="color:#34d399;">5분</div><div class="source">기본 만료 시간</div></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>큰 CLAUDE.md + Rules + 레포 요약이 <strong>시스템 프롬프트</strong>로 들어가면 cache 히트율이 품질과 비용을 동시에 잡는다</p></div>
+</div>
+
+<!-- B4.1 Agent Teams primitives -->
+<div class="slide in-cyan">
+  <h3>Agent Teams &mdash; 팀 단위 조정</h3>
+  <table class="tbl" style="margin-top:2vh; width:100%; max-width:960px;">
+    <thead><tr><th style="width:200px;">도구</th><th style="text-align:left;">역할</th></tr></thead>
+    <tbody>
+      <tr><td><code style="color:#22d3ee;">TeamCreate</code></td><td>조정된 팀 생성 &middot; 팀원은 CLAUDE.md / Skills 상속, 대화는 상속 안 함</td></tr>
+      <tr><td><code style="color:#22d3ee;">SendMessage</code></td><td>팀원 간 peer-to-peer 메시지 (mailbox)</td></tr>
+      <tr><td><code style="color:#22d3ee;">TaskCreate / List / Get</code></td><td>공유 큐 &middot; <code style="color:#22d3ee;">TaskCreated</code> hook fires</td></tr>
+      <tr><td><code style="color:#22d3ee;">EnterWorktree</code></td><td>팀원별 분리된 브랜치 + 작업 디렉토리</td></tr>
+    </tbody>
+  </table>
+  <div class="note tip" style="margin-top:2vh;"><p>Teams는 <strong style="color:#22d3ee;">팀원끼리 대화가 필요할 때</strong> &mdash; 독립 쿼리 팬아웃은 Agent 호출 여러 개로 충분</p></div>
+</div>
+
+<!-- B4.2 Tiered Model Selection -->
+<div class="slide in-cyan">
+  <h3>Tiered Model &mdash; 작업에 맞는 모델 티어</h3>
+  <div class="comp" style="margin-top:2vh;">
+    <div class="comp-item on" style="border-top:3px solid rgba(167,139,250,0.55);"><div class="tag" style="color:#a78bfa;">Opus</div><p style="font-size:1rem; color:rgba(255,255,255,0.92);">메인 오케스트레이션<br>복잡한 설계 &middot; 합의</p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(34,211,238,0.55);"><div class="tag" style="color:#22d3ee;">Sonnet</div><p style="font-size:1rem; color:rgba(255,255,255,0.92);">집중 구현 &middot; 리뷰<br>목적 있는 리서치</p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(52,211,153,0.55);"><div class="tag" style="color:#34d399;">Haiku</div><p style="font-size:1rem; color:rgba(255,255,255,0.92);">읽기 전용 탐색<br>간단 lookup<br><span style="color:rgba(255,255,255,0.65);">Explore 에이전트가 이미 사용</span></p></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>Plan 모드(<code style="color:#22d3ee;">opusplan</code>) &mdash; Opus가 설계 후 Sonnet으로 전환 실행</p></div>
+</div>
+
+<!-- B4.3 Codex plugin -->
+<div class="slide in-cyan">
+  <h3>Codex Plugin &mdash; 크로스 엔진 검증</h3>
+  <table class="tbl" style="margin-top:2vh; width:100%; max-width:980px;">
+    <thead><tr><th style="width:220px;">명령</th><th style="text-align:left;">용도</th></tr></thead>
+    <tbody>
+      <tr><td><code style="color:#22d3ee;">/codex:review</code></td><td>현재 diff 또는 브랜치 read-only 리뷰</td></tr>
+      <tr><td><code style="color:#22d3ee;">/codex:adversarial-review</code></td><td>가정을 공격하는 데빌즈-애드버킷 리뷰</td></tr>
+      <tr><td><code style="color:#22d3ee;">/codex:rescue</code></td><td>복잡한 버그 / 리팩토링을 Codex에 완전 위임</td></tr>
+      <tr><td><code style="color:#22d3ee;">--background</code></td><td>비동기 실행, <code style="color:#22d3ee;">/codex:status</code>로 폴링</td></tr>
+    </tbody>
+  </table>
+  <div class="note tip" style="margin-top:2vh;"><p>Claude와 Codex를 <strong>동시에 다른 각도로</strong> 돌리면 한쪽 엔진의 편향을 상쇄한다</p></div>
+</div>
+
+<!-- B4.4 Sub-agent fan-out -->
+<div class="slide in-cyan">
+  <h3>Sub-agent Fan-out &mdash; 리서치·의사결정 때만</h3>
+  <div style="display:flex; gap:2vw; width:100%; max-width:980px; align-items:stretch; margin-top:2vh;">
+    <div style="flex:1; background:rgba(52,211,153,0.04); border-left:3px solid #34d399; padding:22px; border-radius:4px;"><div style="color:#34d399; font-weight:800; font-size:1.05rem; margin-bottom:8px;">적절한 용도</div><p style="color:rgba(255,255,255,0.92); font-size:0.95rem; line-height:1.65;">10+ 각도로 연구 질문 탐색<br>아키텍처 결정 전 카운슬<br>광범위 산업 사례 수집<br><strong style="color:#34d399;">10~20 서브에이전트</strong> 동시 실행</p></div>
+    <div style="flex:1; background:rgba(252,165,165,0.04); border-left:3px solid #fca5a5; padding:22px; border-radius:4px;"><div style="color:#fca5a5; font-weight:800; font-size:1.05rem; margin-bottom:8px;">쓰지 말 것</div><p style="color:rgba(255,255,255,0.92); font-size:0.95rem; line-height:1.65;">단일 파일 버그 수정<br>타겟 코드 리뷰<br>순차적으로 엮인 구현<br><strong style="color:#fca5a5;">토큰 · 컨텍스트 폭증</strong></p></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>20~50 워커 팬아웃은 <strong>research / decision / council</strong>에서만 정당화된다</p></div>
+</div>
+
+<!-- B5.1 MCP 개요 -->
+<div class="slide in-cyan">
+  <h3>MCP &mdash; Model Context Protocol</h3>
+  <div class="arch-layers" style="margin-top:2vh;">
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">What</div><div class="brand">Anthropic 표준 &middot; AI ↔ 외부 도구 공통 인터페이스</div><div class="desc" style="color:rgba(255,255,255,0.7);">LSP of agent tools</div></div>
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">Why</div><div class="brand">도구마다 별도 통합 코드 없이 &middot; 표준 프로토콜로 연결</div><div class="desc" style="color:rgba(255,255,255,0.7);">서버 한 번, 모든 에이전트에서 재사용</div></div>
+    <div class="arch-layer on"><div class="role" style="color:#22d3ee;">How</div><div class="brand" style="color:#22d3ee;">JSON-RPC 기반 stdio / HTTP 서버</div><div class="desc" style="color:#22d3ee; font-weight:700;">도구 스키마를 에이전트에 노출</div></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>Claude Code, Cursor, Codex 등 여러 에이전트가 <strong style="color:#22d3ee;">같은 MCP 서버</strong>를 공유 가능</p></div>
+</div>
+
+<!-- B5.2 실제 MCP 서버 -->
+<div class="slide in-cyan">
+  <h3>실전 MCP &mdash; 많이 쓰는 서버</h3>
+  <div class="comp" style="margin-top:2vh;">
+    <div class="comp-item on" style="border-top:3px solid rgba(34,211,238,0.55);"><div class="tag" style="color:#22d3ee;">browser</div><p style="font-size:0.98rem; color:rgba(255,255,255,0.92);"><code style="color:#22d3ee;">claude-in-chrome</code><br>탭 제어 &middot; 페이지 읽기 &middot; JS 실행<br>스크린샷 GIF</p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(251,191,36,0.55);"><div class="tag" style="color:#fbbf24;">codex</div><p style="font-size:0.98rem; color:rgba(255,255,255,0.92);">Codex CLI를 MCP 서버로 등록<br>교차 검증 &middot; 리뷰 호출<br><code style="color:#fbbf24;">codex mcp-server</code></p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(52,211,153,0.55);"><div class="tag" style="color:#34d399;">integrations</div><p style="font-size:0.98rem; color:rgba(255,255,255,0.92);">GitHub / GitLab / Jira<br>Slack / Gmail / Calendar<br>사내 API (별도 서버 구현)</p></div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">필요한 도구가 MCP 서버로 <span class="em">이미 있을 가능성</span>이 높다 &mdash; 먼저 탐색</p>
+</div>
+
+<!-- B5.3 .mcp.json + deferred tools -->
+<div class="slide in-cyan">
+  <h3>설정 &mdash; .mcp.json과 Deferred Tools</h3>
+  <div style="display:flex; gap:2vw; width:100%; max-width:1000px; align-items:stretch; margin-top:2vh;">
+    <div style="flex:1.2; background:rgba(34,211,238,0.04); border:1px solid rgba(34,211,238,0.2); border-radius:6px; padding:22px;">
+      <div style="color:#22d3ee; font-size:0.85rem; font-weight:700; letter-spacing:0.1em; margin-bottom:10px;">.mcp.json</div>
+      <pre style="margin:0; font-family:'JetBrains Mono',monospace; font-size:0.88rem; color:rgba(255,255,255,0.9); line-height:1.7;">{
+  "mcpServers": {
+    "codex": {
+      "command": "codex",
+      "args": ["mcp-server"]
+    },
+    "chrome": {
+      "command": "npx",
+      "args": ["@anthropic/claude-in-chrome"]
+    }
+  }
+}</pre>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; gap:12px;">
+      <div style="border:1px solid rgba(52,211,153,0.25); border-left:3px solid #34d399; padding:16px; border-radius:4px;"><div style="color:#34d399; font-size:0.82rem; font-weight:700; margin-bottom:6px;">Deferred Tools</div><p style="color:rgba(255,255,255,0.9); font-size:0.95rem; line-height:1.55;">필요할 때만 스키마 로드 &mdash; 시작 컨텍스트 절약</p></div>
+      <div style="border:1px solid rgba(251,191,36,0.25); border-left:3px solid #fbbf24; padding:16px; border-radius:4px;"><div style="color:#fbbf24; font-size:0.82rem; font-weight:700; margin-bottom:6px;">ToolSearch</div><p style="color:rgba(255,255,255,0.9); font-size:0.95rem; line-height:1.55;">키워드나 <code style="color:#fbbf24;">select:Name</code>으로 필요 툴만 활성화</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- B6.1 결과물 아닌 생성기 -->
+<div class="slide in-cyan">
+  <p class="impact-text">결과물을 고치지 말고<br><span class="em">생성기를 고쳐라</span></p>
+  <p class="impact-sub" style="margin-top:3vh;">AI 산출물을 매번 손보는 대신 <strong style="color:#FFF;">프롬프트 &middot; Skill &middot; 규칙</strong>을 개선 &mdash; 이후 모든 산출물이 함께 나아진다</p>
+</div>
+
+<!-- B6.2 TDD + Claude Code -->
+<div class="slide in-cyan">
+  <h3>TDD + Claude Code &mdash; 테스트 먼저</h3>
+  <div class="arch-layers" style="margin-top:2vh;">
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">1</div><div class="brand">실패하는 테스트를 먼저 작성</div><div class="desc" style="color:rgba(255,255,255,0.7);">동작 사양을 코드로 고정</div></div>
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">2</div><div class="brand">"이 테스트가 통과하도록 구현해줘"</div><div class="desc" style="color:rgba(255,255,255,0.7);">에이전트가 자율 루프</div></div>
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">3</div><div class="brand">테스트 녹색 → 리팩터링 지시</div><div class="desc" style="color:rgba(255,255,255,0.7);">계약 유지하며 구조 개선</div></div>
+    <div class="arch-layer on"><div class="role" style="color:#22d3ee;">4</div><div class="brand" style="color:#22d3ee;">PR 생성 전 Codex 교차 리뷰</div><div class="desc" style="color:#22d3ee; font-weight:700;">독립 엔진의 2차 확인</div></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>테스트가 사양이자 <strong style="color:#22d3ee;">에이전트 자율 작업의 종료 조건</strong> &mdash; 불분명한 지시 제거</p></div>
+</div>
+
+<!-- B6.3 PR 리뷰 병렬 -->
+<div class="slide in-cyan">
+  <h3>PR 리뷰 &mdash; 두 엔진 병렬</h3>
+  <div style="display:flex; gap:2vw; width:100%; max-width:1000px; align-items:stretch; margin-top:2vh;">
+    <div style="flex:1; border-left:3px solid #22d3ee; background:rgba(34,211,238,0.04); padding:22px;"><div style="color:#22d3ee; font-weight:800; font-size:1.05rem; margin-bottom:8px;">Claude Sonnet 리뷰</div><p style="color:rgba(255,255,255,0.9); font-size:0.95rem; line-height:1.7;">로직 정합성<br>프로젝트 컨벤션 일치<br>테스트 커버리지</p></div>
+    <div style="flex:1; border-left:3px solid #fbbf24; background:rgba(251,191,36,0.04); padding:22px;"><div style="color:#fbbf24; font-weight:800; font-size:1.05rem; margin-bottom:8px;">/codex:review --background</div><p style="color:rgba(255,255,255,0.9); font-size:0.95rem; line-height:1.7;">보안 체크 (OWASP)<br>엣지 케이스 탐색<br>성능 리스크</p></div>
+    <div style="flex:1; border-left:3px solid #fca5a5; background:rgba(252,165,165,0.04); padding:22px;"><div style="color:#fca5a5; font-weight:800; font-size:1.05rem; margin-bottom:8px;">/codex:adversarial</div><p style="color:rgba(255,255,255,0.9); font-size:0.95rem; line-height:1.7;">가정을 공격<br>설계 결정 스트레스 테스트</p></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>세 리뷰 결과를 메인 에이전트가 <strong style="color:#22d3ee;">합성</strong> &mdash; 겹치는 항목은 high-confidence</p></div>
+</div>
+
+<!-- B6.3.5 디버깅 - 가설 경쟁 -->
+<div class="slide in-cyan">
+  <h3>디버깅 &mdash; 가설 경쟁 패턴</h3>
+  <div class="arch-layers" style="margin-top:2vh;">
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">1</div><div class="brand"><code style="color:#22d3ee;">/plan</code>으로 증상 재현 계획</div><div class="desc" style="color:rgba(255,255,255,0.7);">입력·환경·예상 출력 고정</div></div>
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">2</div><div class="brand">debugger 에이전트 &mdash; 5~8 가설 병렬</div><div class="desc" style="color:rgba(255,255,255,0.7);">경쟁하는 원인 후보를 FAST로 스크린</div></div>
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">3</div><div class="brand"><code style="color:#22d3ee;">/codex:rescue --background</code> 독립 재현</div><div class="desc" style="color:rgba(255,255,255,0.7);">다른 엔진의 2차 확인</div></div>
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">4</div><div class="brand"><code style="color:#22d3ee;">git bisect</code> + AI 해석으로 커밋 특정</div><div class="desc" style="color:rgba(255,255,255,0.7);">원인 커밋에 이유 설명</div></div>
+    <div class="arch-layer on"><div class="role" style="color:#22d3ee;">5</div><div class="brand" style="color:#22d3ee;">회귀 테스트 + 수정 커밋</div><div class="desc" style="color:#22d3ee; font-weight:700;">같은 버그가 다시 나지 않도록</div></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>"이 버그 고쳐줘" 한 줄보다 <strong style="color:#22d3ee;">재현 조건 + 가설 경쟁</strong>이 훨씬 효율적</p></div>
+</div>
+
+<!-- B6.4 Git Worktree -->
+<div class="slide in-cyan">
+  <h3>Git Worktree &mdash; 병렬 브랜치 작업</h3>
+  <div style="display:flex; gap:2vw; width:100%; max-width:1000px; align-items:stretch; margin-top:2vh;">
+    <div style="flex:1.2; background:rgba(34,211,238,0.04); border:1px solid rgba(34,211,238,0.2); border-radius:6px; padding:22px;">
+      <div style="color:#22d3ee; font-size:0.85rem; font-weight:700; letter-spacing:0.1em; margin-bottom:10px;">COMMAND</div>
+      <pre style="margin:0; font-family:'JetBrains Mono',monospace; font-size:0.92rem; color:rgba(255,255,255,0.9); line-height:1.75;"><span style="color:rgba(255,255,255,0.45);"># 새 worktree</span>
+git worktree add ../feat-x feat-x
+
+<span style="color:rgba(255,255,255,0.45);"># 또는 Agent Team에서</span>
+EnterWorktree({branch:"feat-x"})
+
+<span style="color:rgba(255,255,255,0.45);"># 정리</span>
+ExitWorktree({keepBranch:true})</pre>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; gap:12px;">
+      <div style="border:1px solid rgba(52,211,153,0.25); border-left:3px solid #34d399; padding:16px; border-radius:4px;"><div style="color:#34d399; font-size:0.82rem; font-weight:700; margin-bottom:6px;">효과</div><p style="color:rgba(255,255,255,0.9); font-size:0.95rem;">팀원마다 격리된 디렉토리<br>메인 브랜치 오염 방지</p></div>
+      <div style="border:1px solid rgba(251,191,36,0.25); border-left:3px solid #fbbf24; padding:16px; border-radius:4px;"><div style="color:#fbbf24; font-size:0.82rem; font-weight:700; margin-bottom:6px;">주의</div><p style="color:rgba(255,255,255,0.9); font-size:0.95rem;">worktree isolation 플래그가 때때로 무시됨 &mdash; 실제 경로 확인</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- B6.5 프롬프팅 패턴 -->
+<div class="slide in-cyan">
+  <h3>프롬프팅 &mdash; 네 가지 베이스 패턴</h3>
+  <div class="comp" style="margin-top:2vh;">
+    <div class="comp-item on" style="border-top:3px solid rgba(34,211,238,0.5);"><div class="tag" style="color:#22d3ee;">분석</div><p style="font-size:0.95rem; color:rgba(255,255,255,0.92);">"X를 읽고 Y 관점에서 요약"<br>읽기 + 구조화</p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(52,211,153,0.5);"><div class="tag" style="color:#34d399;">생성</div><p style="font-size:0.95rem; color:rgba(255,255,255,0.92);">"이 컨벤션을 따라 Z 만들어"<br>참조 + 산출</p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(251,191,36,0.5);"><div class="tag" style="color:#fbbf24;">변환</div><p style="font-size:0.95rem; color:rgba(255,255,255,0.92);">"A에서 B 형식으로 재구성"<br>입출력 명시</p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(167,139,250,0.5);"><div class="tag" style="color:#a78bfa;">자동화</div><p style="font-size:0.95rem; color:rgba(255,255,255,0.92);">"이 절차를 스킬로 등록"<br>재사용 공정화</p></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>바로 시키지 말고 <strong style="color:#22d3ee;">"먼저 조사해줘"</strong> &mdash; 컨벤션 파악부터 시키면 품질이 다르다</p></div>
+</div>
+
+<!-- B6.6 교차 검증 -->
+<div class="slide in-cyan">
+  <h3>교차 검증 &mdash; AI가 AI를 검증</h3>
+  <div class="arch-layers" style="margin-top:2vh;">
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">Claude</div><div class="brand">일차 산출 &middot; 자체 분석</div><div class="desc" style="color:rgba(255,255,255,0.7);">주 작업자</div></div>
+    <div class="arch-layer"><div class="role" style="color:#fbbf24;">Codex</div><div class="brand">독립 엔진 2차 확인 &middot; 상반 가설</div><div class="desc" style="color:rgba(255,255,255,0.7);">다른 훈련 데이터</div></div>
+    <div class="arch-layer"><div class="role" style="color:#34d399;">Gemini</div><div class="brand">긴 컨텍스트 통합 &middot; 종합 판단</div><div class="desc" style="color:rgba(255,255,255,0.7);">2M token window</div></div>
+    <div class="arch-layer on"><div class="role" style="color:#a78bfa;">사람</div><div class="brand" style="color:#a78bfa;">최종 판단 &middot; 책임</div><div class="desc" style="color:#a78bfa; font-weight:700;">수용 여부</div></div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">같은 가설을 <span class="em">세 엔진이 동의</span>하면 신뢰도 급상승, 엇갈리면 반드시 사람 판단</p>
+</div>
+
+<!-- B6.7 리서치 위임 -->
+<div class="slide in-cyan">
+  <h3>리서치 위임 &mdash; 의사결정 전 카운슬</h3>
+  <div class="comp" style="margin-top:2vh;">
+    <div class="comp-item on" style="border-top:3px solid rgba(34,211,238,0.55);"><div class="tag" style="color:#22d3ee;">researcher</div><p style="font-size:0.95rem; color:rgba(255,255,255,0.92);">스코프된 질문<br>Sonnet 기반 합성</p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(251,191,36,0.55);"><div class="tag" style="color:#fbbf24;">mega-researcher</div><p style="font-size:0.95rem; color:rgba(255,255,255,0.92);">8~10 FAST + 3 DEEP<br>큰 결정 &middot; 산업 스캔</p></div>
+    <div class="comp-item on" style="border-top:3px solid rgba(167,139,250,0.55);"><div class="tag" style="color:#a78bfa;">council 패턴</div><p style="font-size:0.95rem; color:rgba(255,255,255,0.92);">10 관점 동시 수집<br>합의 vs 반대 지점 추출</p></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>리서치는 메인 컨텍스트 밖에서 &mdash; 결과 요약만 받아 <strong style="color:#22d3ee;">토큰 예산 절약</strong></p></div>
+</div>
+
+<!-- B7.1 Harness 구성 -->
+<div class="slide surface">
+  <h3>Harness &mdash; 결과물이 아닌 생성기의 구성</h3>
+  <table class="tbl" style="margin-top:2vh; width:100%; max-width:960px;">
+    <thead><tr><th style="width:200px; text-align:center;">구성 요소</th><th style="text-align:center;">역할</th><th style="text-align:center;">스코프</th></tr></thead>
+    <tbody>
+      <tr><td style="text-align:center;"><strong style="color:#22d3ee;">CLAUDE.md</strong></td><td style="text-align:center;">프로젝트 규칙 &middot; AI 행동 정의</td><td style="text-align:center; color:#22d3ee;">per-repo</td></tr>
+      <tr><td style="text-align:center;"><strong style="color:#34d399;">Custom Skills</strong></td><td style="text-align:center;">반복 작업을 한 단어 명령으로</td><td style="text-align:center; color:#34d399;">per-repo / global</td></tr>
+      <tr><td style="text-align:center;"><strong style="color:#fbbf24;">Rules &amp; Memory</strong></td><td style="text-align:center;">페르소나 &middot; 세션 간 기억</td><td style="text-align:center; color:#fbbf24;">global &middot; per-project</td></tr>
+      <tr><td style="text-align:center;"><strong style="color:#a78bfa;">Agent Teams</strong></td><td style="text-align:center;">하위 에이전트 병렬 &middot; 역할 분담</td><td style="text-align:center; color:#a78bfa;">runtime</td></tr>
+      <tr><td style="text-align:center;"><strong style="color:#fca5a5;">Hooks &middot; MCP</strong></td><td style="text-align:center;">이벤트 자동화 &middot; 외부 도구 연결</td><td style="text-align:center; color:#fca5a5;">per-repo / global</td></tr>
+    </tbody>
+  </table>
+  <p class="sub" style="margin-top:2vh;">남의 Harness보다 <span class="em">내가 쌓은 Harness</span> &mdash; 만드는 과정이 곧 숙련</p>
+</div>
+
+<!-- B7.1a Hooks - 이벤트 기반 자동화 -->
+<div class="slide in-cyan">
+  <h3>Hooks &mdash; 이벤트 훅으로 Claude를 길들인다</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; width:100%; max-width:1040px; margin-top:2vh;">
+    <div style="border:1px solid rgba(34,211,238,0.28); border-top:3px solid #22d3ee; padding:16px 20px; border-radius:4px; background:rgba(34,211,238,0.04);">
+      <div style="color:#22d3ee; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">PreToolUse</div>
+      <p style="color:rgba(255,255,255,0.85); font-size:0.9rem; line-height:1.55; margin:0;">도구 실행 직전 &mdash; 위험한 Bash 차단, 특정 경로 쓰기 방지, 사전 검증</p>
+    </div>
+    <div style="border:1px solid rgba(52,211,153,0.28); border-top:3px solid #34d399; padding:16px 20px; border-radius:4px; background:rgba(52,211,153,0.04);">
+      <div style="color:#34d399; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">UserPromptSubmit</div>
+      <p style="color:rgba(255,255,255,0.85); font-size:0.9rem; line-height:1.55; margin:0;">사용자 입력 직후 &mdash; 프롬프트 증강, 자동 컨텍스트 주입, 팀 컨벤션 강제</p>
+    </div>
+    <div style="border:1px solid rgba(251,191,36,0.28); border-top:3px solid #fbbf24; padding:16px 20px; border-radius:4px; background:rgba(251,191,36,0.04);">
+      <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">PostToolUse</div>
+      <p style="color:rgba(255,255,255,0.85); font-size:0.9rem; line-height:1.55; margin:0;">도구 실행 후 &mdash; 포매터 자동 실행, 테스트 자동 트리거, 로그 기록</p>
+    </div>
+    <div style="border:1px solid rgba(167,139,250,0.28); border-top:3px solid #a78bfa; padding:16px 20px; border-radius:4px; background:rgba(167,139,250,0.04);">
+      <div style="color:#a78bfa; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">Stop</div>
+      <p style="color:rgba(255,255,255,0.85); font-size:0.9rem; line-height:1.55; margin:0;">세션 종료 시 &mdash; 알림, 상태 체크포인트, 남은 TODO 리마인드</p>
+    </div>
+  </div>
+  <pre style="margin:1.5vh 0 0; width:100%; max-width:1040px; font-family:'JetBrains Mono',monospace; font-size:0.78rem; background:rgba(34,211,238,0.04); border-left:3px solid #22d3ee; padding:12px 18px; color:rgba(255,255,255,0.88); line-height:1.5; border-radius:3px; white-space:pre-wrap;">// ~/.claude/settings.json
+{"hooks": {
+  "PreToolUse": [{"matcher":"Bash","hooks":[{"type":"command","command":"./guard-bash.sh"}]}],
+  "PostToolUse": [{"matcher":"Write|Edit","hooks":[{"type":"command","command":"prettier --write $CLAUDE_FILE_PATHS"}]}]
+}}</pre>
+  <p class="sub" style="margin-top:1vh;">Claude가 한 번에 하나씩 따르는 규칙 &rarr; <span class="em">훅은 자동 집행</span> &mdash; 지침과 행위의 간극을 메운다</p>
+</div>
+
+<!-- B7.1b Monitor tool - 이벤트 기반 스트리밍 -->
+<div class="slide in-cyan">
+  <h3>Monitor tool &mdash; 폴링 대신 이벤트 스트리밍</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; width:100%; max-width:1040px; margin-top:2vh;">
+    <div style="border:1px solid rgba(252,165,165,0.28); border-top:3px solid #fca5a5; padding:18px 20px; border-radius:4px; background:rgba(252,165,165,0.04);">
+      <div style="color:#fca5a5; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:8px;">Before &mdash; 폴링 (낭비)</div>
+      <pre style="margin:0; font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:rgba(255,255,255,0.85); line-height:1.55; white-space:pre-wrap;">while true; do
+  npm run build
+  sleep 30
+done</pre>
+      <p style="color:rgba(255,255,255,0.7); font-size:0.82rem; margin:10px 0 0; line-height:1.5;">idle 상태에도 토큰 소모, 실시간성 X</p>
+    </div>
+    <div style="border:1px solid rgba(52,211,153,0.28); border-top:3px solid #34d399; padding:18px 20px; border-radius:4px; background:rgba(52,211,153,0.04);">
+      <div style="color:#34d399; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:8px;">After &mdash; Monitor (이벤트 기반)</div>
+      <pre style="margin:0; font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:rgba(255,255,255,0.85); line-height:1.55; white-space:pre-wrap;">Monitor: npm run dev
+  &rarr; stdout 한 줄마다
+     task-notification 이벤트 발생</pre>
+      <p style="color:rgba(255,255,255,0.7); font-size:0.82rem; margin:10px 0 0; line-height:1.5;">실제 스트리밍 될 때만 깨어남 &mdash; 대기 비용 0</p>
+    </div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;">
+    <p><strong style="color:#22d3ee;">쓰는 곳</strong> &mdash; 개발서버 에러 감시, 로그 tail, CI 완료 대기, 긴 빌드, 테스트 스위트 첫 실패 캐치. <span style="color:rgba(255,255,255,0.6);">한 번 샷 &quot;끝날 때까지 대기&quot;는 Bash <code>run_in_background</code>로 충분.</span></p>
+  </div>
+  <p class="sub" style="margin-top:1.5vh;"><code>/loop</code> + <code>ScheduleWakeup</code>의 heartbeat 폴링이 아닌 <span class="em">외부 사건이 주도</span>하는 흐름</p>
+</div>
+
+<!-- B7.2 Commands 레퍼런스 -->
+<div class="slide in-cyan">
+  <h3>Commands &mdash; 자주 쓰는 슬래시 명령</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:1000px;margin-top:2vh;">
+    <div style="border-left:3px solid #22d3ee; padding:14px 18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">/help</code> <span style="color:rgba(255,255,255,0.7); font-size:0.92rem;">&mdash; 명령 목록·도움</span></div>
+    <div style="border-left:3px solid #22d3ee; padding:14px 18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">/plan</code> <span style="color:rgba(255,255,255,0.7); font-size:0.92rem;">&mdash; 실행 전 계획만</span></div>
+    <div style="border-left:3px solid #22d3ee; padding:14px 18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">/compact</code> <span style="color:rgba(255,255,255,0.7); font-size:0.92rem;">&mdash; 대화 요약 압축</span></div>
+    <div style="border-left:3px solid #22d3ee; padding:14px 18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">/clear</code> <span style="color:rgba(255,255,255,0.7); font-size:0.92rem;">&mdash; 컨텍스트 초기화</span></div>
+    <div style="border-left:3px solid #22d3ee; padding:14px 18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">/resume</code> <span style="color:rgba(255,255,255,0.7); font-size:0.92rem;">&mdash; 세션 복구</span></div>
+    <div style="border-left:3px solid #22d3ee; padding:14px 18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">/mcp</code> <span style="color:rgba(255,255,255,0.7); font-size:0.92rem;">&mdash; MCP 서버 관리</span></div>
+    <div style="border-left:3px solid #22d3ee; padding:14px 18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">/fast</code> <span style="color:rgba(255,255,255,0.7); font-size:0.92rem;">&mdash; 빠른 응답 모드</span></div>
+    <div style="border-left:3px solid #22d3ee; padding:14px 18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">/codex:review</code> <span style="color:rgba(255,255,255,0.7); font-size:0.92rem;">&mdash; Codex 교차 리뷰</span></div>
+    <div style="border-left:3px solid #22d3ee; padding:14px 18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">/codex:rescue</code> <span style="color:rgba(255,255,255,0.7); font-size:0.92rem;">&mdash; Codex에 위임</span></div>
+    <div style="border-left:3px solid #22d3ee; padding:14px 18px; background:rgba(34,211,238,0.04);"><code style="color:#22d3ee;">/chrome</code> <span style="color:rgba(255,255,255,0.7); font-size:0.92rem;">&mdash; 브라우저 자동화</span></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>Custom 명령은 <code style="color:#22d3ee;">~/.claude/commands/*.md</code>에 정의 &mdash; 팀과 공유 가능</p></div>
+</div>
+
+<!-- B7.3 ~/.claude 파일 구조 -->
+<div class="slide in-cyan">
+  <h3>~/.claude &mdash; 파일 구조</h3>
+  <div style="width:100%; max-width:780px; background:rgba(34,211,238,0.04); border:1px solid rgba(34,211,238,0.2); border-radius:6px; padding:26px 30px; margin-top:2vh;">
+    <pre style="margin:0; font-family:'JetBrains Mono',monospace; font-size:0.95rem; color:rgba(255,255,255,0.92); line-height:1.85;">~/.claude/
+├── <span style="color:#22d3ee;">CLAUDE.md</span>              <span style="color:rgba(255,255,255,0.55);"># 글로벌 프로필·원칙</span>
+├── <span style="color:#22d3ee;">settings.json</span>         <span style="color:rgba(255,255,255,0.55);"># 권한·env·hooks</span>
+├── <span style="color:#22d3ee;">keybindings.json</span>      <span style="color:rgba(255,255,255,0.55);"># 단축키</span>
+├── <span style="color:#34d399;">rules/</span>                <span style="color:rgba(255,255,255,0.55);"># 모듈형 규칙 @-import</span>
+│   ├── agent-teams.md
+│   ├── coding-standards.md
+│   └── memory.md
+├── <span style="color:#fbbf24;">commands/</span>             <span style="color:rgba(255,255,255,0.55);"># Custom 슬래시 명령</span>
+├── <span style="color:#a78bfa;">skills/</span>               <span style="color:rgba(255,255,255,0.55);"># 재사용 절차</span>
+├── <span style="color:#fca5a5;">agents/</span>               <span style="color:rgba(255,255,255,0.55);"># 커스텀 서브에이전트</span>
+└── <span style="color:#60a5fa;">projects/&lt;name&gt;/memory/</span>  <span style="color:rgba(255,255,255,0.55);"># auto-memory</span></pre>
+  </div>
+  <p class="sub" style="margin-top:2vh;">버전 관리 가능 (private repo) &mdash; <span class="em">개인 Harness의 체계화</span></p>
+</div>
+
+<!-- B8.1 비용 · Rate Limit · 모델 티어 -->
+<div class="slide in-cyan">
+  <h3>비용 &middot; Rate Limit &middot; 모델 티어</h3>
+  <div class="stat-grid" style="margin-top:2vh;">
+    <div class="stat-card on" style="border-top:3px solid rgba(167,139,250,0.55);"><div class="label" style="color:#a78bfa;">Opus 4.7</div><div class="value" style="color:#a78bfa;">$$$</div><div class="source">오케스트레이션 &middot; 설계 결정만</div></div>
+    <div class="stat-card on" style="border-top:3px solid rgba(34,211,238,0.55);"><div class="label" style="color:#22d3ee;">Sonnet 4.6</div><div class="value" style="color:#22d3ee;">$$</div><div class="source">집중 구현 &middot; 리뷰 &middot; 일반 작업</div></div>
+    <div class="stat-card on" style="border-top:3px solid rgba(52,211,153,0.55);"><div class="label" style="color:#34d399;">Haiku 4.5</div><div class="value" style="color:#34d399;">$</div><div class="source">읽기 전용 탐색 &middot; lookup</div></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>Rate limit 윈도: <strong style="color:#22d3ee;">5시간 &middot; 7일</strong> &mdash; 플랫폼 statusline에서 <code style="color:#22d3ee;">used_percentage</code> &middot; <code style="color:#22d3ee;">resets_at</code> 확인. 3-teammate 팀은 <strong style="color:#fbbf24;">3~4배 토큰</strong> 소모, 예산과 맞춰 운영</p></div>
+</div>
+
+<!-- B8.2 Eval · CI 통합 -->
+<div class="slide in-cyan">
+  <h3>Eval &middot; CI &mdash; 재현 가능한 품질 게이트</h3>
+  <div class="arch-layers" style="margin-top:2vh;">
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">Golden Set</div><div class="brand">대표 입력·기대 출력 고정</div><div class="desc" style="color:rgba(255,255,255,0.7);">regression 탐지</div></div>
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">LLM-as-Judge</div><div class="brand">Claude가 출력 품질 채점</div><div class="desc" style="color:rgba(255,255,255,0.7);">rubric 기반 자동화</div></div>
+    <div class="arch-layer"><div class="role" style="color:#22d3ee;">CI 훅</div><div class="brand">PR에서 Skill·프롬프트 변경 시 자동 eval</div><div class="desc" style="color:rgba(255,255,255,0.7);">품질 회귀 즉시 발견</div></div>
+    <div class="arch-layer on"><div class="role" style="color:#22d3ee;">장기 tracking</div><div class="brand" style="color:#22d3ee;">에이전트 출력 분포 &middot; 실패 모드 기록</div><div class="desc" style="color:#22d3ee; font-weight:700;">데이터 드리프트 관찰</div></div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;"><p>프롬프트 = 코드 &mdash; <strong style="color:#22d3ee;">테스트 있는 코드</strong>만 프로덕션</p></div>
+</div>
+
+<!-- B8.3 실전 체크리스트 -->
+<div class="slide in-cyan">
+  <h3>실전 체크리스트 &mdash; 운영에 들어가기 전</h3>
+  <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:2vh; width:100%; max-width:1000px;">
+    <div style="border-left:3px solid #34d399; padding:16px 20px; background:rgba(52,211,153,0.04);"><div style="color:#34d399; font-weight:800; font-size:0.92rem; letter-spacing:0.08em; margin-bottom:6px;">CONTEXT</div><p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">CLAUDE.md 정리 &middot; Rules 모듈화</p></div>
+    <div style="border-left:3px solid #34d399; padding:16px 20px; background:rgba(52,211,153,0.04);"><div style="color:#34d399; font-weight:800; font-size:0.92rem; letter-spacing:0.08em; margin-bottom:6px;">SECRETS</div><p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">API 키 &middot; 인증정보 레포 밖 격리</p></div>
+    <div style="border-left:3px solid #22d3ee; padding:16px 20px; background:rgba(34,211,238,0.04);"><div style="color:#22d3ee; font-weight:800; font-size:0.92rem; letter-spacing:0.08em; margin-bottom:6px;">PERMISSIONS</div><p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">settings.json 권한 명시 &middot; bypass 금지</p></div>
+    <div style="border-left:3px solid #22d3ee; padding:16px 20px; background:rgba(34,211,238,0.04);"><div style="color:#22d3ee; font-weight:800; font-size:0.92rem; letter-spacing:0.08em; margin-bottom:6px;">LOGS</div><p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">에이전트 실행 로그 수집 &middot; 재현성</p></div>
+    <div style="border-left:3px solid #fbbf24; padding:16px 20px; background:rgba(251,191,36,0.04);"><div style="color:#fbbf24; font-weight:800; font-size:0.92rem; letter-spacing:0.08em; margin-bottom:6px;">COST CAP</div><p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">프로젝트별 토큰 예산 &middot; 알람</p></div>
+    <div style="border-left:3px solid #fbbf24; padding:16px 20px; background:rgba(251,191,36,0.04);"><div style="color:#fbbf24; font-weight:800; font-size:0.92rem; letter-spacing:0.08em; margin-bottom:6px;">FALLBACK</div><p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">모델 다운 시 대체 경로 &middot; manual 모드</p></div>
+    <div style="border-left:3px solid #a78bfa; padding:16px 20px; background:rgba(167,139,250,0.04);"><div style="color:#a78bfa; font-weight:800; font-size:0.92rem; letter-spacing:0.08em; margin-bottom:6px;">HUMAN</div><p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">파괴적 작업은 확인 &middot; 승인 게이트</p></div>
+    <div style="border-left:3px solid #a78bfa; padding:16px 20px; background:rgba(167,139,250,0.04);"><div style="color:#a78bfa; font-weight:800; font-size:0.92rem; letter-spacing:0.08em; margin-bottom:6px;">SHARE</div><p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">잘 되는 프롬프트·Skill 팀 레포에 커밋</p></div>
+    <div style="border-left:3px solid #fca5a5; padding:16px 20px; background:rgba(252,165,165,0.04); grid-column:span 2;"><div style="color:#fca5a5; font-weight:800; font-size:0.92rem; letter-spacing:0.08em; margin-bottom:6px;">PROMPT INJECTION</div><p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">MCP가 읽는 외부 데이터 (PR 본문 &middot; 이슈 &middot; 웹페이지) 에 악의적 지시 포함 가능 &mdash; untrusted input으로 간주, 민감 작업은 별도 확인 게이트</p></div>
+  </div>
+</div>
+
+<!-- ══ PART III: Hands-on Labs ══ -->
+
+<!-- C0 PART III Section Opener -->
+<div class="slide amber">
+  <p class="meta" style="color:rgba(251,191,36,0.55);">PART III</p>
+  <h1>Hands-on<br>Labs</h1>
+  <p class="sub">4개 실습 &middot; 직접 해보기 &middot; <span class="em">해본 것</span>으로 바꾸기</p>
+</div>
+
+<!-- C1 Lab 로드맵 -->
+<div class="slide in-amber">
+  <h3>오늘의 Lab 4개</h3>
+  <div class="arch-layers" style="margin-top:2vh;">
+    <div class="arch-layer">
+      <div class="role" style="color:#fbbf24;">Lab 0</div>
+      <div class="brand">일단 그냥 해보기 &mdash; 카카오톡 커뮤니티 심층 분석</div>
+      <div class="desc" style="color:rgba(255,255,255,0.65);">AI 도구 생태계 트렌드 HTML 리포트</div>
+    </div>
+    <div class="arch-layer">
+      <div class="role" style="color:#fbbf24;">Lab 1</div>
+      <div class="brand">웹 리서치 &mdash; 논문급 리포트 만들기</div>
+      <div class="desc" style="color:rgba(255,255,255,0.65);">스타일 지정 &middot; 레퍼런스 전달 &middot; 추가 지시</div>
+    </div>
+    <div class="arch-layer">
+      <div class="role" style="color:#fbbf24;">Lab 2</div>
+      <div class="brand">Skill Builder &mdash; 리포트 공장</div>
+      <div class="desc" style="color:rgba(255,255,255,0.65);">결과물이 아니라 <span class="em">생성기</span>를 만든다</div>
+    </div>
+    <div class="arch-layer on">
+      <div class="role" style="color:#fbbf24;">Lab 3</div>
+      <div class="brand" style="color:#fbbf24;">자유 실습 &mdash; 칸반 / 업무 도구 / 리포트 대량 생산</div>
+      <div class="desc" style="color:#fbbf24; font-weight:700;">지금까지 배운 것 총동원</div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">각 Lab 끝에 <span class="em">막히면 옆자리와 공유</span> &middot; 꼭 결과를 저장해 둘 것 (다음 Lab에서 재활용)</p>
+</div>
+
+<!-- C2 Lab 0 opener -->
+<div class="slide in-amber">
+  <h3>Lab 0 &middot; 일단 그냥 해보기</h3>
+  <div style="display:flex; gap:2vw; width:100%; max-width:1020px; align-items:stretch; margin-top:2vh;">
+    <div style="flex:1; background:rgba(251,191,36,0.04); border:1px solid rgba(251,191,36,0.2); border-radius:6px; padding:22px;">
+      <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; letter-spacing:0.1em; margin-bottom:10px;">OBJECTIVE</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:0.98rem; line-height:1.6;">바이브코딩 x 클로드 코드 카카오톡 커뮤니티 로그 (627+명)를 Claude Code에 던져서 심층 분석 HTML 리포트를 받는다. <span class="em">프롬프트 한 번 &rarr; 차트 포함 리포트 한 편</span></p>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; gap:10px;">
+      <div style="border:1px solid rgba(52,211,153,0.25); border-left:3px solid #34d399; padding:14px 18px; border-radius:4px;">
+        <div style="color:#34d399; font-size:0.82rem; font-weight:700; margin-bottom:4px;">준비물</div>
+        <p style="color:rgba(255,255,255,0.88); font-size:0.82rem; line-height:1.55; font-family:'JetBrains Mono',monospace; word-break:break-all;">assets/labs/data/<br>KakaoTalk_20260415_2227_12_010_group.txt</p>
+      </div>
+      <div style="border:1px solid rgba(96,165,250,0.25); border-left:3px solid #60a5fa; padding:14px 18px; border-radius:4px;">
+        <div style="color:#60a5fa; font-size:0.82rem; font-weight:700; margin-bottom:4px;">진행 방식</div>
+        <p style="color:rgba(255,255,255,0.88); font-size:0.95rem; line-height:1.55;">프롬프트 붙여넣기 &rarr; 기다리기 &rarr; 결과 비교</p>
+      </div>
+      <div style="border:1px solid rgba(167,139,250,0.25); border-left:3px solid #a78bfa; padding:14px 18px; border-radius:4px;">
+        <div style="color:#a78bfa; font-size:0.82rem; font-weight:700; margin-bottom:4px;">산출물</div>
+        <p style="color:rgba(255,255,255,0.88); font-size:0.95rem; line-height:1.55;">result/ 폴더에 단일 HTML 리포트</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- C3 Lab 0 프롬프트 -->
+<div class="slide in-amber">
+  <h3>Lab 0 &middot; 프롬프트 &mdash; 그대로 붙여넣기</h3>
+  <div style="width:100%; max-width:1020px; background:rgba(251,191,36,0.04); border:1px solid rgba(251,191,36,0.2); border-radius:6px; padding:22px; margin-top:2vh;">
+    <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; letter-spacing:0.1em; margin-bottom:10px;">PROMPT &mdash; Claude Code</div>
+    <pre style="margin:0; font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:rgba(255,255,255,0.9); line-height:1.75; white-space:pre-wrap;">assets/labs/data/KakaoTalk_20260415_2227_12_010_group.txt
+파일을 읽고 심층 분석해줘.
+바이브코딩 x 클로드 코드 카카오톡 오픈채팅 커뮤니티 로그야.
+
+[기본 통계] 메시지/참여자/활동 기간 &middot; 시간대별 활동 &middot; Top 15 참여자
+[AI 도구 생태계] 언급된 도구 Top 15 &middot; 맥락(긍/부/비교) &middot; 조합 패턴
+[업계 트렌드] 키워드 &middot; 날짜별 화제 &middot; 주목 받은 기능/업데이트 (대화 인용)
+[실전 인사이트] 개발자 문제점 Top 10 &middot; 유용 팁 &middot; 비개발자 사례
+
+결과를 HTML 보고서로 만들어줘.
+- 다크 테마, 모던 디자인, 외부 라이브러리 없이 CSS로 차트
+- 인용은 인용 블록, result/ 폴더에 저장하고 브라우저에서 열어줘</pre>
+  </div>
+  <div class="note tip" style="margin-top:2vh;">
+    <p>완성되면 옆자리와 비교 &mdash; <strong style="color:#fff;">같은 프롬프트 &middot; 다른 리포트</strong>가 나온다. 왜 다른지가 오늘 핵심</p>
+  </div>
+</div>
+
+<!-- C4 Lab 1 opener -->
+<div class="slide in-amber">
+  <h3>Lab 1 &middot; 웹 리서치 &mdash; 논문급 리포트</h3>
+  <p class="sub" style="margin-top:1vh;">주제 하나 골라서 &middot; 웹 검색 &middot; 분석 &middot; HTML 리포트</p>
+  <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:2vh; width:100%; max-width:1020px;">
+    <div style="border:1px solid rgba(251,191,36,0.22); border-top:3px solid rgba(251,191,36,0.55); padding:18px 20px; border-radius:4px;">
+      <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">주제 1</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">이란-미국 전쟁, 언제까지 진행될까?</p>
+    </div>
+    <div style="border:1px solid rgba(251,191,36,0.22); border-top:3px solid rgba(251,191,36,0.55); padding:18px 20px; border-radius:4px;">
+      <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">주제 2</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">NVIDIA Vera Rubin 아키텍처와 반도체 업계 영향</p>
+    </div>
+    <div style="border:1px solid rgba(251,191,36,0.22); border-top:3px solid rgba(251,191,36,0.55); padding:18px 20px; border-radius:4px;">
+      <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">주제 3</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">SSD의 미래와 HBM &mdash; AI 시대 스토리지 전환</p>
+    </div>
+    <div style="border:1px solid rgba(251,191,36,0.22); border-top:3px solid rgba(251,191,36,0.55); padding:18px 20px; border-radius:4px;">
+      <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">주제 4</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">삼성전자 주가, 얼마까지 갈까?</p>
+    </div>
+    <div style="border:1px solid rgba(167,139,250,0.25); border-top:3px solid rgba(167,139,250,0.6); padding:18px 20px; border-radius:4px; grid-column:span 2; background:rgba(167,139,250,0.04);">
+      <div style="color:#a78bfa; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">자유 주제</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:0.98rem;">본인 업무/관심 분야 &mdash; <span class="em">진짜 궁금한 것</span>으로 해야 결과물의 품질을 판단할 수 있다</p>
+    </div>
+  </div>
+</div>
+
+<!-- C5 Lab 1 — 품질 올리기 -->
+<div class="slide in-amber">
+  <h3>Lab 1 &middot; 리포트 품질 올리기 &mdash; 3가지 방법</h3>
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:2vh; width:100%; max-width:1040px;">
+    <div style="border:1px solid rgba(52,211,153,0.28); border-top:3px solid #34d399; padding:18px 18px; border-radius:4px; background:rgba(52,211,153,0.04);">
+      <div style="color:#34d399; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:8px;">A &middot; 스타일 지정</div>
+      <p style="color:rgba(255,255,255,0.9); font-size:0.92rem; line-height:1.55;">"증권가 애널리스트 리포트 스타일로 다시 &mdash; 목표가 &middot; 투자의견 &middot; 리스크 요인 포함"</p>
+    </div>
+    <div style="border:1px solid rgba(96,165,250,0.28); border-top:3px solid #60a5fa; padding:18px 18px; border-radius:4px; background:rgba(96,165,250,0.04);">
+      <div style="color:#60a5fa; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:8px;">B &middot; 레퍼런스 전달</div>
+      <p style="color:rgba(255,255,255,0.9); font-size:0.92rem; line-height:1.55;">구글에서 마음에 드는 리포트 URL을 찾아서<br>"이 리포트 느낌으로 만들어줘: [URL]"</p>
+    </div>
+    <div style="border:1px solid rgba(251,191,36,0.28); border-top:3px solid #fbbf24; padding:18px 18px; border-radius:4px; background:rgba(251,191,36,0.04);">
+      <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:8px;">C &middot; 추가 지시</div>
+      <p style="color:rgba(255,255,255,0.9); font-size:0.92rem; line-height:1.55;">"차트 3개 추가" &middot; "executive summary 맨 위" &middot; "출처 각주로 정리"</p>
+    </div>
+  </div>
+  <div class="note" style="margin-top:2vh; border-left:3px solid #a78bfa; background:rgba(167,139,250,0.04);">
+    <p><strong style="color:#a78bfa;">반드시 저장!</strong> &mdash; Lab 2에서 이 리포트를 <span class="em">Skill의 원본</span>으로 사용합니다</p>
+  </div>
+</div>
+
+<!-- C6 Lab 2 — 개념 -->
+<div class="slide in-amber">
+  <h3>Lab 2 &middot; Skill Builder &mdash; 결과물이 아닌 <span class="em">공장</span></h3>
+  <div style="display:flex; gap:2vw; width:100%; max-width:1020px; align-items:stretch; margin-top:2vh;">
+    <div style="flex:1; border:1px solid rgba(255,255,255,0.15); padding:20px 22px; border-radius:4px; background:rgba(255,255,255,0.02);">
+      <div style="color:rgba(255,255,255,0.5); font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:10px;">BEFORE</div>
+      <p style="color:rgba(255,255,255,0.8); font-size:1rem; line-height:1.6;">Lab 1에서 좋은 리포트를 <strong>한 번</strong> 만들었다 &mdash; 다른 주제로 또 하려면 프롬프트부터 다시</p>
+    </div>
+    <div style="flex:0 0 auto; display:flex; align-items:center; color:#fbbf24; font-size:2rem;">&rarr;</div>
+    <div style="flex:1; border:1px solid rgba(251,191,36,0.3); padding:20px 22px; border-radius:4px; background:rgba(251,191,36,0.05);">
+      <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:10px;">AFTER &mdash; Skill</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:1rem; line-height:1.6;">주제만 바꿔서 <span class="em">같은 품질의 리포트를 무한히 찍어낸다</span> &mdash; <code>/research-report</code> 한 줄</p>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2.5vh;">원칙: 좋은 결과가 나오면 그 <strong style="color:#fff;">재현 가능한 형태로 고정</strong>시켜라 &mdash; 프롬프트 &rarr; Skill &rarr; 팀 공유</p>
+</div>
+
+<!-- C7 Lab 2 — 만들기 / 테스트 -->
+<div class="slide in-amber">
+  <h3>Lab 2 &middot; 만들고 &middot; 돌리고 &middot; 개선하기</h3>
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:2vh; width:100%; max-width:1040px;">
+    <div style="border:1px solid rgba(251,191,36,0.28); border-top:3px solid #fbbf24; padding:18px 18px; border-radius:4px; background:rgba(251,191,36,0.04);">
+      <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:8px;">STEP 1 &middot; 시작</div>
+      <pre style="margin:0; font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:rgba(255,255,255,0.9); line-height:1.6; white-space:pre-wrap;">/skill-creator</pre>
+      <p style="color:rgba(255,255,255,0.7); font-size:0.8rem; line-height:1.5; margin:8px 0 0;">Claude Code 내장 스킬 &mdash; 추가 설치 불필요</p>
+    </div>
+    <div style="border:1px solid rgba(52,211,153,0.28); border-top:3px solid #34d399; padding:18px 18px; border-radius:4px; background:rgba(52,211,153,0.04);">
+      <div style="color:#34d399; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:8px;">STEP 2 &middot; 생성</div>
+      <p style="color:rgba(255,255,255,0.9); font-size:0.9rem; line-height:1.55;">방금 만든 리포트의 구조/스타일을 분석해서 <code>/research-report</code> Skill로 만들어줘 &mdash; 주제 입력 &rarr; 웹 검색 &rarr; HTML 자동 생성</p>
+    </div>
+    <div style="border:1px solid rgba(96,165,250,0.28); border-top:3px solid #60a5fa; padding:18px 18px; border-radius:4px; background:rgba(96,165,250,0.04);">
+      <div style="color:#60a5fa; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:8px;">STEP 3 &middot; 테스트</div>
+      <p style="color:rgba(255,255,255,0.9); font-size:0.9rem; line-height:1.55;"><code>/research-report</code><br>주제: "TSMC 3nm 양산 현황" &middot; "AI 에이전트 시장 2026 전망"</p>
+    </div>
+  </div>
+  <div class="note tip" style="margin-top:2vh;">
+    <p>Skill 파일 위치 &mdash; 개인: <code>~/.claude/skills/이름.md</code> &middot; 프로젝트: <code>프로젝트/.claude/skills/이름.md</code>. 이 파일 하나 수정하면 앞으로 모든 리포트에 반영</p>
+  </div>
+</div>
+
+<!-- C8 Lab 3 — 자유 실습 -->
+<div class="slide in-amber">
+  <h3>Lab 3 &middot; 자유 실습 &mdash; 3가지 트랙</h3>
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:2vh; width:100%; max-width:1040px;">
+    <div style="border:1px solid rgba(34,211,238,0.28); border-top:3px solid #22d3ee; padding:18px 18px; border-radius:4px; background:rgba(34,211,238,0.04);">
+      <div style="color:#22d3ee; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:8px;">A &middot; 칸반보드</div>
+      <p style="color:rgba(255,255,255,0.9); font-size:0.9rem; line-height:1.55;">Backlog / In Progress / Review / Done &middot; 드래그앤드롭 &middot; 우선순위 색상 &middot; LocalStorage &middot; 단일 HTML</p>
+    </div>
+    <div style="border:1px solid rgba(52,211,153,0.28); border-top:3px solid #34d399; padding:18px 18px; border-radius:4px; background:rgba(52,211,153,0.04);">
+      <div style="color:#34d399; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:8px;">B &middot; 내 업무 도구</div>
+      <p style="color:rgba(255,255,255,0.9); font-size:0.9rem; line-height:1.55;">스킬 매트릭스 &middot; 리스크 히트맵 &middot; 기술 로드맵 타임라인 &middot; 주간 회의 안건 &mdash; <span class="em">내가 진짜 쓸 것</span></p>
+    </div>
+    <div style="border:1px solid rgba(251,191,36,0.28); border-top:3px solid #fbbf24; padding:18px 18px; border-radius:4px; background:rgba(251,191,36,0.04);">
+      <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:8px;">C &middot; Skill 대량 생산</div>
+      <p style="color:rgba(255,255,255,0.9); font-size:0.9rem; line-height:1.55;">Lab 2의 <code>/research-report</code>로 다른 주제 3~5개 연속 돌려보기 &mdash; <span class="em">공장이 잘 돌아가는가</span> 검증</p>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:2vh;">핵심은 트랙 선택이 아니라 <span class="em">막혔을 때 어떻게 풀어나가는지</span> &mdash; 옆자리와 프롬프트를 공유하세요</p>
+</div>
+
+<!-- C9 Lab 회고 -->
+<div class="slide in-amber">
+  <h3>Lab 회고 &mdash; 가져갈 한 가지씩</h3>
+  <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:2vh; width:100%; max-width:1000px;">
+    <div style="border:1px solid rgba(251,191,36,0.22); border-top:3px solid rgba(251,191,36,0.55); border-radius:4px; padding:22px;">
+      <i class="ph-fill ph-lightbulb" style="font-size:1.8rem; color:#fbbf24; margin-bottom:8px;"></i>
+      <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">가장 놀란 순간</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:1rem; line-height:1.55;">"이게 이렇게 된다고?" 싶었던 순간 하나</p>
+    </div>
+    <div style="border:1px solid rgba(252,165,165,0.25); border-top:3px solid rgba(252,165,165,0.6); border-radius:4px; padding:22px;">
+      <i class="ph-fill ph-warning" style="font-size:1.8rem; color:#fca5a5; margin-bottom:8px;"></i>
+      <div style="color:#fca5a5; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">가장 막힌 구간</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:1rem; line-height:1.55;">프롬프트를 몇 번 고쳤나 &middot; 뭘 바꾸니 풀렸나</p>
+    </div>
+    <div style="border:1px solid rgba(52,211,153,0.22); border-top:3px solid rgba(52,211,153,0.55); border-radius:4px; padding:22px;">
+      <i class="ph-fill ph-wrench" style="font-size:1.8rem; color:#34d399; margin-bottom:8px;"></i>
+      <div style="color:#34d399; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">내일 바로 쓸 것</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:1rem; line-height:1.55;">오늘 만든 Skill/도구 중에 내 워크플로에 붙일 것 하나</p>
+    </div>
+    <div style="border:1px solid rgba(167,139,250,0.22); border-top:3px solid rgba(167,139,250,0.55); border-radius:4px; padding:22px;">
+      <i class="ph-fill ph-share-network" style="font-size:1.8rem; color:#a78bfa; margin-bottom:8px;"></i>
+      <div style="color:#a78bfa; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">팀에 전파할 것</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:1rem; line-height:1.55;">잘 되는 프롬프트 &middot; Skill &mdash; 팀 레포에 커밋</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PART B CLOSING ══ -->
+
+<!-- B9.1 Today's Takeaway (dev 버전) -->
+<div class="slide surface">
+  <h3>Today&rsquo;s Takeaway</h3>
+  <ul class="list" style="margin-top:3vh;">
+    <li><strong>1.</strong> Model &ne; Agent &mdash; <span class="em">에이전트 위에서</span> 모델 성능이 달라진다</li>
+    <li><strong>2.</strong> Agent Loop: 지시 &rarr; 계획 &rarr; 도구호출 &rarr; 관찰 &rarr; 반복 &mdash; <span class="em">기본 메커니즘</span></li>
+    <li><strong>3.</strong> CLAUDE.md &middot; Rules &middot; Skills &middot; Memory &mdash; <span class="em">컨텍스트 엔지니어링</span>이 품질의 축</li>
+    <li><strong>4.</strong> 결과물이 아닌 <span class="em">생성기</span>를 고쳐라 &mdash; Harness 체계화</li>
+    <li><strong>5.</strong> Claude &middot; Codex &middot; Gemini 교차 &mdash; <span class="em">독립 엔진의 합의</span>가 신뢰도</li>
+    <li><strong>6.</strong> 아키텍처 사고 &middot; 보안 인식 &middot; 도메인 판단 &mdash; <span class="em">사람의 가치가 올라가는 영역</span></li>
+  </ul>
+</div>
+
+<!-- B9.2 함께 논의할 질문들 (dev) -->
+<div class="slide surface">
+  <h3>함께 논의할 질문들</h3>
+  <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:3vh; width:100%; max-width:960px;">
+    <div style="border:1px solid rgba(34,211,238,0.22); border-top:3px solid rgba(34,211,238,0.55); border-radius:4px; padding:24px 22px;">
+      <i class="ph-fill ph-target" style="font-size:1.8rem; color:#22d3ee; margin-bottom:10px;"></i>
+      <div style="color:#22d3ee; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">WORKFLOW</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:1.05rem; line-height:1.55;">내 개발 워크플로에서 에이전트 루프로 옮길 구간은?</p>
+    </div>
+    <div style="border:1px solid rgba(52,211,153,0.22); border-top:3px solid rgba(52,211,153,0.55); border-radius:4px; padding:24px 22px;">
+      <i class="ph-fill ph-stack" style="font-size:1.8rem; color:#34d399; margin-bottom:10px;"></i>
+      <div style="color:#34d399; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">HARNESS</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:1.05rem; line-height:1.55;">CLAUDE.md &middot; Rules &middot; Skills에 무엇을 적을까?</p>
+    </div>
+    <div style="border:1px solid rgba(251,191,36,0.22); border-top:3px solid rgba(251,191,36,0.55); border-radius:4px; padding:24px 22px;">
+      <i class="ph-fill ph-shield-check" style="font-size:1.8rem; color:#fbbf24; margin-bottom:10px;"></i>
+      <div style="color:#fbbf24; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">GUARDRAIL</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:1.05rem; line-height:1.55;">어디까지 자율 실행 허용 &middot; 어디는 사람 승인?</p>
+    </div>
+    <div style="border:1px solid rgba(167,139,250,0.22); border-top:3px solid rgba(167,139,250,0.55); border-radius:4px; padding:24px 22px;">
+      <i class="ph-fill ph-share-network" style="font-size:1.8rem; color:#a78bfa; margin-bottom:10px;"></i>
+      <div style="color:#a78bfa; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; margin-bottom:6px;">SHARE</div>
+      <p style="color:rgba(255,255,255,0.92); font-size:1.05rem; line-height:1.55;">프롬프트 &middot; Skill &middot; Harness를 팀에 어떻게 공유?</p>
+    </div>
+  </div>
+</div>
+
+<!-- B9.3 핵심 메시지 -->
+<div class="slide">
+  <p class="impact-text">들어본 것에서<br><span class="em">해본 것</span>으로</p>
+  <p class="impact-sub" style="margin-top:3vh;">좋더라, 별로더라, 이건 되겠네, 저건 안 되겠네 &mdash;<br><strong style="color:#fff;">직접 경험한 사람의 판단</strong>이 필요한 시점</p>
+</div>
+
+<!-- B9.4 Q&A -->
+<div class="slide blue">
+  <h1>Q &amp; A</h1>
+  <p class="sub" style="margin-top:2vh;">질의 &middot; 토론</p>
+  <ul class="list" style="margin-top:3vh;">
+    <li>오늘 내용 중 <strong>바로 시도</strong>해볼 것은?</li>
+    <li>우리 레포에 <strong>CLAUDE.md 첫 줄</strong>에 뭐라고 쓸까?</li>
+    <li><strong>팀과 공유</strong>하고 싶은 한 가지는?</li>
+  </ul>
+  <p class="meta" style="margin-top:5vh; color:rgba(255,255,255,0.55);">AI 개발 도구 Hands-on &middot; 2026. 4 &middot; 김학민</p>
+</div>
+
+</div>
+<nav aria-label="Slide navigation" class="nav"><button aria-label="Previous slide" onclick="prev()">&larr;</button><button aria-label="Next slide" onclick="next()">&rarr;</button></nav>
+<div class="page-num" id="pageNum">1 / 1</div>
+<script>
+const slides=document.querySelectorAll('.slide'),total=slides.length;
+let current=0;
+const pageNumEl=document.getElementById('pageNum'),progressEl=document.getElementById('progress'),partLabelEl=document.getElementById('partLabel');
+const partMap=[
+{from:0,to:2,label:'Opening'},
+{from:3,to:7,label:'Section 01 \u00b7 \uc2dc\uc7a5 \ubc18\uc751'},
+{from:8,to:11,label:'Section 02 \u00b7 \uc5c5\uacc4 \uae30\uc900\uc120'},
+{from:12,to:23,label:'Section 03 \u00b7 Model \u2260 Agent'},
+{from:24,to:30,label:'Section 04 \u00b7 AI \uc778\ud504\ub77c \ubcd1\ubaa9'},
+{from:31,to:40,label:'Section 05 \u00b7 \uc5ed\ud560\uc758 \ubcc0\ud654'},
+{from:41,to:44,label:'Section 06 \u00b7 \ud604\uc2e4 \uc81c\uc57d'},
+{from:45,to:53,label:'Part II B1 \u00b7 Claude Code + Agent Loop'},
+{from:54,to:65,label:'Part II B2 \u00b7 Context + Multi-agent + MCP'},
+{from:66,to:78,label:'Part II B3 \u00b7 \uc2e4\uc804 \uc6cc\ud06c\ud50c\ub85c + Harness'},
+{from:79,to:81,label:'Part II B4 \u00b7 \uc6b4\uc601 \u00b7 \ube44\uc6a9'},
+{from:82,to:83,label:'Part III \u00b7 Hands-on Labs \u00b7 \uc624\ub9ac\uc5d4\ud14c\uc774\uc158'},
+{from:84,to:85,label:'Part III \u00b7 Lab 0 \u00b7 \uce74\uce74\uc624\ud1a1 \ubd84\uc11d'},
+{from:86,to:87,label:'Part III \u00b7 Lab 1 \u00b7 \uc6f9 \ub9ac\uc11c\uce58 \ub9ac\ud3ec\ud2b8'},
+{from:88,to:89,label:'Part III \u00b7 Lab 2 \u00b7 Skill Builder'},
+{from:90,to:90,label:'Part III \u00b7 Lab 3 \u00b7 \uc790\uc720 \uc2e4\uc2b5'},
+{from:91,to:91,label:'Part III \u00b7 Lab \ud68c\uace0'},
+{from:92,to:95,label:'Closing'}
+];
+function getPartLabel(idx){for(const p of partMap){if(idx>=p.from&&idx<=p.to)return p.label;}return 'AI \uc138\ubbf8\ub098';}
+function update(){if(!pageNumEl||!progressEl)return;pageNumEl.textContent=`${current+1} / ${total}`;progressEl.style.width=total>1?`${(current/(total-1))*100}%`:'100%';if(partLabelEl)partLabelEl.textContent=getPartLabel(current);}
+function goTo(i){if(total===0)return;if(i<0)i=0;if(i>=total)i=total-1;current=i;document.getElementById('slides').style.transform=`translateX(-${current*100}vw)`;history.replaceState(null,'','#'+(current+1));update();}
+function next(){goTo(current+1);}
+function prev(){goTo(current-1);}
+document.addEventListener('keydown',e=>{const tag=document.activeElement.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||document.activeElement.isContentEditable)return;switch(e.key){case'ArrowRight':case' ':case'PageDown':e.preventDefault();next();break;case'ArrowLeft':case'PageUp':e.preventDefault();prev();break;case'Home':e.preventDefault();goTo(0);break;case'End':e.preventDefault();goTo(total-1);break;case'f':case'F':const el=document.documentElement;const isFs=document.fullscreenElement||document.webkitFullscreenElement;if(!isFs){(el.requestFullscreen||el.webkitRequestFullscreen).call(el)?.catch(()=>{});}else{(document.exitFullscreen||document.webkitExitFullscreen).call(document)?.catch(()=>{});}break;}});
+let tx=0,ty=0;
+document.addEventListener('touchstart',e=>{if(e.touches.length>1)return;tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{if(e.changedTouches.length>1)return;const dx=tx-e.changedTouches[0].clientX,dy=ty-e.changedTouches[0].clientY;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){if(dx>0)next();else prev();}},{passive:true});
+const initSlide=parseInt(location.hash.slice(1))-1;
+if(!isNaN(initSlide)&&initSlide>=0)goTo(initSlide);else update();
+</script>
+</body>
+</html>

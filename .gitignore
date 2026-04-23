@@ -18,3 +18,9 @@ ui-debug.log
 # Firebase service account secret keys — NEVER commit these
 *-firebase-adminsdk-*.json
 serviceAccountKey*.json
+
+# Large media (>100MB) — kept on Firebase Hosting only, not in git
+# (GitHub의 100MB 제한 회피. 운영용은 .mp4 변환본 사용)
+*.MOV
+*.mov
+

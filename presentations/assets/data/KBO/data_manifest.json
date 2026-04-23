@@ -1,0 +1,525 @@
+{
+  "batting": [
+    {
+      "file": "batting\\player_hitter_2001_2020.csv",
+      "rows": 570,
+      "cols": 37,
+      "year_range": [
+        2002,
+        2020
+      ],
+      "columns": [
+        "연도",
+        "선수명",
+        "팀명",
+        "AVG",
+        "G",
+        "PA",
+        "AB",
+        "R",
+        "H",
+        "2B",
+        "3B",
+        "HR",
+        "TB",
+        "RBI",
+        "SAC",
+        "SF",
+        "BB",
+        "IBB",
+        "HBP",
+        "SO",
+        "GDP",
+        "SLG",
+        "OBP",
+        "OPS",
+        "MH",
+        "RISP",
+        "PH-BA",
+        "XBH",
+        "GO",
+        "AO",
+        "GO/AO",
+        "GW_RBI",
+        "BB/K",
+        "P/PA",
+        "ISOP",
+        "XR",
+        "GPA"
+      ]
+    }
+  ],
+  "pitching": [
+    {
+      "file": "pitching\\player_pitcher_2001_2020.csv",
+      "rows": 379,
+      "cols": 43,
+      "year_range": [
+        2002,
+        2020
+      ],
+      "columns": [
+        "연도",
+        "선수명",
+        "팀명",
+        "ERA",
+        "G",
+        "W",
+        "L",
+        "SV",
+        "HLD",
+        "WPCT",
+        "IP",
+        "H",
+        "HR",
+        "BB",
+        "HBP",
+        "SO",
+        "R",
+        "ER",
+        "WHIP",
+        "CG",
+        "SHO",
+        "QS",
+        "BSV",
+        "TBF",
+        "NP",
+        "AVG",
+        "2B",
+        "3B",
+        "SAC",
+        "SF",
+        "IBB",
+        "WP",
+        "BK",
+        "GS",
+        "Wgs",
+        "Wgr",
+        "GF",
+        "SVO",
+        "TS",
+        "GDP",
+        "GO",
+        "AO",
+        "GO/AO"
+      ]
+    }
+  ],
+  "fielding": [
+    {
+      "file": "fielding\\player_defense_2001_2020.csv",
+      "rows": 12934,
+      "cols": 17,
+      "year_range": [
+        2002,
+        2020
+      ],
+      "columns": [
+        "연도",
+        "선수명",
+        "팀명",
+        "POS",
+        "G",
+        "GS",
+        "IP",
+        "E",
+        "PKO",
+        "PO",
+        "A",
+        "DP",
+        "FPCT",
+        "PB",
+        "SB",
+        "CS",
+        "CS%"
+      ]
+    }
+  ],
+  "running": [
+    {
+      "file": "running\\player_runner_2001_2020.csv",
+      "rows": 5817,
+      "cols": 10,
+      "year_range": [
+        2002,
+        2020
+      ],
+      "columns": [
+        "연도",
+        "선수명",
+        "팀명",
+        "G",
+        "SBA",
+        "SB",
+        "CS",
+        "SB%",
+        "OOB",
+        "PKO"
+      ]
+    }
+  ],
+  "team": [
+    {
+      "file": "team\\team_hitter_2001_2020.csv",
+      "rows": 174,
+      "cols": 26,
+      "year_range": [
+        2001,
+        2020
+      ],
+      "columns": [
+        "연도",
+        "팀명",
+        "AVG",
+        "G",
+        "PA",
+        "AB",
+        "R",
+        "H",
+        "2B",
+        "3B",
+        "HR",
+        "TB",
+        "RBI",
+        "SAC",
+        "SF",
+        "BB",
+        "IBB",
+        "HBP",
+        "SO",
+        "GDP",
+        "SLG",
+        "OBP",
+        "OPS",
+        "MH",
+        "RISP",
+        "PH-BA"
+      ]
+    },
+    {
+      "file": "team\\team_pitcher_2001_2020.csv",
+      "rows": 174,
+      "cols": 32,
+      "year_range": [
+        2001,
+        2020
+      ],
+      "columns": [
+        "연도",
+        "팀명",
+        "ERA",
+        "G",
+        "W",
+        "L",
+        "SV",
+        "HLD",
+        "WPCT",
+        "IP",
+        "H",
+        "HR",
+        "BB",
+        "HBP",
+        "SO",
+        "R",
+        "ER",
+        "WHIP",
+        "CG",
+        "SHO",
+        "QS",
+        "BSV",
+        "TBF",
+        "NP",
+        "AVG",
+        "2B",
+        "3B",
+        "SAC",
+        "SF",
+        "IBB",
+        "WP",
+        "BK"
+      ]
+    },
+    {
+      "file": "team\\team_defense_2001_2020.csv",
+      "rows": 174,
+      "cols": 13,
+      "year_range": [
+        2001,
+        2020
+      ],
+      "columns": [
+        "연도",
+        "팀명",
+        "G",
+        "E",
+        "PKO",
+        "PO",
+        "A",
+        "DP",
+        "FPCT",
+        "PB",
+        "SB",
+        "CS",
+        "CS%"
+      ]
+    },
+    {
+      "file": "team\\team_runner_2001_2020.csv",
+      "rows": 174,
+      "cols": 9,
+      "year_range": [
+        2001,
+        2020
+      ],
+      "columns": [
+        "연도",
+        "팀명",
+        "G",
+        "SBA",
+        "SB",
+        "CS",
+        "SB%",
+        "OOB",
+        "PKO"
+      ]
+    },
+    {
+      "file": "team\\team_total_2001_2020.csv",
+      "rows": 174,
+      "cols": 74,
+      "year_range": [
+        2001,
+        2020
+      ],
+      "columns": [
+        "연도",
+        "팀명",
+        "AVG_Hitter",
+        "G_Hitter",
+        "PA_Hitter",
+        "AB_Hitter",
+        "R_Hitter",
+        "H_Hitter",
+        "2B_Hitter",
+        "3B_Hitter",
+        "HR_Hitter",
+        "TB_Hitter",
+        "RBI_Hitter",
+        "SAC_Hitter",
+        "SF_Hitter",
+        "BB_Hitter",
+        "IBB_Hitter",
+        "HBP_Hitter",
+        "SO_Hitter",
+        "GDP_Hitter",
+        "SLG_Hitter",
+        "OBP_Hitter",
+        "OPS_Hitter",
+        "MH_Hitter",
+        "RISP_Hitter",
+        "PH-BA_Hitter",
+        "ERA_Pitcher",
+        "G_Pitcher",
+        "W_Pitcher",
+        "L_Pitcher",
+        "SV_Pitcher",
+        "HLD_Pitcher",
+        "WPCT_Pitcher",
+        "IP_Pitcher",
+        "H_Pitcher",
+        "HR_Pitcher",
+        "BB_Pitcher",
+        "HBP_Pitcher",
+        "SO_Pitcher",
+        "R_Pitcher",
+        "ER_Pitcher",
+        "WHIP_Pitcher",
+        "CG_Pitcher",
+        "SHO_Pitcher",
+        "QS_Pitcher",
+        "BSV_Pitcher",
+        "TBF_Pitcher",
+        "NP_Pitcher",
+        "AVG_Pitcher",
+        "2B_Pitcher",
+        "3B_Pitcher",
+        "SAC_Pitcher",
+        "SF_Pitcher",
+        "IBB_Pitcher",
+        "WP_Pitcher",
+        "BK_Pitcher",
+        "G_Defense",
+        "E_Defense",
+        "PKO_Defense",
+        "PO_Defense",
+        "A_Defense",
+        "DP_Defense",
+        "FPCT_Defense",
+        "PB_Defense",
+        "SB_Defense",
+        "CS_Defense",
+        "CS%_Defense",
+        "G_Runner",
+        "SBA_Runner",
+        "SB_Runner",
+        "CS_Runner",
+        "SB%_Runner",
+        "OOB_Runner",
+        "PKO_Runner"
+      ]
+    },
+    {
+      "file": "team\\team_standings_2001_2020.csv",
+      "rows": 174,
+      "cols": 8,
+      "year_range": [
+        2001,
+        2020
+      ],
+      "columns": [
+        "year",
+        "team",
+        "G",
+        "W",
+        "L",
+        "SV",
+        "WPCT",
+        "rank"
+      ]
+    },
+    {
+      "file": "team\\team_standings_2021_2025.csv",
+      "rows": 50,
+      "cols": 9,
+      "year_range": [
+        2021,
+        2025
+      ],
+      "columns": [
+        "year",
+        "rank",
+        "team",
+        "G",
+        "W",
+        "L",
+        "D",
+        "WPCT",
+        "GB"
+      ]
+    },
+    {
+      "file": "team\\team_standings_2001_2025.csv",
+      "rows": 224,
+      "cols": 9,
+      "year_range": [
+        2001,
+        2025
+      ],
+      "columns": [
+        "year",
+        "rank",
+        "team",
+        "G",
+        "W",
+        "L",
+        "D",
+        "WPCT",
+        "GB"
+      ]
+    },
+    {
+      "file": "team\\team_name_mapping.csv",
+      "rows": 20,
+      "cols": 4,
+      "year_range": null,
+      "columns": [
+        "name_kr",
+        "name_en",
+        "active_years",
+        "franchise"
+      ]
+    }
+  ],
+  "postseason": [
+    {
+      "file": "postseason\\korean_series_1982_2025.csv",
+      "rows": 44,
+      "cols": 5,
+      "year_range": [
+        1982,
+        2025
+      ],
+      "columns": [
+        "year",
+        "champion",
+        "runner_up",
+        "series_result",
+        "mvp"
+      ]
+    }
+  ],
+  "attendance": [
+    {
+      "file": "attendance\\kbo_attendance_1982_2025.csv",
+      "rows": 44,
+      "cols": 4,
+      "year_range": [
+        1982,
+        2025
+      ],
+      "columns": [
+        "year",
+        "total_attendance",
+        "avg_per_game",
+        "number_of_games"
+      ]
+    }
+  ],
+  "awards": [
+    {
+      "file": "awards\\kbo_mvp_1982_2025.csv",
+      "rows": 44,
+      "cols": 4,
+      "year_range": [
+        1982,
+        2025
+      ],
+      "columns": [
+        "year",
+        "player",
+        "team",
+        "position"
+      ]
+    },
+    {
+      "file": "awards\\kbo_rookie_1983_2025.csv",
+      "rows": 43,
+      "cols": 4,
+      "year_range": [
+        1983,
+        2025
+      ],
+      "columns": [
+        "year",
+        "player",
+        "team",
+        "position"
+      ]
+    },
+    {
+      "file": "awards\\kbo_golden_glove_1982_2025.csv",
+      "rows": 438,
+      "cols": 4,
+      "year_range": [
+        1982,
+        2025
+      ],
+      "columns": [
+        "year",
+        "position",
+        "player",
+        "team"
+      ]
+    }
+  ]
+}

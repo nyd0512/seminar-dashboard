@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Claude Code Tips</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:'Noto Sans KR',sans-serif;
+      background:#FAFBFC;color:#2D3748;
+      line-height:1.8;word-break:keep-all;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .wrap{max-width:800px;margin:0 auto;padding:48px 28px 80px}
+
+    /* Header */
+    header{margin-bottom:40px;padding-bottom:24px;border-bottom:2px solid #E2E8F0}
+    header h1{font-size:1.8rem;font-weight:900;color:#1A202C;letter-spacing:-0.02em}
+    header p{margin-top:6px;font-size:0.95rem;color:#556377}
+
+    /* Nav */
+    nav{
+      position:sticky;top:0;z-index:100;
+      background:rgba(250,251,252,0.95);backdrop-filter:blur(8px);
+      padding:12px 0;margin-bottom:32px;
+      border-bottom:1px solid #E2E8F0;
+    }
+    nav a{
+      font-size:0.85rem;color:#556377;text-decoration:none;
+      margin-right:24px;font-weight:600;
+      transition:color 0.15s;
+    }
+    nav a:hover{color:#2D3748}
+
+    /* Section */
+    .section{margin-bottom:48px}
+    .section-head{
+      font-size:0.78rem;font-weight:800;color:#556377;
+      text-transform:uppercase;letter-spacing:0.12em;
+      margin-bottom:20px;padding-bottom:8px;
+      border-bottom:1px solid #EDF2F7;
+    }
+
+    /* Tip */
+    .tip{padding:14px 0;border-bottom:1px solid #EDF2F7}
+    .tip:last-child{border-bottom:none}
+    .tip-head{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+    .tip-num{
+      font-family:'JetBrains Mono',monospace;
+      font-size:0.78rem;font-weight:700;color:#556377;
+      min-width:30px;
+    }
+    .tip-title{font-size:1.05rem;font-weight:800;color:#1A202C}
+    .tip-body{
+      margin-left:42px;
+      font-size:0.95rem;color:#4A5568;line-height:1.75;
+    }
+    .tip-body strong{color:#2D3748;font-weight:700}
+    .tip-body code{
+      font-family:'JetBrains Mono',monospace;font-size:0.82rem;
+      background:#EDF2F7;padding:2px 7px;border-radius:4px;
+      color:#553C9A;
+    }
+
+    /* Code block */
+    pre{
+      background:#F7FAFC;border:1px solid #E2E8F0;
+      padding:16px 18px;margin:12px 0 6px 42px;
+      font-family:'JetBrains Mono',monospace;font-size:0.82rem;
+      line-height:1.7;color:#4A5568;border-radius:8px;
+      overflow-x:auto;white-space:pre;
+    }
+    pre .c{color:#556377}
+    pre .s{color:#276749}
+    pre .k{color:#553C9A}
+    pre .f{color:#8B5A00}
+
+    /* Table */
+    table{width:calc(100% - 42px);border-collapse:collapse;margin:12px 0 6px 42px}
+    th{
+      text-align:left;padding:8px 12px;font-size:0.74rem;
+      color:#556377;text-transform:uppercase;letter-spacing:0.08em;
+      border-bottom:2px solid #E2E8F0;font-weight:700;
+    }
+    td{
+      padding:8px 12px;font-size:0.9rem;color:#4A5568;
+      border-bottom:1px solid #EDF2F7;
+    }
+    td:first-child{color:#2D3748;font-weight:600}
+    kbd{
+      font-family:'JetBrains Mono',monospace;font-size:0.8rem;
+      background:#EDF2F7;padding:3px 8px;border-radius:4px;
+      border:1px solid #E2E8F0;color:#2D3748;
+    }
+
+    footer{
+      margin-top:48px;padding-top:20px;
+      border-top:1px solid #E2E8F0;
+      font-size:0.78rem;color:#556377;
+    }
+
+    @media print{
+      body{background:#fff}
+      nav{position:static;border:none;padding:0}
+      .wrap{padding:24px}
+    }
+    @media(max-width:600px){
+      .wrap{padding:24px 16px 60px}
+      .tip-body,pre,table{margin-left:0}
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Claude Code Tips</h1>
+    <p>Quick Reference &mdash; 2026. 3</p>
+  </header>
+
+  <nav>
+    <a href="#tips">Tips 01-20</a>
+    <a href="#advanced">Advanced</a>
+    <a href="#commands">Commands</a>
+    <a href="#files">Files</a>
+    <a href="#prompts">Prompts</a>
+  </nav>
+
+  <!-- ─── TIPS ─── -->
+  <div class="section" id="tips">
+    <div class="section-head">Tips</div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">01</span><span class="tip-title">코딩 도구가 아니다</span></div>
+      <div class="tip-body">다목적 인터페이스. 영상 편집(ffmpeg), 용량 정리, CSV 분석, 문서 작성 &mdash; 컴퓨터에서 하는 디지털 작업을 자연어로 위임할 수 있다.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">02</span><span class="tip-title">3시간 회의의 법칙</span></div>
+      <div class="tip-body">Context Window = 화이트보드. 대화 <strong>3시간</strong> 넘으면 성능 하락. 새 주제엔 새 대화. 이전 맥락이 아까우면 <code>/compact</code> 또는 HANDOFF.md.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">03</span><span class="tip-title">빠르게 만들자</span></div>
+      <div class="tip-body">완벽주의는 AI 시대 가장 비싼 사치. 30분 계획하고 프로토타입부터. 뼈대는 30분이면 나온다 &mdash; 부족하면 고치면 그만.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">04</span><span class="tip-title">Git 3줄 요약</span></div>
+      <div class="tip-body">Commit = 저장, PR = 검토 요청, Push = 외부 공개. 명령어 외울 필요 없다 &mdash; <strong>"커밋해줘"</strong>라고 말하면 끝.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">05</span><span class="tip-title">계단식 작업 방식</span></div>
+      <div class="tip-body">터미널 탭 여러 개 = 동시 병렬 작업. 각 탭의 Claude가 독립적으로 작업. 프론트/백엔드/문서/리서치를 동시에.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">06</span><span class="tip-title">Git Worktree</span></div>
+      <div class="tip-body">여러 기능을 충돌 없이 동시 개발. "작업 트리 만들어줘"라고 말하면 <code>git worktree add</code> 자동 실행.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">07</span><span class="tip-title">AI가 AI에게 심부름</span></div>
+      <div class="tip-body">Claude Code &rarr; Gemini &rarr; WebSearch &rarr; 종합 보고서. 인간은 구경만. Claude가 다른 AI에게 웹 페이지 읽기를 시키고 결과를 종합.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">08</span><span class="tip-title">매뉴얼 3단계</span></div>
+      <div class="tip-body"><strong>CLAUDE.md</strong> (기본 매뉴얼) &rarr; <strong>Skills</strong> (업무별 특화) &rarr; <strong>Plugins</strong> (스킬 묶음). 나만의 업무 매뉴얼을 Claude에게 줄 수 있다.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">09</span><span class="tip-title">슬래시 명령어</span></div>
+      <div class="tip-body"><code>/compact</code> 압축, <code>/clear</code> 새 대화, <code>/usage</code> 사용량, <code>/copy</code> 복사, <code>/chrome</code> 브라우저, <code>/commit</code> 커밋.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">10</span><span class="tip-title">터미널이 감옥이 아니다</span></div>
+      <div class="tip-body">클립보드 복사, 브라우저 연동, HTML/PDF 생성 후 바로 열기, VS Code에서 직접 편집 &mdash; 출력의 자유.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">11</span><span class="tip-title">바이브 코딩의 진짜 의미</span></div>
+      <div class="tip-body">나한테 딱 맞는 도구를 직접 만드는 것. 범용 SaaS 시대에서 &rarr; 나만의 맞춤 도구를 AI가 만들어주는 시대.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">12</span><span class="tip-title">음성으로 코딩하기</span></div>
+      <div class="tip-body"><strong>SuperWhisper</strong> &mdash; 로컬 음성 인식. 타이핑보다 3배 빠른 입력. 오타/문법 틀려도 Claude가 의도를 파악.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">13</span><span class="tip-title">테스트 먼저 쓰기</span></div>
+      <div class="tip-body">TDD + Claude Code = 자율 개발 루프. "테스트를 먼저 작성하고, 통과할 때까지 구현해줘" &mdash; Claude가 알아서 반복.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">14</span><span class="tip-title">배운 건 나누자</span></div>
+      <div class="tip-body">팀 내 공유가 가장 빠른 학습. 삽질 경험, 꿀팁, 스킬 공유. 커뮤니티 블로그, 사내 위키 &mdash; 한 사람의 팁이 팀 전체 생산성을 높인다.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">15</span><span class="tip-title">클로드 코드에게 물어보세요</span></div>
+      <div class="tip-body">모르면 직접 물어보면 된다. "너 뭘 할 수 있어?", "이 에러 해결해줘" &mdash; 완벽한 프롬프트를 쓸 필요 없다.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">16</span><span class="tip-title">프롬프트 철학</span></div>
+      <div class="tip-body">"먼저 조사해줘" &mdash; 실행 전 리서치가 핵심. 조사 &rarr; 분석 &rarr; 실행 순서를 지키면 결과물 품질이 2배.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">17</span><span class="tip-title">결과 검증</span></div>
+      <div class="tip-body">신뢰하되 검증. 1차 결과물 &rarr; 다른 AI에게 "이거 검증해줘" &rarr; 차이점 기반 최종 판단. 테스트 코드로 자동 검증도 가능.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">18</span><span class="tip-title">맥락 주입</span></div>
+      <div class="tip-body">AI에게 <strong>역할과 목적</strong>을 명시하면 충실도가 극적으로 올라간다. "나는 보안 엔지니어이고 이건 보안 감사다" &rarr; 상세 분석 제공.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">19</span><span class="tip-title">백엔드 모델 결합</span></div>
+      <div class="tip-body">Claude Code(코드/실행/자동화) + <strong>Gemini 3 Pro</strong>(1M 토큰/웹/멀티모달) = 최강 조합. 긴 문서는 Gemini에게, 실행은 Claude에게.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">20</span><span class="tip-title">Harness 내재화</span></div>
+      <div class="tip-body">남의 SaaS보다 내 것을 만들자. 직접 만든 Skill + CLAUDE.md = 완전한 제어. 만드는 과정 자체가 AI 활용 가속의 시작점.</div>
+    </div>
+  </div>
+
+  <!-- ─── ADVANCED ─── -->
+  <div class="section" id="advanced">
+    <div class="section-head">Advanced</div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">&bull;</span><span class="tip-title">CLAUDE.md 실전 작성법</span></div>
+      <div class="tip-body">프로젝트의 DNA를 Claude에게 알려주기</div>
+      <pre><span class="c"># CLAUDE.md</span>
+
+<span class="k">## 프로젝트 개요</span>
+- 데이터 분석 도구
+- Python 3.11+ / pandas / matplotlib
+
+<span class="k">## 코딩 규칙</span>
+- 변수명: snake_case (영어)
+- 주석: 한국어 OK
+- 타입 힌트: 모든 함수에 필수
+
+<span class="k">## 커밋 규칙</span>
+- feat: / fix: / docs: / refactor:</pre>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">&bull;</span><span class="tip-title">나만의 Skill 만들기</span></div>
+      <div class="tip-body">반복 업무를 한 줄 명령어로 자동화</div>
+      <pre><span class="c"># ~/.claude/skills/meeting-report.md</span>
+<span class="k">---</span>
+<span class="f">name</span>: meeting-report
+<span class="f">description</span>: 회의록을 임원 보고서로 변환
+<span class="f">trigger</span>: /meeting-report
+<span class="k">---</span>
+
+입력된 회의록을 다음 형식으로 변환하세요:
+1. <span class="s">핵심 결정사항</span> (3줄 이내)
+2. <span class="s">Action Items</span> (담당자, 기한 포함)
+3. <span class="s">리스크 &amp; 이슈</span> (영향도 표시)
+4. <span class="s">다음 회의 안건</span></pre>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">&bull;</span><span class="tip-title">Agentic Workflow</span></div>
+      <div class="tip-body">멀티 스텝 자동화 &mdash; Claude Code를 자율 에이전트로 활용</div>
+      <pre><span class="c">// 프롬프트 예시</span>
+"<span class="s">다음 작업을 순서대로 수행해줘:
+1. competitor_news/ 폴더의 기사를 모두 분석해
+2. 주요 트렌드 3가지를 추출해
+3. 각 트렌드별 시사점을 정리해
+4. 임원 보고서(HTML)로 만들어줘</span>"</pre>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">&bull;</span><span class="tip-title">멀티 에이전트 패턴</span></div>
+      <div class="tip-body">Terminal 여러 개를 동시에 운영. 메인 개발 / 테스트 &amp; 디버그 / 문서 &amp; 리서치 &mdash; 인간은 오케스트라 지휘자.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">&bull;</span><span class="tip-title">프롬프트 패턴</span></div>
+      <div class="tip-body"><strong>Bad:</strong> "코드 짜줘" &nbsp;/&nbsp; <strong>Good:</strong> "users 테이블에서 최근 7일 활성 사용자를 일별 집계하는 SQL 쿼리 작성해줘" &mdash; 맥락 + 구체적 목표 + 제약조건.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">&bull;</span><span class="tip-title">결과 검증 방법론</span></div>
+      <div class="tip-body">테스트 코드로 자동 검증 / 다른 AI에게 교차 검증 / 결과를 설명시키고 논리 확인 / 작은 단위로 점진적 확인.</div>
+    </div>
+  </div>
+
+  <!-- ─── COMMANDS ─── -->
+  <div class="section" id="commands">
+    <div class="section-head">Commands &amp; Shortcuts</div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">&bull;</span><span class="tip-title">슬래시 명령어</span></div>
+      <table>
+        <thead><tr><th>명령어</th><th>설명</th><th></th></tr></thead>
+        <tbody>
+          <tr><td><kbd>/help</kbd></td><td>도움말</td><td>필수</td></tr>
+          <tr><td><kbd>/compact</kbd></td><td>대화 컨텍스트 압축</td><td>필수</td></tr>
+          <tr><td><kbd>/clear</kbd></td><td>새 대화 시작</td><td>필수</td></tr>
+          <tr><td><kbd>/usage</kbd></td><td>사용량 / Rate Limit</td><td></td></tr>
+          <tr><td><kbd>/copy</kbd></td><td>마지막 응답 클립보드 복사</td><td></td></tr>
+          <tr><td><kbd>/chrome</kbd></td><td>브라우저 연동 토글</td><td></td></tr>
+          <tr><td><kbd>/commit</kbd></td><td>Git 커밋 생성</td><td></td></tr>
+          <tr><td><kbd>/mcp</kbd></td><td>MCP 서버 관리</td><td></td></tr>
+          <tr><td><kbd>/stats</kbd></td><td>사용 통계</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">&bull;</span><span class="tip-title">키보드 단축키</span></div>
+      <table>
+        <thead><tr><th>키</th><th>기능</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>Tab</kbd></td><td>자동완성 수락</td></tr>
+          <tr><td><kbd>Ctrl+C</kbd></td><td>현재 작업 중단</td></tr>
+          <tr><td><kbd>Ctrl+A</kbd></td><td>전체 선택</td></tr>
+          <tr><td><kbd>Esc</kbd></td><td>입력 취소</td></tr>
+          <tr><td><kbd>Up/Down</kbd></td><td>이전 명령어 탐색</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ─── FILES ─── -->
+  <div class="section" id="files">
+    <div class="section-head">File Structure</div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">&bull;</span><span class="tip-title">설정 파일 구조</span></div>
+      <pre><span class="k">~/.claude/</span>
+  <span class="f">settings.json</span>      <span class="c">&larr; 전역 설정</span>
+  <span class="f">CLAUDE.md</span>           <span class="c">&larr; 전역 매뉴얼</span>
+  <span class="k">skills/</span>
+    <span class="f">meeting-report.md</span> <span class="c">&larr; 커스텀 스킬</span>
+  <span class="k">projects/</span>
+    <span class="k">{hash}/</span>
+      <span class="f">*.jsonl</span>          <span class="c">&larr; 대화 이력</span>
+      <span class="f">CLAUDE.md</span>        <span class="c">&larr; 프로젝트별 매뉴얼</span>
+
+<span class="k">{project-root}/</span>
+  <span class="f">CLAUDE.md</span>            <span class="c">&larr; 프로젝트 매뉴얼 (팀 공유)</span>
+  <span class="k">.claude/skills/</span>      <span class="c">&larr; 프로젝트별 스킬</span></pre>
+    </div>
+  </div>
+
+  <!-- ─── PROMPTS ─── -->
+  <div class="section" id="prompts">
+    <div class="section-head">Prompt Patterns</div>
+
+    <div class="tip">
+      <div class="tip-head"><span class="tip-num">&bull;</span><span class="tip-title">복사해서 바로 쓰는 프롬프트</span></div>
+      <pre><span class="c">// 분석</span>
+"<span class="s">이 데이터의 패턴과 이상치를 찾아줘</span>"
+"<span class="s">이 코드의 성능 병목점을 분석해줘</span>"
+
+<span class="c">// 생성</span>
+"<span class="s">이 요구사항으로 HTML 대시보드 만들어줘</span>"
+"<span class="s">이 회의록으로 임원 보고서 만들어줘</span>"
+
+<span class="c">// 변환</span>
+"<span class="s">이 엑셀 데이터를 시각화해줘</span>"
+"<span class="s">이 PDF를 마크다운으로 변환해줘</span>"
+
+<span class="c">// 자동화</span>
+"<span class="s">이 작업을 반복하는 Skill 만들어줘</span>"
+
+<span class="c">// 리서치</span>
+"<span class="s">경쟁사 3곳의 전략을 비교 분석해줘</span>"</pre>
+    </div>
+  </div>
+
+  <!-- ─── RESOURCES ─── -->
+  <div class="section">
+    <div class="section-head">Resources</div>
+    <div class="tip">
+      <div class="tip-body" style="margin-left:0;">
+        <strong>공식 문서</strong> &mdash; docs.anthropic.com &nbsp;&middot;&nbsp;
+        <strong>커뮤니티</strong> &mdash; GitHub &amp; Discord &nbsp;&middot;&nbsp;
+        <strong>블로그</strong> &mdash; Anthropic Engineering Blog &nbsp;&middot;&nbsp;
+        <strong>사내</strong> &mdash; 팀 위키 AI Tools 가이드
+      </div>
+    </div>
+  </div>
+
+  <footer>Claude Code Tips &middot; 2026. 3</footer>
+
+</div>
+</body>
+</html>
