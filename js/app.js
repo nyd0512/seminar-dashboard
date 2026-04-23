@@ -75,7 +75,7 @@ function renderTally({ sessions }) {
   const total = sessions.length;
   const attendees = sessions.reduce((a, s) => a + (s.enrolled || 0), 0);
   tally.textContent = total
-    ? `교육 ${total}회 · 누적 수강 ${attendees.toLocaleString('ko-KR')}명`
+    ? `교육 ${total}회 · 누적 수강 ${attendees.toLocaleString('ko-KR')}명 (동일인 누적 포함)`
     : '';
 }
 
