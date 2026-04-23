@@ -58,13 +58,12 @@
           </span>
           <span>타임라인</span>
         </button>
-        <a class="nav-item nav-item--external" href="./presentations/" target="_blank" rel="noopener">
+        <button class="nav-item" data-view="library">
           <span class="nav-icon" aria-hidden="true">
             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h6a2 2 0 0 1 2 2v11M17 4h-6a2 2 0 0 0-2 2v11M3 4v13h14V4"/></svg>
           </span>
           <span>열람실</span>
-          <svg class="nav-external-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 3h7v7"/><path d="M13 3 7 9"/><path d="M11 9v4H3V5h4"/></svg>
-        </a>
+        </button>
       </nav>
 
       <div class="sidebar-footer">
@@ -139,6 +138,21 @@
               <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
             </div>
             <div class="calendar-grid" id="calendarGrid"></div>
+          </div>
+        </section>
+
+        <!-- LIBRARY (자료실) VIEW -->
+        <section class="view" data-view-content="library">
+          <div class="library-bar">
+            <div class="library-meta" id="libraryMeta">자료를 불러오는 중…</div>
+            <a class="btn btn-ghost btn-sm" href="./presentations/" target="_blank" rel="noopener">발표자료 슬라이드 인덱스 ↗</a>
+          </div>
+          <div class="library-grid" id="libraryGrid"></div>
+          <div class="library-edit-hint" id="libraryEditHint" hidden>
+            <strong>📁 자료 추가 방법</strong><br />
+            로컬 PC에서 <code>presentations/files/</code> 폴더에 파일을 넣고 다음 명령을 실행하세요:<br />
+            <code>firebase deploy --only hosting --project swdp-seminar-dashboard</code><br />
+            <span class="library-hint-sub">파일명 규칙: <code>YYYY-MM-DD__카테고리__제목.확장자</code> (예: <code>2026-04-23__슬라이드__AI에이전트_개론.pdf</code>) — 규칙 안 맞춰도 작동합니다.</span>
           </div>
         </section>
 

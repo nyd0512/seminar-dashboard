@@ -19,6 +19,7 @@ import {
   bindSessionForm,
   renderDetail,
 } from './modals.js';
+import { renderLibrary } from './library.js';
 
 /* =============== Shared UI state =============== */
 export const ui = {
@@ -35,6 +36,7 @@ const VIEW_TITLES = {
   cover: ['대문', 'AI 전파교육 소개'],
   calendar: ['캘린더', '월간 교육 일정'],
   timeline: ['타임라인', '과거 · 예정 교육 목록'],
+  library: ['열람실', '강의자료 다운로드'],
 };
 
 /* =============== Top-level render =============== */
@@ -45,6 +47,7 @@ export function renderAll() {
   renderTally(st);
   if (ui.view === 'calendar') renderCalendar(st);
   if (ui.view === 'timeline') renderTimeline(st);
+  if (ui.view === 'library') renderLibrary();
   if (ui.openSessionId) {
     const s = store.getById(ui.openSessionId);
     if (s) renderDetail(s);

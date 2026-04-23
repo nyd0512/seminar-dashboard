@@ -95,17 +95,22 @@ firebase hosting:sites:delete [사이트이름] --project swdp-seminar-dashboard
 ```
 삭제 후 `.firebaserc`, `firebase.json`에서 관련 target 제거.
 
-### G. 강의자료(열람실) 추가/수정
-- 사이드바 "열람실" = `<a target="_blank" href="./presentations/">` (별도 탭 navigate, iframe 아님)
-- 새 세미나 추가:
-  1. `presentations/[slug]/` 폴더 만들고 그 안에 `index.html` (또는 슬라이드 파일들) 배치
-  2. `presentations/index.html` 의 `<nav class="index">` 안에 새 `<a class="item …">` 카드 추가
-     - 색상 클래스: `biz` / `dev` / `lead` / `team` 중 하나
-     - `href`는 `[slug]/`
-  3. `firebase deploy --only hosting`
-- 외부에서 강의자료 받았을 때: `presentations/` 안에 폴더 그대로 복사 + index.html 카드 추가
-- 원본 scaffold 위치 (참고): `E:/workspace/presentation-scaffold/` (사용자 작업 공간, 이 repo 와 별도)
-- 사용자가 "코드 수정 없이 자료만 올리고 싶다"고 함 — 향후 manifest.json 자동 생성(predeploy hook) + presentations/index.html 동적 렌더로 개선 여지 있음. 사용자 요청 들어오면 진행
+### G. 열람실(자료실) — 다운로드 자료 추가 ⭐ 가장 자주 할 작업
+- 사이드바 "열람실" = dashboard 내 view (`data-view="library"`). 자료 카드 그리드 + 다운로드
+- **자료 추가 (코드 수정 0)**:
+  1. `presentations/files/` 폴더에 파일 그대로 복사
+  2. `firebase deploy --only hosting --project swdp-seminar-dashboard`
+  3. predeploy hook (`scripts/build-materials-manifest.mjs`) 이 자동으로 `presentations/files/manifest.json` 생성 → 페이지에서 카드 자동 렌더
+- **파일명 규칙** (선택): `YYYY-MM-DD__카테고리__제목.확장자`
+  - 예: `2026-04-23__슬라이드__AI에이전트_개론.pdf` → 카드에 날짜/카테고리/제목 분리 표시
+  - 규칙 안 맞춰도 작동 (파일명 그대로 표시, 카테고리 "기타")
+- **구현 파일**:
+  - `js/library.js` — manifest fetch + 카드 렌더
+  - `scripts/build-materials-manifest.mjs` — predeploy hook
+  - `firebase.json` 의 양 target `predeploy: ["node scripts/build-materials-manifest.mjs"]`
+  - `presentations/files/.gitkeep` — 빈 디렉토리 유지
+- **발표자료 슬라이드 (HTML)**: `presentations/[slug]/index.html` — 자료실 상단 "발표자료 슬라이드 인덱스 ↗" 링크로 새 탭 이동 (기존 `presentations/index.html` 그대로)
+- 새 HTML 슬라이드 추가는 기존 방식 (폴더 + `presentations/index.html` 에 카드 한 줄 추가)
 
 ---
 
@@ -177,13 +182,17 @@ seminar-dashboard/
 ├── firestore.indexes.json   # 빈 인덱스
 ├── index.html               # importmap (Firebase ESM CDN) + UI (4 nav: 대문/캘린더/타임라인/열람실)
 ├── assets/                  # hero / 단청 / 낙관 / brand-mark (한옥 일러스트)
-├── presentations/           # 강의자료 (열람실 view 가 iframe 으로 표시)
-│   ├── index.html           # 4개 세미나 인덱스 (다크 테마, presentation-scaffold 원본)
+├── presentations/
+│   ├── index.html           # 4개 세미나 슬라이드 인덱스 (열람실에서 외부 링크로 이동)
+│   ├── files/               # ⭐ 자료실 다운로드 파일 — 여기에 파일만 넣고 deploy
+│   │   └── manifest.json    # 자동 생성 (predeploy hook)
 │   ├── non-dev-seminar/     # Biz: AI가 바꾸는 일하는 방법
 │   ├── dev-seminar/         # Dev: Claude Code Hands-on
 │   ├── leadership-hands-on/ # Lead: AI Hands-on Course
 │   ├── controller_seminar/  # Team: S/W개발팀 AI PoC 현황
 │   └── assets/              # 공유 데이터·이미지·랩·페이퍼·비디오
+├── scripts/
+│   └── build-materials-manifest.mjs   # predeploy: presentations/files 스캔
 ├── css/
 │   ├── tokens.css           # design tokens (--topbar-h, colors, spacing)
 │   ├── base.css
@@ -198,7 +207,8 @@ seminar-dashboard/
     ├── utils.js             # DOM/날짜 헬퍼
     ├── app.js               # 부트스트랩 + ui state + renderAll + switchView + nav/topbar/lock/toast/modal primitives
     ├── views.js             # 캘린더 + 타임라인 렌더·컨트롤
-    └── modals.js            # detail / password / session form 모달
+    ├── modals.js            # detail / password / session form 모달
+    └── library.js           # 자료실(열람실) manifest fetch + 카드 렌더
 ```
 
 ### JS 모듈 의존 그래프

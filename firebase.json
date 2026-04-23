@@ -3,6 +3,9 @@
     {
       "target": "default",
       "public": ".",
+      "predeploy": [
+        "node scripts/build-materials-manifest.mjs"
+      ],
       "ignore": [
         "firebase.json",
         ".firebaserc",
@@ -41,6 +44,9 @@
     {
       "target": "agent",
       "public": ".",
+      "predeploy": [
+        "node scripts/build-materials-manifest.mjs"
+      ],
       "ignore": [
         "firebase.json",
         ".firebaserc",

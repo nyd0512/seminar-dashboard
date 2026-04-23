@@ -19,9 +19,9 @@ SW개발팀 내부 **AI 전파교육 진행 현황 게시판**. 지난 교육과
 ## 1. 사용법
 
 ### 방문자 (URL 공유받은 사람)
-링크만 열면 끝. **대문 / 캘린더 / 타임라인** 3개 뷰. 상단 검색으로 즉시 필터.
+링크만 열면 끝. **대문 / 캘린더 / 타임라인 / 열람실** 4개 뷰. 상단 검색으로 즉시 필터.
 
-> **열람실** 탭은 사이드바에서 `presentations/` 디렉토리(강의자료 인덱스)를 **새 탭으로 엽니다**. 4개 세미나 카드 중 하나 클릭 → 해당 슬라이드 페이지로 이동.
+> **열람실**: 강의자료 다운로드. 발표자료 슬라이드 인덱스 링크도 포함.
 
 ### 편집자 (담당자)
 1. 우측 상단 **🔒 편집 잠금** 버튼 클릭
@@ -91,6 +91,11 @@ firebase deploy --only hosting:default --project swdp-seminar-dashboard    # 옛
 firebase deploy --only firestore:rules --project swdp-seminar-dashboard
 ```
 
+### 강의자료 추가 (열람실)
+1. `presentations/files/` 폴더에 파일을 넣는다 (파일명 규칙: `YYYY-MM-DD__카테고리__제목.확장자`, 규칙 안 맞춰도 OK)
+2. `firebase deploy --only hosting --project swdp-seminar-dashboard`
+3. 끝. `manifest.json` 은 predeploy hook 이 자동 생성 (코드 수정 없음)
+
 ### 로컬 미리보기
 ```bash
 firebase serve --only hosting:agent
@@ -142,13 +147,13 @@ seminar-dashboard/
 │   ├── dancheong-band.webp
 │   ├── hanji-bg.jpg
 │   └── seal-ji.webp
-├── presentations/           # 강의자료 (열람실 탭이 iframe 으로 표시)
-│   ├── index.html           # 4개 세미나 인덱스
-│   ├── non-dev-seminar/
-│   ├── dev-seminar/
-│   ├── leadership-hands-on/
-│   ├── controller_seminar/
-│   └── assets/              # 공유 자료 (data/images/labs/paper/videos)
+├── presentations/
+│   ├── index.html           # 발표자료 슬라이드 인덱스 (외부 탭)
+│   ├── files/               # ⭐ 자료실 다운로드 파일 — 여기에 넣고 deploy
+│   ├── non-dev-seminar/ 등  # 발표자료 슬라이드 (HTML)
+│   └── assets/
+├── scripts/
+│   └── build-materials-manifest.mjs  # predeploy: files/ 스캔 → manifest.json
 ├── css/
 │   ├── tokens.css           # design tokens
 │   ├── base.css
