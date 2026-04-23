@@ -109,8 +109,8 @@ firebase hosting:sites:delete [사이트이름] --project swdp-seminar-dashboard
   - `scripts/build-materials-manifest.mjs` — predeploy hook
   - `firebase.json` 의 양 target `predeploy: ["node scripts/build-materials-manifest.mjs"]`
   - `presentations/files/.gitkeep` — 빈 디렉토리 유지
-- **발표자료 슬라이드 (HTML)**: `presentations/[slug]/index.html` — 자료실 상단 "발표자료 슬라이드 인덱스 ↗" 링크로 새 탭 이동 (기존 `presentations/index.html` 그대로)
-- 새 HTML 슬라이드 추가는 기존 방식 (폴더 + `presentations/index.html` 에 카드 한 줄 추가)
+- **발표자료 슬라이드 HTML** (`presentations/[slug]/index.html`): 열람실 UI 에선 더 이상 링크 노출 안 함 (자료실 = 다운로드 전용 정책). 직접 URL `/presentations/` 로 접근 가능
+- 새 HTML 슬라이드 추가가 필요하면 기존 방식 (`presentations/[slug]/` 폴더 + `presentations/index.html` 카드 추가)
 
 ---
 
