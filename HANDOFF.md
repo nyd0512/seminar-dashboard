@@ -196,8 +196,19 @@ seminar-dashboard/
     ├── store.js             # Firestore CRUD + onSnapshot + 비번 게이트
     ├── schema.js            # normalize / compareSessions
     ├── utils.js             # DOM/날짜 헬퍼
-    └── app.js               # 렌더링 + 모달 + 편집 UI + ensureReadingLoaded()
+    ├── app.js               # 부트스트랩 + ui state + renderAll + switchView + nav/topbar/lock/toast/modal primitives
+    ├── views.js             # 캘린더 + 타임라인 렌더·컨트롤
+    └── modals.js            # detail / password / session form 모달
 ```
+
+### JS 모듈 의존 그래프
+```
+app.js  ─┬→ views.js  ─→ modals.js
+         └→ modals.js
+views.js / modals.js  ─→ app.js  (ui state, openModal/closeModal, toast, openPasswordModal)
+                      ─→ store.js, utils.js, data.js
+```
+ESM cyclic import 있음 (app ↔ views, app ↔ modals). 런타임 호출 시 resolve 되므로 정상 작동. 모듈 분리 시 이 구조를 유지할 것.
 
 ---
 

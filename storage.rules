@@ -1,0 +1,12 @@
+rules_version = '2';
+
+// 자료실(materials) — 모든 객체 누구나 read/write.
+// 실제 권한 게이트는 클라이언트의 EDIT_PASSWORD (홈 보안 모델과 동일).
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /materials/{file=**} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}
