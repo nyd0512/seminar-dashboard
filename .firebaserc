@@ -6,7 +6,8 @@
     "swdp-seminar-dashboard": {
       "hosting": {
         "default": [
-          "swdp-seminar-dashboard"
+          "swdp-seminar-dashboard",
+          "swdev-edu"
         ],
         "agent": [
           "ai-agent-edu"
