@@ -145,8 +145,10 @@ export function closeModal(name) {
 
 function bindGlobalModalClose() {
   document.addEventListener('click', (e) => {
-    const cl = e.target.getAttribute?.('data-close');
-    if (cl) closeModal(cl);
+    // closest() so clicks on the button's inner <svg>/<path> still resolve
+    // to the [data-close] ancestor (the close button or backdrop).
+    const trigger = e.target.closest?.('[data-close]');
+    if (trigger) closeModal(trigger.getAttribute('data-close'));
   });
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
