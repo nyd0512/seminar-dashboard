@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-04-23T08:58:39.758Z",
-  "count": 4,
-  "slides": 4,
+  "generatedAt": "2026-04-26T05:57:52.300Z",
+  "count": 5,
+  "slides": 5,
   "files": 0,
   "items": [
     {
@@ -38,6 +38,15 @@
       "title": "S/W개발팀 AI PoC 현황",
       "subtitle": "컨트롤러 PL 리뷰 · 팀 내부",
       "url": "./presentations/controller_seminar/",
+      "ext": "html"
+    },
+    {
+      "type": "slide",
+      "category": "개발",
+      "catClass": "dev",
+      "title": "Harness Engineering",
+      "subtitle": "개발 방법론 개론 · 운영 시스템",
+      "url": "./presentations/harness-engineering/",
       "ext": "html"
     }
   ]

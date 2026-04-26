@@ -80,11 +80,12 @@ async function loadManifest() {
     const res = await fetch(MANIFEST_URL, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     cached = await res.json();
+    return cached;
   } catch (e) {
     console.warn('[library] manifest 로드 실패', e);
-    cached = { items: [], count: 0, error: e.message };
+    // 일시 실패는 캐시하지 않음 — 다음 뷰 진입 시 재시도
+    return { items: [], count: 0, error: e.message };
   }
-  return cached;
 }
 
 function metaForCard(item) {
@@ -93,9 +94,10 @@ function metaForCard(item) {
   if (item.type === 'slide') {
     if (item.subtitle) parts.push({ text: item.subtitle });
   } else {
-    parts.push({ text: (item.ext || '').toUpperCase() });
+    if (item.ext) parts.push({ text: item.ext.toUpperCase() });
     if (item.size != null) parts.push({ text: fmtSize(item.size) });
-    if (item.date) parts.push({ text: fmtDate(item.date) });
+    const dateStr = item.date || (item.mtime ? item.mtime.slice(0, 10) : '');
+    if (dateStr) parts.push({ text: dateStr });
   }
   const out = [];
   parts.forEach((p, i) => {

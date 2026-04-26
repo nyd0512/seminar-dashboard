@@ -36,7 +36,11 @@ const CAT_KOR = {
   team: '팀 내부',
 };
 
-/* ---------- (1) 슬라이드: presentations/index.html 파싱 ---------- */
+/* ---------- (1) 슬라이드: presentations/index.html 파싱 ----------
+ * a.item anchor 단위로 먼저 끊은 뒤 안에서 title/sub 추출.
+ * lazy regex 가 카드 경계(</a>)를 가로지르지 않게 해서 한 카드 데이터가
+ * 다음 카드를 흡수하는 사고를 막음.
+ */
 async function scanSlides() {
   let html;
   try {
@@ -44,18 +48,22 @@ async function scanSlides() {
   } catch {
     return [];
   }
-  const rx =
-    /<a\s+class="item\s+(\w+)"\s+href="([^"]+)"[\s\S]*?<span class="title">([^<]+)<\/span>[\s\S]*?<span class="sub">([\s\S]*?)<\/span>/g;
+  const anchorRx = /<a\s+class="item\s+(\w+)"\s+href="([^"]+)"[\s\S]*?<\/a>/g;
+  const titleRx = /<span class="title">([^<]+)<\/span>/;
+  const subRx = /<span class="sub">([\s\S]*?)<\/span>/;
   const out = [];
   let m;
-  while ((m = rx.exec(html))) {
-    const [, cls, href, title, subRaw] = m;
-    const subtitle = subRaw.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  while ((m = anchorRx.exec(html))) {
+    const [block, cls, href] = m;
+    const tm = titleRx.exec(block);
+    const sm = subRx.exec(block);
+    if (!tm || !sm) continue;
+    const subtitle = sm[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
     out.push({
       type: 'slide',
       category: CAT_KOR[cls] || cls,
       catClass: cls,
-      title: title.trim(),
+      title: tm[1].trim(),
       subtitle,
       url: `./presentations/${href.replace(/^\.\//, '')}`,
       ext: 'html',
@@ -76,11 +84,13 @@ function parseFileName(name) {
       ext: ext.toLowerCase(),
     };
   }
+  const ext = extname(name);
+  const stem = ext ? name.slice(0, -ext.length) : name;
   return {
-    title: name.replace(extname(name), '').replace(/_/g, ' '),
+    title: stem.replace(/_/g, ' '),
     category: '기타',
     date: null,
-    ext: extname(name).slice(1).toLowerCase(),
+    ext: ext.slice(1).toLowerCase(),
   };
 }
 
@@ -103,11 +113,12 @@ async function scanFiles() {
       ext: p.ext,
       size: st.size,
       mtime: st.mtime.toISOString(),
-      url: `./presentations/files/${e.name}`,
+      url: `./presentations/files/${encodeURIComponent(e.name)}`,
     });
   }
-  // 날짜(파일명) 또는 수정시간 내림차순
-  out.sort((a, b) => (b.date || b.mtime).localeCompare(a.date || a.mtime));
+  // 날짜(파일명) 또는 수정시간 내림차순 — timestamp 숫자 비교
+  const ts = (it) => Date.parse(it.date ? `${it.date}T00:00:00Z` : it.mtime) || 0;
+  out.sort((a, b) => ts(b) - ts(a));
   return out;
 }
 
