@@ -8,9 +8,6 @@
         "default": [
           "swdp-seminar-dashboard"
         ],
-        "swdev": [
-          "swdev-edu"
-        ],
         "agent": [
           "ai-agent-edu"
         ]
